@@ -1,0 +1,233 @@
+/* eslint jsx-a11y/anchor-is-valid: 0 */
+
+import React, {useState, useEffect} from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardFooter,
+  Badge,
+  Button
+} from "shards-react";
+
+import LoadingIndicator from "../components/common/LoadingIndicator"
+import PageTitle from "../components/common/PageTitle"
+import Blog from "../services/blogs"
+import { PostStore, Dispatcher, Constants } from "../flux"
+
+const BlogPosts = () => {
+  const [pageNumber, setPageNumber] = useState(1)
+  const [noNextPage, setNoNextPage] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [postsListOne, setPostsListOne] = useState(PostStore.getPosts().postsListOne)
+  const [postsListTwo, setPostsListTwo] = useState(PostStore.getPosts().postsListTwo)
+  const [postsListThree, setPostsListThree] = useState(PostStore.getPosts().postsListThree)
+  const [postsListFour, setPostsListFour] = useState(PostStore.getPosts().postsListFour)
+
+  useEffect(() => {
+    setLoading(true)
+    PostStore.addChangeListener(setBlogPosts)
+    Blog.getPostsPublished(pageNumber).then(blogList => {
+      setNoNextPage(blogList.noNextPage)
+      Dispatcher.dispatch({
+        actionType: Constants.RECIEVE_POSTS, 
+        payload: {
+          postsListOne: blogList.blogsList.slice(0, 4),
+          postsListTwo: blogList.blogsList.slice(4, 6),
+          postsListThree: blogList.blogsListNoImage,
+          postsListFour: blogList.blogsList.slice(6, 10)
+        }
+      })
+      
+      window.scrollTo({
+        top: 0,
+        behavior: "auto"
+      })
+  
+      setLoading(false)
+    })
+
+    return () => {
+      PostStore.removeChangeListener(setBlogPosts)
+    }
+  }, [pageNumber])
+
+  const setBlogPosts = () => {
+    const postsList = PostStore.getPosts()
+    setPostsListOne(postsList.postsListOne)
+    setPostsListTwo(postsList.postsListTwo)
+    setPostsListThree(postsList.postsListThree)
+    setPostsListFour(postsList.postsListFour)
+  }
+  
+  return (
+    <Container fluid className="main-content-container px-4">
+      {/* Page Header */}
+      <Row noGutters className="page-header py-4">
+        <PageTitle sm="4" title="Blog Posts" subtitle="Components" className="text-sm-left" />
+      </Row>
+      {/* First Row of Posts */}
+      <Row>
+        {postsListOne.map((post, idx) => (
+          <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
+            <Card small className="card-post card-post--1">
+              <div
+                className="card-post__image"
+                style={{ backgroundImage: `url(${post.backgroundImage})` }}
+              >
+                <Badge
+                  pill
+                  className={`card-post__category bg-${post.categoryTheme}`}
+                >
+                  {post.category}
+                </Badge>
+                <div className="card-post__author d-flex">
+                  <a
+                    href="#"
+                    className="card-post__author-avatar card-post__author-avatar--small"
+                    style={{ backgroundImage: `url('${post.authorAvatar}')` }}
+                  >
+                    Written by {post.author}
+                  </a>
+                </div>
+              </div>
+              <CardBody>
+                <h5 className="card-title">
+                  <a href="#" className="text-fiord-blue">
+                    {post.title}
+                  </a>
+                </h5>
+                <p className="card-text d-inline-block mb-3">{post.body.toString().replace(/<\/?[^>]+(>|$)/g, "")}</p>
+                <span className="text-muted">{post.date}</span>
+              </CardBody>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+      
+      {/* Second Row of Posts */}
+      <Row>
+        {postsListTwo.map((post, idx) => (
+          <Col lg="6" sm="12" className="mb-4" key={idx}>
+            <Card small className="card-post card-post--aside card-post--1">
+              <div
+                className="card-post__image"
+                style={{ backgroundImage: `url('${post.backgroundImage}')` }}
+              >
+                <Badge
+                  pill
+                  className={`card-post__category bg-${post.categoryTheme}`}
+                >
+                  {post.category}
+                </Badge>
+                
+                <div className="card-post__author d-flex">
+                  <a
+                    href="#"
+                    className="card-post__author-avatar card-post__author-avatar--small"
+                    style={{ backgroundImage: `url('${post.authorAvatar}')` }}
+                  >
+                    Written by Anna Ken
+                  </a>
+                </div>
+              </div>
+              <CardBody>
+                <h5 className="card-title">
+                  <a className="text-fiord-blue" href="#">
+                    {post.title}
+                  </a>
+                </h5>
+                <p className="card-text d-inline-block mb-3">{post.body.toString().replace(/<\/?[^>]+(>|$)/g, "")}</p>
+                <span className="text-muted">{post.date}</span>
+              </CardBody>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Third Row of Posts */}
+      <Row>
+        {postsListThree.map((post, idx) => (
+          <Col lg="4" key={idx}>
+            <Card small className="card-post mb-4">
+              <CardBody>
+                <h5 className="card-title">{post.title}</h5>
+                <p className="card-text text-muted">{post.body.toString().replace(/<\/?[^>]+(>|$)/g, "")}</p>
+              </CardBody>
+              <CardFooter className="border-top d-flex">
+                <div className="card-post__author d-flex">
+                  <a
+                    href="#"
+                    className="card-post__author-avatar card-post__author-avatar--small"
+                    style={{ backgroundImage: `url('${post.authorAvatar}')` }}
+                  >
+                    Written by James Khan
+                  </a>
+                  <div className="d-flex flex-column justify-content-center ml-3">
+                    <span className="card-post__author-name">
+                      {post.author}
+                    </span>
+                    <small className="text-muted">{post.date}</small>
+                  </div>
+                </div>
+                <div className="my-auto ml-auto">
+                  <Badge
+                    pill
+                    className={`card-post__category bg-${post.categoryTheme}`}
+                  >
+                    {post.category ? post.category.toUpperCase() : ''}
+                  </Badge>
+                </div>
+              </CardFooter>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Fourth Row of posts */}
+      <Row>
+        {postsListFour.map((post, idx) => (
+          <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
+            <Card small className="card-post card-post--1">
+              <div
+                className="card-post__image"
+                style={{ backgroundImage: `url(${post.backgroundImage})` }}
+              >
+                <Badge
+                  pill
+                  className={`card-post__category bg-${post.categoryTheme}`}
+                >
+                  {post.category}
+                </Badge>
+                <div className="card-post__author d-flex">
+                  <a
+                    href="#"
+                    className="card-post__author-avatar card-post__author-avatar--small"
+                    style={{ backgroundImage: `url('${post.authorAvatar}')` }}
+                  >
+                    Written by {post.author}
+                  </a>
+                </div>
+              </div>
+              <CardBody>
+                <h5 className="card-title">
+                  <a href="#" className="text-fiord-blue">
+                    {post.title}
+                  </a>
+                </h5>
+                <p className="card-text d-inline-block mb-3">{post.body.toString().replace(/<\/?[^>]+(>|$)/g, "")}</p>
+                <span className="text-muted">{post.date}</span>
+              </CardBody>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+      <Button onClick={e => setPageNumber(pageNumber + 1)} hidden={noNextPage}>SEE MORE</Button>
+      {loading && <LoadingIndicator />}
+    </Container>
+  );
+}
+
+export default BlogPosts;
