@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 
 import routes from "./routes";
 import withTracker from "./withTracker";
@@ -44,6 +44,7 @@ const App = () => {
     <Router basename={process.env.REACT_APP_BASENAME || ""}>
       <div>
         {loginController()}
+        <Switch>
         {routes.map((route, index) => {
           return (
             <Route
@@ -60,6 +61,7 @@ const App = () => {
             />
           );
         })}
+        </Switch>
       </div>
     </Router>
   </SocketContex.Provider>

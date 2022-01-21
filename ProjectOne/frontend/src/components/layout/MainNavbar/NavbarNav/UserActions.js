@@ -15,6 +15,7 @@ import { UserStore, Dispatcher, Constants } from "../../../../flux"
 const UserActions = () => {
   const [visible, setVisible] = useState(false)
   const [userDetails, setUserDetails] = useState({
+    id: UserStore.getUserDetails().id,
     name: UserStore.getUserDetails().firstName + ' ' + UserStore.getUserDetails().lastName,
     userAvatar: UserStore.getUserDetails().authorAvatar
   })
@@ -40,6 +41,7 @@ const UserActions = () => {
   const setDetails = () => {
     const details = UserStore.getUserDetails()
     setUserDetails({
+      id: UserStore.getUserDetails().id,
       name: details.firstName + ' ' + details.lastName,
       userAvatar: details.authorAvatar
     })
@@ -58,21 +60,21 @@ const UserActions = () => {
   return (
     <NavItem tag={Dropdown} caret toggle={toggleUserActions}>
       <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
-        <img
+        <a href={"/user?id=" + userDetails.id}><img
           className="user-avatar rounded-circle mr-2"
           src={userDetails.userAvatar ? userDetails.userAvatar : null}
           alt={userDetails.userAvatar ? "User Avatar" : null}
-        />{" "}
+        />{" "}</a>
         <span className="d-none d-md-inline-block">{userDetails.name}</span>
       </DropdownToggle>
       <Collapse tag={DropdownMenu} right small open={visible}>
-        <DropdownItem tag={Link} to="user-profile">
+        <DropdownItem tag={Link} to={"/user?id=" + userDetails.id}>
           <i className="material-icons">&#xE7FD;</i> Profile
         </DropdownItem>
-        {/*{<DropdownItem tag={Link} to="user-profile-lite">
+        <DropdownItem tag={Link} to="user-profile">
           <i className="material-icons">&#xE8B8;</i> Edit Profile
-  </DropdownItem>
-        <DropdownItem tag={Link} to="file-manager-list">
+        </DropdownItem>
+        {/*{<DropdownItem tag={Link} to="file-manager-list">
           <i className="material-icons">&#xE2C7;</i> Files
         </DropdownItem>
         <DropdownItem tag={Link} to="transaction-history">

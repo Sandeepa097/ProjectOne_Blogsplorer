@@ -18,8 +18,8 @@ return (
         type="light"
       >
         <NavbarBrand
-          className="w-100 mr-0"
-          href="#"
+          className="ml-4"
+          href="/blog-posts"
           style={{ lineHeight: "25px" }}
         >
           <div className="d-table m-auto">
@@ -28,10 +28,10 @@ return (
               className="d-inline-block align-top mr-1"
               style={{ maxWidth: "25px" }}
               src={require("../../../images/shards-dashboards-logo.svg")}
-              alt="Shards Dashboard"
+              alt="Blogsplorer"
             />
             <span className="d-none d-md-inline ml-1">
-                Blogsplorer Menu
+                Blogsplorer
             </span>
             
           </div>

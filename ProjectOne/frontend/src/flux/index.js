@@ -5,6 +5,7 @@ import UserStore from "./userStore"
 import PostStore from "./postStore"
 import ChatStore from "./chatStore"
 import AddPostStore from "./addPostStore"
+import UserTimeline from "./timeline"
 
 export {
   Constants,
@@ -13,5 +14,6 @@ export {
   UserStore,
   PostStore,
   ChatStore,
-  AddPostStore
+  AddPostStore,
+  UserTimeline
 };

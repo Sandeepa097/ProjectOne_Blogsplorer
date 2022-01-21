@@ -41,6 +41,12 @@ const Register = () => {
             color: "green"
         })
         const logged = await User.createAccount(user)
+        if(!!logged.error){
+            setCreating({...creating,
+                message: logged.error,
+                color: 'red'
+            })
+        }
         if(logged.id){
             Dispatcher.dispatch({
                 actionType: Constants.RECIEVE_USER,

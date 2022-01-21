@@ -15,7 +15,10 @@ let _userDetails = {
     country: "",
     email: "",
     draft: [],
-    published: []
+    published: {
+      blog : [],
+      blogNoImage: []
+  }
 };
 
 class UserStore extends EventEmitter {
@@ -79,7 +82,10 @@ class UserStore extends EventEmitter {
       country: "",
       email: "",
       draft: [],
-      published: []
+      published: {
+        blog : [],
+        blogNoImage: []
+    }
     }
   }
 

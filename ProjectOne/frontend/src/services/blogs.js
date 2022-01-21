@@ -32,7 +32,6 @@ const deletePostDraft = async(id) => {
     if(!config) {
         return {}
     }
-    console.log(id)
     const response = await axios.delete(draftUrl + '/' + id, config)
     return response.data
 }
@@ -55,11 +54,18 @@ const publishPostFromDraft = async(id) => {
     return response.data
 }
 
+const blog = async(id, ni) => {
+    const param = ni ? '/published/' : '/ipublished/'
+    const response = await axios.get(publishUrl + param + id)
+    return response.data
+}
+
 export default {
     newPostPublished,
     getPostsPublished,
     addNewPostDraft,  
     deletePostDraft,  
     getPostsDraft,
-    publishPostFromDraft
+    publishPostFromDraft,
+    blog
 }

@@ -13,18 +13,6 @@ const requestLogger = (request, _response, next) => {
     logger.info('---')
     next()
 }
-/*
-const tokenExtracter = (request, _response, next) => {
-    const authorization = request.get('authorization')
-    if(authorization && authorization.toLowerCase().startsWith('bearer')) {
-        request.token = authorization.substring(7)
-    } else {
-        request.token = null
-    }
-
-    next()
-}
-*/
 
 const unknownEndPoint = (_request, response) => {
     response.status(404).send({error: 'unknown endpoint'})

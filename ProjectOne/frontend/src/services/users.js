@@ -4,11 +4,16 @@ import Headers from './setHeaders'
 const baseUrl = 'http://localhost:3001/api/user'
 
 const createAccount = async(newUser) => {
-    const response = await axios.post(baseUrl, newUser)
-    sessionStorage.setItem("token", `bearer ${response.data.token}`)
-    sessionStorage.setItem("userId", response.data.id)
-    delete response.data.token
-    return response.data
+    try{
+        const response = await axios.post(baseUrl, newUser)
+        sessionStorage.setItem("token", `bearer ${response.data.token}`)
+        sessionStorage.setItem("userId", response.data.id)
+        delete response.data.token
+        return response.data
+    }
+    catch(error){
+        return {error: "Passwords must be at least 08 characters"}
+    }
 }
 
 const login = async(userCredentials) => {
@@ -47,4 +52,16 @@ const detailsOfAll = async() => {
     return response.data
 }
 
-export default {createAccount, login, userDetails, updateUserDetails, detailsOfAll}
+const userTimeline = async(id) => {
+    const response = await axios.get(baseUrl + '/' + id)
+    return response.data
+}
+
+export default {
+    createAccount, 
+    login, 
+    userDetails, 
+    updateUserDetails, 
+    detailsOfAll, 
+    userTimeline
+}

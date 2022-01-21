@@ -13,6 +13,8 @@ import ComponentsOverview from "./views/ComponentsOverview";
 import Chat from "./views/Chat";
 //import Tables from "./views/Tables";
 import BlogPosts from "./views/BlogPosts";
+import OtherUserProfile from "./views/OtherUserProfile";
+import Post from "./views/Post";
 import Auth from "./views/auth"
 
 export default [
@@ -43,11 +45,6 @@ export default [
     component: AddNewPost
   },
   {
-    path: "/errors",
-    layout: DefaultLayout,
-    component: Errors
-  },
-  {
     path: "/components-overview",
     layout: DefaultLayout,
     component: ComponentsOverview
@@ -61,5 +58,19 @@ export default [
     path: "/blog-posts",
     layout: DefaultLayout,
     component: BlogPosts
-  }
+  },
+  {
+    path: "/user",
+    layout: DefaultLayout,
+    component: OtherUserProfile
+  },
+  {
+    path: "/blog",
+    layout: DefaultLayout,
+    component: Post
+  },
+  {
+    layout: AuthLayout,
+    component: Errors
+  },
 ];

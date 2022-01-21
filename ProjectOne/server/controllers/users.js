@@ -1,3 +1,4 @@
+const {body, validationResult} = require('express-validator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../utils/config')
@@ -6,7 +7,20 @@ const User = require('../models/user')
 const {verifyToken} = require('../utils/token')
 const {uploadImage} = require('../utils/upload')
 
-userRouter.post('/', async(request, response) => {
+userRouter.post('/', [
+    body('email').isEmail().not().isEmpty(), 
+    body('password').isLength({min: 8})
+], async(request, response) => {
+    const errors = validationResult(request)
+    if(!errors.isEmpty()){
+        return response.status(400).json({errors: errors.array()})
+    }
+
+    const emailTaken = await User.findOne({email: request.body.email})
+    if(emailTaken) {
+        return response.status(409).json({error: "Email already taken"})
+    }
+
     const body = request.body
     const saltRounds = Number(config.SALT_ROUNDS)
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
@@ -61,7 +75,7 @@ userRouter.post('/login', async(request, response) => {
 userRouter.get('/', async(request, response) => {
     const userId = verifyToken(request)
     if(!userId) {
-        return response.status(401).json({
+        return response.status(400).json({
             error: 'token missing or invalid'
         })
     }
@@ -72,6 +86,24 @@ userRouter.get('/', async(request, response) => {
 userRouter.get('/all', async(_request, response) => {
     const userDetails = await User.find({}, {authorAvatar:1, firstName:1, lastName:1, id:1})
     return response.status(200).send(userDetails)
+})
+
+userRouter.get('/:id', async(request, response) => {
+    await User.findById(request.params.id, {
+        authorAvatar: 1, 
+        firstName: 1, 
+        lastName: 1,
+        address: 1,
+        city: 1,
+        state: 1,
+        country: 1,
+        description: 1,
+    }).populate("published.blog").populate("published.blogNoImage").exec((err, userDetails) => {
+        if(err){
+            return response.status(400).json({error: "invalid user"})
+        }
+        return response.status(200).send(userDetails)
+    })
 })
 
 userRouter.put('/', async(request, response) => {

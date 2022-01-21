@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row } from "shards-react";
 
 const MainFooter = () => {
-  const copyright = "Blogsplorer © 2021 SampleProject"
+  const copyright = "Blogsplorer © 2022 SampleProject"
 
   return (
     <footer className="main-footer d-flex p-2 px-3 bg-white border-top">

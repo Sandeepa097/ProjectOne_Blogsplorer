@@ -109,7 +109,7 @@ const Draft = () => {
             </div>
 
             {/* Content :: Body */}
-            <p className="m-0 my-1 mb-2 text-muted">{draft.body.toString().replace(/<\/?[^>]+(>|$)/g, "")}</p>
+            <p className="m-0 my-1 mb-2 text-muted">{draft.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "") + '...'}</p>
 
             {/* Content :: Actions */}
             <div className="blog-comments__actions">

@@ -19,10 +19,16 @@ const userSchema = new mongoose.Schema({
         body: String,
         date: String
     }],
-    published: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Blog'
-    }],
+    published: {
+        blog: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Blog'
+        }],
+        blogNoImage: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'BlogNoImage'
+        }]
+    },
     Date: String
 })
 

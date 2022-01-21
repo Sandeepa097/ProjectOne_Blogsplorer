@@ -51,15 +51,15 @@ const BlogOverview = () => {
     </Row>
 
     <Row>
-      {/* Users Overview */}
+      {/* Users Overview
       <Col lg="8" md="12" sm="12" className="mb-4">
         <UsersOverview />
-      </Col>
+      </Col> */}
 
-      {/* Users by Device */}
+      {/* Users by Device
       <Col lg="4" md="6" sm="12" className="mb-4">
         <UsersByDevice />
-      </Col>
+      </Col> */}
 
       {/* New Draft */}
       <Col lg="5" md="6" sm="12" className="mb-4">

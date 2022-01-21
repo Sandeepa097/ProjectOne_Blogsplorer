@@ -19,6 +19,7 @@ blogsRouter.get('/:pageNumber', async (request, response) => {
     const blogs = await Promise.all(blogsBefFix.map(async(post, i) => {
         const authorDetails = await User.findById(post.author, {firstName:1, lastName:1, authorAvatar:1})
         const fixed = {...post._doc,
+            authorID: post.author,
             author: authorDetails.firstName + ' ' + authorDetails.lastName,
             authorAvatar: authorDetails.authorAvatar
         }
@@ -28,6 +29,7 @@ blogsRouter.get('/:pageNumber', async (request, response) => {
     const blogsNoImage = await Promise.all(blogsNoImageBefFix.map(async(post, i) => {
         const authorDetails = await User.findById(post.author, {firstName:1, lastName:1, authorAvatar:1})
         const fixed = {...post._doc,
+            authorID: post.author,
             author: authorDetails.firstName + ' ' + authorDetails.lastName,
             authorAvatar: authorDetails.authorAvatar
         }
@@ -40,6 +42,24 @@ blogsRouter.get('/:pageNumber', async (request, response) => {
         noNextPage: noNextPage
     })
 }) 
+
+blogsRouter.get('/ipublished/:id', async(request, response) => {
+    const details = await Blog.findById(request.params.id).exec((err, details) => {
+        if(err){
+            return response.status(404).json({error: "Page not found"})
+        }
+        return response.status(200).send(details)
+    })
+})
+
+blogsRouter.get('/published/:id', async(request, response) => {
+    await BlogNoImage.findById(request.params.id).exec((err, details) => {
+        if(err){
+            return response.status(404).json({error: "Page not found"})
+        }
+        return response.status(200).send(details)
+    })
+})
 
 blogsRouter.post('/', async(request, response) => {
     const userId = verifyToken(request)
@@ -69,7 +89,7 @@ blogsRouter.post('/', async(request, response) => {
         const savedBlogNoImage = await newBlogNoImage.save()
         await User.findByIdAndUpdate(userId, {
             $push: {
-                published: savedBlogNoImage._id
+                "published.blogNoImage": savedBlogNoImage._id
             }
         })
         return response.status(201).json(savedBlogNoImage)
@@ -87,7 +107,7 @@ blogsRouter.post('/', async(request, response) => {
     const savedBlog = await newBlog.save()
     await User.findByIdAndUpdate(userId, {
         $push: {
-            published: savedBlog._id
+            "published.blog": savedBlog._id
         }
     })
     return response.status(201).json(savedBlog)

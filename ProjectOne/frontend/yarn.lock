@@ -2774,6 +2774,11 @@
   dependencies:
     "domelementtype" "1"
 
+"dompurify@^2.3.4":
+  "integrity" "sha512-6BVcgOAVFXjI0JTjEvZy901Rghm+7fDQOrNIcxB4+gdhj6Kwp6T9VBhBY/AbagKHJocRkDYGd6wvI+p4/10xtQ=="
+  "resolved" "https://registry.npmjs.org/dompurify/-/dompurify-2.3.4.tgz"
+  "version" "2.3.4"
+
 "domutils@1.1":
   "integrity" "sha1-vdw94Jm5ou+sxRxiPyj0FuzFdIU="
   "resolved" "https://registry.npmjs.org/domutils/-/domutils-1.1.6.tgz"
