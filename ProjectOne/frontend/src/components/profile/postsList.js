@@ -33,7 +33,7 @@ const PostList = () => {
         <div>
             {loading && <LoadingIndicator />}
             {!posts.length && <p>No Posts To Show...</p>}
-        <Card small className="blog-comments">
+        {!!posts.length && <Card small className="blog-comments">
         <CardHeader className="border-bottom">
           <h6 className="m-0">Publications</h6>
         </CardHeader>
@@ -61,7 +61,7 @@ const PostList = () => {
             </div>
           ))}
         </CardBody>
-      </Card>
+      </Card>}
     </div>
     )
 }

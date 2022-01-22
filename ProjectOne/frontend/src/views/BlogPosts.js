@@ -66,11 +66,14 @@ const BlogPosts = () => {
     <Container fluid className="main-content-container px-4">
       {/* Page Header */}
       <Row noGutters className="page-header py-4">
-        <PageTitle sm="4" title="Blog Posts" subtitle="Components" className="text-sm-left" />
+        <PageTitle sm="4" title="Blog Posts" subtitle="Publications" className="text-sm-left" />
       </Row>
+      <Button onClick={e => setPageNumber(pageNumber - 1)} hidden={!(pageNumber - 1)}>GO BACK</Button>
+      {loading && <LoadingIndicator />}
+      
       {/* First Row of Posts */}
       <Row>
-        {postsListOne.map((post, idx) => (
+        {!loading && postsListOne.map((post, idx) => (
           <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--1" style={{height: '500px', maxHeight: '500px'}}>
               <div
@@ -111,7 +114,7 @@ const BlogPosts = () => {
       
       {/* Second Row of Posts */}
       <Row>
-        {postsListTwo.map((post, idx) => (
+        {!loading && postsListTwo.map((post, idx) => (
           <Col lg="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--aside card-post--1" style={{height: '250px', maxHeight: '250px'}}>
               <div
@@ -151,7 +154,7 @@ const BlogPosts = () => {
 
       {/* Third Row of Posts */}
       <Row>
-        {postsListThree.map((post, idx) => (
+        {!loading && postsListThree.map((post, idx) => (
           <Col lg="4" key={idx}>
             <Card small className="card-post mb-4" style={{height: '300px', maxHeight: '300px'}}>
               <CardBody>
@@ -194,7 +197,7 @@ const BlogPosts = () => {
 
       {/* Fourth Row of posts */}
       <Row>
-        {postsListFour.map((post, idx) => (
+        {!loading && postsListFour.map((post, idx) => (
           <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--1" style={{height: '500px', maxHeight: '500px'}}>
               <div
@@ -232,8 +235,7 @@ const BlogPosts = () => {
           </Col>
         ))}
       </Row>
-      <Button onClick={e => setPageNumber(pageNumber + 1)} hidden={noNextPage}>SEE MORE</Button>
-      {loading && <LoadingIndicator />}
+      {!loading && <Button onClick={e => setPageNumber(pageNumber + 1)} hidden={noNextPage}>SEE MORE</Button>}
     </Container>
   );
 }

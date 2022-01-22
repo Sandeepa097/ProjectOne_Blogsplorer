@@ -12,7 +12,7 @@ blogsRouter.get('/:pageNumber', async (request, response) => {
     const pageNumber = Number(request.params.pageNumber)
     const colCountImage = await Blog.countDocuments()
     const colCountNoImage = await BlogNoImage.countDocuments()
-    const noNextPage = !((colCountImage < pageNumber*10) || (colCountNoImage < pageNumber*3))
+    const noNextPage = !((pageNumber*10 < colCountImage) || (pageNumber*3 < colCountNoImage))
 
     const blogsBefFix = await Blog.find({}).sort({$natural: -1}).skip(10 * (pageNumber - 1)).limit(10)
     const blogsNoImageBefFix = await BlogNoImage.find({}).sort({$natural: -1}).skip(3 * (pageNumber - 1)).limit(3)

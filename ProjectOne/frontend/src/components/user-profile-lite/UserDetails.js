@@ -17,16 +17,15 @@ const UserDetails = () => {
 
   const countCompleted = (obj) => {
     let complete = 0;
-    let length = 0;
+    let length = 9;
     for (const item in obj) {
-      if(item === 'draft' || item === 'published') {
+      if(item === 'draft' || item === 'published' || item === 'id') {
         continue
       }
 
       if (obj[item]){
         complete++
       }
-      length++
     }
     return Math.floor(complete*100/length)
 

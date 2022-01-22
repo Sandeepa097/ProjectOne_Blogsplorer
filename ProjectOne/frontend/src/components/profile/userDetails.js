@@ -74,7 +74,7 @@ const setDetails = () => {
         <strong className="text-muted d-block mb-2">
           Address
         </strong>
-        <span>{userDetails.address + ', '+ userDetails.city + ', '+ userDetails.state + ', '+ userDetails.country}</span>
+        <span>{userDetails.address, ', ', userDetails.city, ', ', userDetails.state, ', ', userDetails.country}</span>
       </ListGroupItem>
     </ListGroup>
   </Card>
