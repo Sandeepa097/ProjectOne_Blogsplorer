@@ -6,9 +6,9 @@ const Errors = () => {
     <Container fluid className="main-content-container px-4 pb-4">
     <div className="error">
       <div className="error__content">
-        <h2>500</h2>
-        <h3>Something went wrong!</h3>
-        <p>There was a problem on our end. Please try again later.</p>
+        <h2>404</h2>
+        <h3>Page not found!</h3>
+        <p>The page you are looking for doesn't exist or another error occurred.</p>
         <Button pill onClick={e => window.history.back()}>&larr; Go Back</Button>
       </div>
     </div>

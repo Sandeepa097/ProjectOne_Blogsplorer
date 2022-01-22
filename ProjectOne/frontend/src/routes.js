@@ -15,7 +15,7 @@ import Chat from "./views/Chat";
 import BlogPosts from "./views/BlogPosts";
 import OtherUserProfile from "./views/OtherUserProfile";
 import Post from "./views/Post";
-import Auth from "./views/auth"
+import Auth from "./views/Auth"
 
 export default [
   {

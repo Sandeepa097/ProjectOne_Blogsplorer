@@ -1,3 +1,4 @@
+const {body, validationResult} = require('express-validator')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -44,7 +45,7 @@ blogsRouter.get('/:pageNumber', async (request, response) => {
 }) 
 
 blogsRouter.get('/ipublished/:id', async(request, response) => {
-    const details = await Blog.findById(request.params.id).exec((err, details) => {
+    await Blog.findById(request.params.id).exec((err, details) => {
         if(err){
             return response.status(404).json({error: "Page not found"})
         }
@@ -61,7 +62,11 @@ blogsRouter.get('/published/:id', async(request, response) => {
     })
 })
 
-blogsRouter.post('/', async(request, response) => {
+blogsRouter.post('/', [body('title').not().isEmpty()], async(request, response) => {
+    const errors = validationResult(request)
+    if(!errors.isEmpty()){
+        return response.status(400).json({errors: errors.array()})
+    }
     const userId = verifyToken(request)
     if(!userId) {
         return response.status(401).json({
@@ -75,6 +80,10 @@ blogsRouter.post('/', async(request, response) => {
         backgroundImage: await uploadImage(request.body.backgroundImage), 
         category: setArrayCategory(request.body.category),
         categoryTheme: theme
+    }
+
+    if(body.backgroundImage === "error"){
+        return response.status(400).json({error: 'error on image uploading'})
     }
 
     if(!body.backgroundImage) {

@@ -13,6 +13,7 @@ let _userTimeline = {
     city: "",
     state: "",
     country: "",
+    date: "",
     published: {
         blog : [],
         blogNoImage: []

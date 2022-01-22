@@ -13,6 +13,10 @@ const uploadImage = async(base64) => {
     }
     const uploadResponse = await cloudinary.uploader.upload(base64, {
         upload_preset: 'projectone'
+    }, (err) => {
+        if(err){
+            return {url: "error"}
+        }
     })
     return uploadResponse.url
 }

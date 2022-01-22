@@ -16,7 +16,8 @@ const UserDetails = () => {
     city: "",
     state: "",
     country: "",
-    description: ""
+    description: "", 
+    date: ""
   })
 
   useEffect(() => {
@@ -35,7 +36,8 @@ const setDetails = () => {
       city: details.city,
       state: details.state,
       country: details.country,
-      description: details.description
+      description: details.description,
+      date: details.date
     })
 }
   return (
@@ -49,7 +51,8 @@ const setDetails = () => {
           width="110"
         />
       </div>
-      <span className="text-muted d-block mb-2">{userDetails.country}</span>
+      <span style={{color:"black", fontSize: "20px"}} className="d-block mb-2">Joined Blogsplorer</span>
+      <span style={{color:"brown"}} className="d-block mb-2">{userDetails.date}</span>
     </CardHeader>
     <ListGroup flush>
       <ListGroupItem className="p-4">
@@ -74,7 +77,10 @@ const setDetails = () => {
         <strong className="text-muted d-block mb-2">
           Address
         </strong>
-        <span>{userDetails.address, ', ', userDetails.city, ', ', userDetails.state, ', ', userDetails.country}</span>
+        {/*<span>{userDetails.address, ', ', userDetails.city, ', ', userDetails.state, ', ', userDetails.country}</span>*/}
+        <span style={{display: "block"}}>{userDetails.address}</span>
+        <span style={{display: "block"}}>{userDetails.city} {userDetails.state}</span>
+        <span style={{display: "block"}}>{userDetails.country}</span>
       </ListGroupItem>
     </ListGroup>
   </Card>

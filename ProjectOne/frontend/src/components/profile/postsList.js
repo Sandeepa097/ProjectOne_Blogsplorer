@@ -7,32 +7,35 @@ import LoadingIndicator from "../common/LoadingIndicator";
 const PostList = () => {
     const [loading, setLoading] = useState(true)
     const [posts, setPosts] = useState([])
+    let params= (new URL(document.location)).searchParams
+    let id = params.get("id")
 
     useEffect(() => {
         setLoading(true)
         UserTimeline.addChangeListener(setDetails)
-        let params = (new URL(document.location)).searchParams
-        let id = params.get("id")
         User.userTimeline(id).then(details => {
           Dispatcher.dispatch({
             actionType: Constants.RECIEVE_TIMELINE,
             payload: details
           })
+          setLoading(false)
         })
-        setLoading(false)
 
         return () => UserTimeline.removeChangeListener(setDetails)
-      }, [])
+      }, [id])
     
     const setDetails = () => {
         const publishes = UserTimeline.getUserTimeline().published
+        if(!publishes){
+          return null
+        }
         setPosts([...posts, ...publishes.blog.reverse(), ...publishes.blogNoImage.reverse()])
     }
 
     return(
         <div>
             {loading && <LoadingIndicator />}
-            {!posts.length && <p>No Posts To Show...</p>}
+            {!posts.length && !loading && <p>No Posts To Show...</p>}
         {!!posts.length && <Card small className="blog-comments">
         <CardHeader className="border-bottom">
           <h6 className="m-0">Publications</h6>
@@ -49,7 +52,7 @@ const PostList = () => {
               <div className="blog-comments__content">
                 {/* Content :: Title */}
                 <div className="blog-comments__meta text-mutes">
-                    <a href={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "")}>{item.title}</a>
+                    <a href={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "")}>{item.title}<span style={{color: "brown"}}> - {item.date}</span></a>
                 </div>
     
                 {/* Content :: Body */}

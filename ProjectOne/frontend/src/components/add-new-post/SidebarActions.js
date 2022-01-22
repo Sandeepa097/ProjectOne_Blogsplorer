@@ -10,6 +10,7 @@ import {
   ListGroup,
   ListGroupItem,
   Button,
+  Alert
 } from "shards-react";
 import { Dispatcher, Constants } from '../../flux';
 
@@ -17,7 +18,7 @@ const SidebarActions = ({ post }) => {
   const title = "Actions"
   const [alertMessage, setAlertMessage] = useState({
     message: '',
-    color: ''
+    theme: ''
   })
 
   const dateForamat = {year: 'numeric', month: 'long', day: 'numeric'}
@@ -32,6 +33,9 @@ const SidebarActions = ({ post }) => {
   const saveDraft = async()=> {
     if(!post.backgroundImage){
       Blog.addNewPostDraft({...post, date: today})
+    }
+    else if("string" === typeof post.backgroundImage){
+      Blog.addNewPostDraft({...post, alreadyAdded: post.backgroundImage, date: today})
     }
     else {
       const reader = new FileReader()
@@ -56,7 +60,7 @@ const SidebarActions = ({ post }) => {
 
     setAlertMessage({
       message: "Post is in draft now..",
-      color: "blue"
+      color: "info"
     })
 
     setTimeout(() => {
@@ -86,7 +90,7 @@ const SidebarActions = ({ post }) => {
 
     setAlertMessage({
       message: "Post is now published..",
-      color: "green"
+      color: "success"
     })
 
     setTimeout(() => {
@@ -99,6 +103,10 @@ const SidebarActions = ({ post }) => {
 
 
   return(
+    <div>
+    {!!alertMessage.message && <Alert theme= {alertMessage.theme} className="mb-0">
+      <i className="fa fa-info mx-2"></i> {alertMessage.message}
+    </Alert>}
     <Card small className="mb-3">
     <CardHeader className="border-bottom">
       <h6 className="m-0">{title}</h6>
@@ -133,18 +141,18 @@ const SidebarActions = ({ post }) => {
             <strong className="text-warning">Ok</strong>
           </span>
         </ListGroupItem>
-        <span style={{"color": `${alertMessage.color}`, "textAlign": "center"}}>{alertMessage.message}</span>
         <ListGroupItem className="d-flex px-3 border-0">
-          <Button outline tag = {Link} to="dashboard" theme="accent" size="sm" onClick={e=> saveDraft()} >
+          <Button outline to="dashboard" theme="accent" size="sm" onClick={e=> saveDraft()} >
             <i className="material-icons">save</i> Save Draft
           </Button>
-          <Button tag={Link} to="blog-posts" theme="accent" size="sm" className="ml-auto" onClick={e=> onPublish()} >
+          <Button to="blog-posts" theme="accent" size="sm" className="ml-auto" onClick={e=> onPublish()} >
             <i className="material-icons">file_copy</i> Publish
           </Button>
         </ListGroupItem>
       </ListGroup>   
     </CardBody>
     </Card>
+    </div>
   )
 };
 

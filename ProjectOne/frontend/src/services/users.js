@@ -53,8 +53,13 @@ const detailsOfAll = async() => {
 }
 
 const userTimeline = async(id) => {
-    const response = await axios.get(baseUrl + '/' + id)
-    return response.data
+    try{
+        const response = await axios.get(baseUrl + '/' + id)
+        return response.data
+    }
+    catch(error){
+        return {error: "Inavlid user"}
+    }
 }
 
 export default {

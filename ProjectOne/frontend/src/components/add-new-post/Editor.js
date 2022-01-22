@@ -44,8 +44,9 @@ const Editor = ({post, setPost}) => {
                   className="mb-3" 
                   placeholder="Your Post Title" 
                   value={content.title}
-                  onChange={e => onChangeTitle(e.target.value)} />
-          <CustomFileUpload chooseImage={chooseImage} text="Select Background Image..." />
+                  onChange={e => onChangeTitle(e.target.value)}
+                  required />
+          <CustomFileUpload chooseImage={(e) => chooseImage(e)} text="Select Background Image..." />
           {preview.image && <div>
             <img src={preview.image} alt = "" width="50px" height="50px" />
             <button onClick={(e) => closeImage(e)}><span>&times;</span></button>

@@ -4,7 +4,6 @@ const draftRouter = require('express').Router()
 const User = require('../models/user')
 const {verifyToken} = require('../utils/token')
 const {uploadImage} = require('../utils/upload')
-const {setArrayCategory} = require('../utils/category')
 
 const categoryThemes = ["primary", "secondary", "success", "info", "warning", "danger", "royal-blue", "dark"]
 
@@ -12,10 +11,14 @@ draftRouter.put('/', async(request, response) => {
     const themeIndex = Math.floor(Math.random() * categoryThemes.length)
     const theme = categoryThemes[themeIndex]
     const body = {...request.body, 
-        backgroundImage: await uploadImage(request.body.backgroundImage), 
+        backgroundImage: request.body.alreadyAdded ? request.body.alreadyAdded : await uploadImage(request.body.backgroundImage), 
         categoryTheme: theme,
         _id: mongoose.Types.ObjectId()
     }
+    if(body.backgroundImage === "error"){
+        return response.status(400).json({error: 'error on image uploading'})
+    }
+    
     const userId = verifyToken(request)
     if(!userId) {
         return response.status(401).json({

@@ -98,6 +98,7 @@ userRouter.get('/:id', async(request, response) => {
         state: 1,
         country: 1,
         description: 1,
+        date: 1
     }).populate("published.blog").populate("published.blogNoImage").exec((err, userDetails) => {
         if(err){
             return response.status(400).json({error: "invalid user"})

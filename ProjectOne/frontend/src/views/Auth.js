@@ -3,9 +3,9 @@ import { Container, Col, Row } from 'shards-react'
 import Register from '../components/auth/Register'
 import Login from '../components/auth/Login'
 
-const auth = () => {
+const Auth = () => {
     return (
-        <Container fluid className="main-content-container px-4 pb-4">
+        <Container>
         <Row>
           <Col lg="6">
             <Login />
@@ -18,4 +18,4 @@ const auth = () => {
     )
 }
 
-export default auth
+export default Auth

@@ -18,13 +18,13 @@ const App = () => {
     return () => {
       UserStore.removeChangeListener(setChange)
     }
-  }, [])
+  }, []) 
 
   const setChange = () => {
     const isAuth = !!UserStore.getUserDetails().id
     setAuthed(isAuth)
   }
-
+ 
   const loginController = () => {
     if(!authed) {
       return <Redirect to = "/register" />

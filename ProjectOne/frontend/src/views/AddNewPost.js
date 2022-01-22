@@ -20,7 +20,6 @@ const AddNewPost = () => {
   }, [])
 
   const setDetails = () => {
-    console.log("SET_DETAILS", AddPostStore.getPost())
     setPost({...AddPostStore.getPost()})
   }
 

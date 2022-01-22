@@ -8,9 +8,11 @@ import PageTitle from "../components/common/PageTitle";
 import PostsList from "../components/profile/postsList";
 import UserDetails from "../components/profile/userDetails";
 import { UserTimeline } from "../flux";
+import Errors from "./Errors";
 
 const OtherUserProfile = () => {
   const [userName, setUserName] = useState("")
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     UserTimeline.addChangeListener(setDetails)
@@ -19,22 +21,24 @@ const OtherUserProfile = () => {
   }, [])
 
   const setDetails = () => {
+    setError(!UserTimeline.getUserTimeline().id)
     setUserName(UserTimeline.getUserTimeline().firstName + ' ' + UserTimeline.getUserTimeline().lastName)
   }
 
   return (
     <Container fluid className="main-content-container px-4">
-      <Row noGutters className="page-header py-4">
+      {error && <Errors />}
+      {!error && <Row noGutters className="page-header py-4">
         <PageTitle title={userName} subtitle="Profile" md="12" className="ml-sm-auto mr-sm-auto" />
-      </Row>
-      <Row>
+      </Row>}
+      {!error && <Row>
         <Col lg="8">
           <PostsList />
         </Col>
         <Col lg="4">
           <UserDetails />
         </Col>
-      </Row>
+      </Row>}
     </Container>
   )
 }

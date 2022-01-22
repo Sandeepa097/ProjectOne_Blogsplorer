@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     country: String,
     description: String,
     passwordHash: String,
+    date: String,
     draft: [{
         backgroundImage: String,
         category: Object,
@@ -28,8 +29,7 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'BlogNoImage'
         }]
-    },
-    Date: String
+    }
 })
 
 userSchema.set('toJSON', {

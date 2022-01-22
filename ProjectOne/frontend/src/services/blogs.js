@@ -55,9 +55,14 @@ const publishPostFromDraft = async(id) => {
 }
 
 const blog = async(id, ni) => {
-    const param = ni ? '/published/' : '/ipublished/'
-    const response = await axios.get(publishUrl + param + id)
-    return response.data
+    try{
+        const param = ni ? '/published/' : '/ipublished/'
+        const response = await axios.get(publishUrl + param + id)
+        return response.data
+    }
+    catch(error){
+        return {error: "invalid id or ni"}
+    }
 }
 
 export default {
