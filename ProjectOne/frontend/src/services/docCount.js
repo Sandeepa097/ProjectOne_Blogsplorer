@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Headers from './setHeaders'
 
-const baseUrl = 'http://localhost:3001/count'
+const baseUrl = `${process.env.REACT_APP_BASE_URL}/count`
 
 const totalPosts = async() => {
     const response = await axios.get(baseUrl + '/posts')

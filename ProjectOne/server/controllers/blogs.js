@@ -45,7 +45,7 @@ blogsRouter.get('/:pageNumber', async (request, response) => {
 }) 
 
 blogsRouter.get('/ipublished/:id', async(request, response) => {
-    await Blog.findById(request.params.id).exec((err, details) => {
+    await Blog.findById(request.params.id).populate("author", 'authorAvatar firstName lastName').exec((err, details) => {
         if(err){
             return response.status(404).json({error: "Page not found"})
         }
@@ -54,7 +54,7 @@ blogsRouter.get('/ipublished/:id', async(request, response) => {
 })
 
 blogsRouter.get('/published/:id', async(request, response) => {
-    await BlogNoImage.findById(request.params.id).exec((err, details) => {
+    await BlogNoImage.findById(request.params.id).populate("author", 'authorAvatar firstName lastName').exec((err, details) => {
         if(err){
             return response.status(404).json({error: "Page not found"})
         }
@@ -123,15 +123,66 @@ blogsRouter.post('/', [body('title').not().isEmpty()], async(request, response) 
     
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
-    await Blog.findByIdAndDelete(request.params.id)
-    return response.status(204).end()
+blogsRouter.delete('/ipublished/:id', async (request, response) => {
+    const userId = verifyToken(request)
+    if(!userId) {
+        return response.status(401).json({
+            error: 'token missing or invalid'
+        })
+    }
+
+    await Blog.findByIdAndDelete(request.params.id).exec(async(err) => {
+        if(err){
+            return response.status(404).json({error: "Invalid id"})
+        }
+        await User.findByIdAndUpdate(userId, {
+            $pull: {
+                "published.blog": request.params.id
+            }
+        })
+        return response.status(204).end()
+    })
 })
 
-blogsRouter.put('/:id', async (request, response) => {
+blogsRouter.delete('/published/:id', async(request, response)=> {
+    const userId = verifyToken(request)
+    if(!userId) {
+        return response.status(401).json({
+            error: 'token missing or invalid'
+        })
+    }
+
+    await BlogNoImage.findByIdAndDelete(request.params.id).exec(async(err) => {
+        if(err){
+            return response.status(404).json({error: "Invalid id"})
+        }
+        await User.findByIdAndUpdate(userId, {
+            $pull: {
+                "published.blogNoImage": request.params.id
+            }
+        })
+        return response.status(204).end()
+    })
+})
+
+blogsRouter.put('/ipublished/:id', async (request, response) => {
     const body = request.body
-    await Blog.findByIdAndUpdate(request.params.id, body)
-    return response.status(200).end()
+    await Blog.findByIdAndUpdate(request.params.id, body).exec((err) => {
+        if(err){
+            return response.status(404).json({error: "Invalid request"})
+        }
+        return response.status(200).end()
+    })
+})
+
+blogsRouter.put('/published/:id', async (request, response) => {
+    const body = request.body
+    await BlogNoImage.findByIdAndUpdate(request.params.id, body).exec((err) => {
+        if(err){
+            return response.status(404).json({error: "Invalid request"})
+        }
+        return response.status(200).end()
+    })
 }) 
 
 module.exports = blogsRouter

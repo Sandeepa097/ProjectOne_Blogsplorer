@@ -10,9 +10,9 @@ import {
   FormTextarea,
   Button
 } from "shards-react"
-import { Constants, Dispatcher, UserStore } from "../../flux";
+import { Constants, Dispatcher } from "../../flux";
 
-const NewDraft = () => {
+const NewDraft = ({draftCount}) => {
   const title = "Quick Post"
 
   const dateForamat = {year: 'numeric', month: 'long', day: 'numeric'}
@@ -37,6 +37,7 @@ const NewDraft = () => {
       }
     })
     setPost({...post, title: '', body: '', date: today})
+    draftCount(1)
   }
 
   return(

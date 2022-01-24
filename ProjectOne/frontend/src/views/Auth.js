@@ -5,16 +5,14 @@ import Login from '../components/auth/Login'
 
 const Auth = () => {
     return (
-        <Container>
-        <Row>
-          <Col lg="6">
-            <Login />
-          </Col>
-          <Col lg="6">
-            <Register />
-          </Col>
-        </Row>
-      </Container>
+      <div>
+        <div style={{width: "50%", float: 'left'}}>
+          <Login />
+        </div>
+        <div style={{width: "50%", float: 'left'}}>
+          <Register />
+        </div>
+      </div>
     )
 }
 

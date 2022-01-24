@@ -56,7 +56,7 @@ const Register = () => {
     }
 
     return (
-        <Card small className="mb-4">
+        <Card style={{height: '500px', maxHeight: '500px'}}>
             <CardHeader className="border-bottom">
                 <h3 className="m-0">Sign Up</h3>
             </CardHeader>
@@ -123,8 +123,7 @@ const Register = () => {
                     </Form>
                     </Col>
                 </ListGroupItem>
-            </ListGroup>
-            
+            </ListGroup>           
         </Card>
     )
 }

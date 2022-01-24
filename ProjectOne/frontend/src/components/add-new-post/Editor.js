@@ -18,8 +18,22 @@ const Editor = ({post, setPost}) => {
   })
 
   useEffect(() => {
+    AddPostStore.addChangeListener(setDetails)
     setPost({...post, ...content})
+
+    return() => AddPostStore.removeChangeListener(setDetails)
   }, [content])
+
+  const setDetails = () => {
+    const details = AddPostStore.getPost()
+    setPost({...post, ...details})
+    setContent({...content,
+      title: details.title,
+      backgroundImage: details.backgroundImage,
+      body: details.body
+    })
+    setPreview({...preview, image: ''})
+  }
 
   const onChangeContent = (html) => {
     setContent({...content, body: html})
@@ -42,10 +56,10 @@ const Editor = ({post, setPost}) => {
       <Form className="add-new-post">
         <FormInput size="lg" 
                   className="mb-3" 
-                  placeholder="Your Post Title" 
                   value={content.title}
+                  placeholder="Your Post Title" 
                   onChange={e => onChangeTitle(e.target.value)}
-                  required />
+                  />
           <CustomFileUpload chooseImage={(e) => chooseImage(e)} text="Select Background Image..." />
           {preview.image && <div>
             <img src={preview.image} alt = "" width="50px" height="50px" />

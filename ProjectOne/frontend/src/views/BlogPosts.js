@@ -76,6 +76,7 @@ const BlogPosts = () => {
         {!loading && postsListOne.map((post, idx) => (
           <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--1" style={{height: '500px', maxHeight: '500px'}}>
+            <a href={"/blog?id=" + post._id} className="text-fiord-blue">
               <div
                 className="card-post__image"
                 style={{ backgroundImage: `url(${post.backgroundImage})` }}
@@ -96,6 +97,7 @@ const BlogPosts = () => {
                   </a>
                 </div>
               </div>
+              </a>
               <CardBody>
                 <h5 className="card-title">
                   <a href={"/blog?id=" + post._id} className="text-fiord-blue">
@@ -117,6 +119,7 @@ const BlogPosts = () => {
         {!loading && postsListTwo.map((post, idx) => (
           <Col lg="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--aside card-post--1" style={{height: '250px', maxHeight: '250px'}}>
+            <a href={"/blog?id=" + post._id} className="text-fiord-blue">
               <div
                 className="card-post__image"
                 style={{ backgroundImage: `url('${post.backgroundImage}')` }}
@@ -138,6 +141,7 @@ const BlogPosts = () => {
                   </a>
                 </div>
               </div>
+              </a>
               <CardBody>
                 <h5 className="card-title">
                   <a className="text-fiord-blue" href={"/blog?id=" + post._id}>
@@ -172,7 +176,7 @@ const BlogPosts = () => {
                     className="card-post__author-avatar card-post__author-avatar--small"
                     style={{ backgroundImage: `url('${post.authorAvatar}')` }}
                   >
-                    Written by James Khan
+                    Written by {post.author}
                   </a>
                   <div className="d-flex flex-column justify-content-center ml-3">
                     <span className="card-post__author-name">
@@ -200,6 +204,7 @@ const BlogPosts = () => {
         {!loading && postsListFour.map((post, idx) => (
           <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--1" style={{height: '500px', maxHeight: '500px'}}>
+            <a href={"/blog?id=" + post._id} className="text-fiord-blue">
               <div
                 className="card-post__image"
                 style={{ backgroundImage: `url(${post.backgroundImage})` }}
@@ -220,6 +225,7 @@ const BlogPosts = () => {
                   </a>
                 </div>
               </div>
+              </a>
               <CardBody>
                 <h5 className="card-title">
                   <a href={"/blog?id=" + post._id} className="text-fiord-blue">

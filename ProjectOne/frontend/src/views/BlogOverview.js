@@ -23,6 +23,20 @@ const BlogOverview = () => {
     })
   }, [])
 
+  const changeDraftCount = (num) => {
+    const index = smallStats.findIndex(item => item.label === 'Your Draft')
+    let obj = smallStats[index]
+    obj.value = Number(smallStats[index].value) + num
+    setSmallStats([...smallStats.slice(0, index), obj, ...smallStats.slice(index+1)])
+  }
+
+  const changePublishCount = (num) => {
+    const index = smallStats.findIndex(item => item.label === 'You Published')
+    let obj = smallStats[index]
+    obj.value = Number(smallStats[index].value) + num
+    setSmallStats([...smallStats.slice(0, index), obj, ...smallStats.slice(index+1)])
+  }
+
   return (
     <Container fluid className="main-content-container px-4">
     {/* Page Header */}
@@ -63,12 +77,12 @@ const BlogOverview = () => {
 
       {/* New Draft */}
       <Col lg="5" md="6" sm="12" className="mb-4">
-        <NewDraft />
+        <NewDraft draftCount = {changeDraftCount} />
       </Col>
 
       {/* Discussions */}
       <Col lg="7" md="12" sm="12" className="mb-4">
-        <Draft />
+        <Draft draftCount = {changeDraftCount} publishCount={changePublishCount}/>
       </Col>
 
       {/* Top Referrals 

@@ -15,7 +15,7 @@ import {
 } from "shards-react";
 import { UserStore, Dispatcher, Constants } from "../../flux";
 
-const Draft = () => {
+const Draft = ({draftCount, publishCount}) => {
   const title = "Your Draft"
   const [alertMessage, setAlertMessage] = useState("")
 
@@ -58,6 +58,7 @@ const Draft = () => {
       if(count !== 3) {
         setCount(count - 1)
       }
+      draftCount(-1)
       setAlertMessage("Post deleted successfully..")
       setTimeout(() => {
         setAlertMessage("")
@@ -74,6 +75,8 @@ const Draft = () => {
     if(count !== 3) {
       setCount(count - 1)
     }
+    draftCount(-1)
+    publishCount(1)
     setAlertMessage("Post is now published..")
     setTimeout(() => {
       setAlertMessage("")
@@ -116,13 +119,13 @@ const Draft = () => {
               <ButtonGroup size="sm">
                 <Button theme="white" onClick = {e=> publishPost(draft._id)}>
                   <span className="text-success">
-                    <i className="material-icons">check</i>
+                    <i className="material-icons">publish</i>
                   </span>{" "}
                   Publish
                 </Button>
                 <Button theme="white" onClick={e=> deletePost(draft._id)}>
                   <span className="text-danger">
-                    <i className="material-icons">clear</i>
+                    <i className="material-icons">delete</i>
                   </span>{" "}
                   Delete
                 </Button>

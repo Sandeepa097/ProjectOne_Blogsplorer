@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const axios = require('axios')
+const config = require('../utils/config')
 const draftRouter = require('express').Router()
 const User = require('../models/user')
 const {verifyToken} = require('../utils/token')
@@ -83,22 +84,19 @@ draftRouter.get('/publish/:id', async(request, response) => {
         }
     })
 
-    const update = await User.findByIdAndUpdate(userId, {
-        $push: {published: post.draft[0]}
-    })
-
-    const config = {
+    const conf = {
         headers: {
             Authorization: request.get('authorization'),
             UserId: userId
         }
     }
-    
-    const resp = await axios.post('http://localhost:3001/api/blogs', post.draft[0], config)
+
+    const resp = await axios.post(`${config.SERVER_URL + config.PORT}/api/blogs`, post.draft[0], conf)
 
     if(!resp) {
         return response.status(201).end()
     }
+
     await User.updateOne({_id: userId}, {$pull: {draft: {_id: request.params.id}}})
     return response.status(200).end()
 })

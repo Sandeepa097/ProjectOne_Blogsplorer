@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Headers from './setHeaders'
 
-const baseUrl = 'http://localhost:3001/api/user'
+const baseUrl = `${process.env.REACT_APP_BASE_URL}/api/user`
 
 const createAccount = async(newUser) => {
     try{

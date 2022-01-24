@@ -1,8 +1,10 @@
 import axios from 'axios'
 import Headers from './setHeaders'
 
-const draftUrl = 'http://localhost:3001/api/draft'
-const publishUrl = 'http://localhost:3001/api/blogs'
+const baseurl = process.env.REACT_APP_BASE_URL
+const draftUrl = `${baseurl}/api/draft`
+const publishUrl = `${baseurl}/api/blogs`
+const categoryies = {design: false, development: false, writting: false, books: false}
 
 const newPostPublished = async(newPost) => {
     const config = Headers.setHeaders()
@@ -65,6 +67,46 @@ const blog = async(id, ni) => {
     }
 }
 
+const deleteBlog = async(id, ni) => {
+    const config = Headers.setHeaders()
+    if(!config) {
+        return {}
+    }
+
+    try{
+        const param = ni ? '/published/' : '/ipublished/'
+        const response = await axios.delete(publishUrl + param + id, config)
+        return response.data
+    }
+    catch(error){
+        return {error: "invalid id or ni"}
+    }
+}
+
+const moveToDraft = async(id, ni) => {
+    const details = await blog(id, ni)
+    const category = details.category ? {...categoryies, [details.category]: true} : categoryies
+    await addNewPostDraft({...details, category: category})
+    await deleteBlog(id, ni)
+    
+}
+
+const editBlog = async(id, ni, post) => {
+    const config = Headers.setHeaders()
+
+    if(!config) {
+        return {}
+    }
+    try{
+        const param = ni ? '/published/' : '/ipublished/'
+        const response = await axios.put(publishUrl + param + id, post, config)
+        return response.data
+    }
+    catch(error){
+        return {error: "error occured"}
+    }
+}
+
 export default {
     newPostPublished,
     getPostsPublished,
@@ -72,5 +114,8 @@ export default {
     deletePostDraft,  
     getPostsDraft,
     publishPostFromDraft,
-    blog
+    blog,
+    deleteBlog,
+    moveToDraft,
+    editBlog
 }

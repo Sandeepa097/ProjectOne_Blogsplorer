@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 // Layout Types
-import { DefaultLayout, AuthLayout } from "./layouts";
+import { DefaultLayout, AuthLayout, ErrorLayout } from "./layouts";
 
 // Route Views
 import BlogOverview from "./views/BlogOverview";
@@ -13,7 +13,7 @@ import ComponentsOverview from "./views/ComponentsOverview";
 import Chat from "./views/Chat";
 //import Tables from "./views/Tables";
 import BlogPosts from "./views/BlogPosts";
-import OtherUserProfile from "./views/OtherUserProfile";
+import ProfileView from "./views/ProfileView";
 import Post from "./views/Post";
 import Auth from "./views/Auth"
 
@@ -62,7 +62,7 @@ export default [
   {
     path: "/user",
     layout: DefaultLayout,
-    component: OtherUserProfile
+    component: ProfileView
   },
   {
     path: "/blog",
@@ -70,7 +70,7 @@ export default [
     component: Post
   },
   {
-    layout: AuthLayout,
+    layout: ErrorLayout,
     component: Errors
   },
 ];

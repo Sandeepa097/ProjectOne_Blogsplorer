@@ -29,6 +29,7 @@ const SidebarCategories = ({post, setPost }) => {
   }
 
   useEffect(() => {
+    AddPostStore.addChangeListener(setDetails)
     let uncateg = true
     for(const cat in checked) {
       if(checked[cat]){
@@ -38,7 +39,13 @@ const SidebarCategories = ({post, setPost }) => {
     }
     setUncateg(uncateg)
     setPost({...post, category: checked})
+
+    return () => AddPostStore.removeChangeListener(setDetails)
   }, [checked])
+
+  const setDetails = () => {
+    setChecked(AddPostStore.getPost().category)
+  }
   
   const onChangeCheck = (e, categ) => {
     const check = {}

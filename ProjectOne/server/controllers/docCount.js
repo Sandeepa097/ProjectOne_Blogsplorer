@@ -24,19 +24,15 @@ const returnedObj = {
   ]
 }
 
-const dateForamat = {'year': 'numeric', 'month': 'long', 'day': 'numeric'}
-let date = new Date()
+const dateFormat = {'year': 'numeric', 'month': 'long', 'day': 'numeric'}
 const today = new Date()
-date.setDate(today.getDate() - 4)
-const dayOne = new Date(date).toLocaleDateString("en-US", dateForamat)
-date.setDate(today.getDate() - 3)
-const dayTwo = new Date(date).toLocaleDateString("en-US", dateForamat)
-date.setDate(today.getDate() - 2)
-const dayThree = new Date(date).toLocaleDateString("en-US", dateForamat)
-date.setDate(today.getDate() - 1)
-const dayFour = new Date(date).toLocaleDateString("en-US", dateForamat)
-const dayFive = new Date(today).toLocaleDateString("en-US", dateForamat)
+let date = new Date()
+let dates = []
 
+for(let i = 5; i >= 0; i--) {
+  date.setDate(today.getDate() - i)
+  dates.push(new Date(date).toLocaleDateString("en-US", dateFormat))
+}
 
 countRouter.get('/posts', async(request, response) => {
     const dataSet = []
@@ -44,11 +40,9 @@ countRouter.get('/posts', async(request, response) => {
     const blogs = await Blog.countDocuments()
     const blogsNoImage = await BlogNoImage.countDocuments()
 
-    dataSet.push(await Blog.countDocuments({date: dayOne}))
-    dataSet.push(await Blog.countDocuments({date: dayTwo}))
-    dataSet.push(await Blog.countDocuments({date: dayThree}))
-    dataSet.push(await Blog.countDocuments({date: dayFour}))
-    dataSet.push(await Blog.countDocuments({date: dayFive}))
+    for(const item of dates){
+      dataSet.push(await Blog.countDocuments({date: item}))
+    }
 
     returnedObj.label = "All Posts"
     returnedObj.value = `${blogs + blogsNoImage}`
@@ -77,11 +71,9 @@ countRouter.get('/published', async(request, response) => {
   const blogs = await Blog.countDocuments({author: userId})
   const blogsNoImage = await BlogNoImage.countDocuments({author: userId})
 
-  dataSet.push(await Blog.countDocuments({author: userId, date: dayOne}))
-  dataSet.push(await Blog.countDocuments({author: userId, date: dayTwo}))
-  dataSet.push(await Blog.countDocuments({author: userId, date: dayThree}))
-  dataSet.push(await Blog.countDocuments({author: userId, date: dayFour}))
-  dataSet.push(await Blog.countDocuments({author: userId, date: dayFive}))
+  for(const item of dates){
+    dataSet.push(await Blog.countDocuments({author: userId, date: item}))
+  }
 
   returnedObj.label = "You Published"
   returnedObj.value = `${blogs + blogsNoImage}`
@@ -113,11 +105,9 @@ countRouter.get('/draft', async(request, response) => {
       return data.length
     }
     
-    dataSet.push(countByDay(dayOne))
-    dataSet.push(countByDay(dayTwo))
-    dataSet.push(countByDay(dayThree))
-    dataSet.push(countByDay(dayFour))
-    dataSet.push(countByDay(dayFive))
+    for(const item of dates){
+      dataSet.push(countByDay(item))
+    }
 
     returnedObj.label = "Your Draft"
     returnedObj.value = `${draftCount}`
@@ -139,11 +129,9 @@ countRouter.get('/author', async(request, response) => {
 
   const userCount = await User.countDocuments()
 
-  dataSet.push(await User.countDocuments({date: dayOne}))
-  dataSet.push(await User.countDocuments({date: dayTwo}))
-  dataSet.push(await User.countDocuments({date: dayThree}))
-  dataSet.push(await User.countDocuments({date: dayFour}))
-  dataSet.push(await User.countDocuments({date: dayFive}))
+  for(const item of dates){
+    dataSet.push(await User.countDocuments({date: item}))
+  }
 
   returnedObj.label = "Authors"
   returnedObj.value = `${userCount}`

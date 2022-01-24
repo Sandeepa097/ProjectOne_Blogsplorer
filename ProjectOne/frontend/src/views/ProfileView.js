@@ -10,7 +10,7 @@ import UserDetails from "../components/profile/userDetails";
 import { UserTimeline } from "../flux";
 import Errors from "./Errors";
 
-const OtherUserProfile = () => {
+const ProfileView = () => {
   const [userName, setUserName] = useState("")
   const [error, setError] = useState(false)
 
@@ -43,4 +43,4 @@ const OtherUserProfile = () => {
   )
 }
 
-export default OtherUserProfile;
+export default ProfileView;
