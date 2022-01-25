@@ -25,11 +25,20 @@ const SidebarNavItems = () => {
 
   const { navItems: items } = state;
   return (
-    <div className="nav-wrapper">
-      <Nav className="nav--no-borders flex-column">
+    <div className="nav-wrapper" style={{backgroundColor: "#304f7e"}}>
+      <Nav className="nav--no-borders flex-column" style={{height: '100%'}}>
         {items.map((item, idx) => (
           <SidebarNavItem key={idx} item={item} />
         ))}
+        <div className="m-auto" style={{height: "150px"}}>
+            <img
+              id="main-logo"
+              className="d-inline-block align-bottom mr-0"
+              style={{ maxWidth: "100%"}}
+              src={require("../../../images/logo3.png")}
+              alt="Blogsplorer"
+            />
+        </div>
       </Nav>
     </div>
   )

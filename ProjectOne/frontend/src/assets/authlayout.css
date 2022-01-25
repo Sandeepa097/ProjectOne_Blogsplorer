@@ -1,10 +1,54 @@
+.background-div {
+    min-height: calc(100vh);
+    background-color: #304f7e;
+}
+
 .containerElement{
-    height: 500px;
+    height: 600px;
     width: 800px;
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-top: -250px;
+    margin-top: -300px;
     margin-left: -400px;
-    background-color: blue;
+    background-color: #304f7e;
+}
+
+.title {
+    color: #f2cf97;
+    padding-top: 5%;
+    text-align: center;
+}
+
+.input-label {
+    color: #c1a53a
+}
+
+.div-log{
+    height: 352px;
+    width: 400px;
+    position: fixed;
+    top: 50%;
+    margin-top: -176px;
+    text-align: center;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.div-reg{
+    height: 598px;
+    width: 400px;
+    position: fixed;
+    top: 50%;
+    margin-top: -299px;
+    text-align: center;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.form-auth{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
 }

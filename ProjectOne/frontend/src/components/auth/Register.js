@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
-import {FormInput, Button, Card, ListGroupItem, ListGroup, CardHeader, Row, Form, Col} from 'shards-react'
+import {FormGroup, FormInput, Button, Card, ListGroupItem, ListGroup, CardHeader, Row, Form, Col} from 'shards-react'
 import User from '../../services/users'
 import { Dispatcher, Constants } from '../../flux'
 
-const Register = () => {
+const RegisterTest = ({setForm}) => {
     const dateForamat = {year: 'numeric', month: 'long', day: 'numeric'}
     const today = new Date().toLocaleDateString("en-US", dateForamat)
 
@@ -56,76 +56,71 @@ const Register = () => {
     }
 
     return (
-        <Card style={{height: '500px', maxHeight: '500px'}}>
-            <CardHeader className="border-bottom">
-                <h3 className="m-0">Sign Up</h3>
-            </CardHeader>
-            <ListGroup flush>
-                <ListGroupItem className="p-3">
-                    <Col md="12" className="form-group">
-                    <Form onSubmit={onSubmitUser}>
-                    <Row>
-                        <label htmlFor="firstName">First Name<font color="red"> *</font></label>
-                        <FormInput
-                            id="firstName"
-                            placeholder="First Name"
-                            value={user.feFirstName}
-                            onChange = {e => setUser({...user, firstName: e.target.value})}
-                            required
-                        />
-                    </Row>
-                    <Row>
-                        <label htmlFor="lastName">Last Name</label>
-                        <FormInput
-                            id="lastName"
-                            placeholder="Last Name"
-                            value={user.feLasttName}
-                            onChange = {e => setUser({...user, lastName: e.target.value})}
-                        />
-                    </Row>
-                    <Row>
-                        <label htmlFor="email">Email<font color="red"> *</font></label>
-                        <FormInput
-                            type="email"
-                            id="email"
-                            placeholder="Email Address"
-                            value={user.feEmail}
-                            onChange = {e => setUser({...user, email: e.target.value})}
-                            required
-                        />
-                    </Row>
-                    <Row>
-                        <label htmlFor="password">Password<font color="red"> *</font></label>
-                        <FormInput valid = {creating.color === "green"}
-                            invalid = {creating.color === "red"}
-                            type="password"
-                            id="password"
-                            placeholder="Password"
-                            value={user.password}
-                            onChange = {e => setUser({...user, password: e.target.value})}
-                            required
-                        />
-                    </Row>
-                    <Row>
-                        <label htmlFor="conPassword">Confirm Password<font color="red"> *</font></label>
-                        <FormInput valid = {creating.color === "green"}
-                            invalid = {creating.color === "red"}
-                            type="password"
-                            id="conPassword"
-                            placeholder="Repeat Password"
-                            value = {confirmedPass}
-                            onChange = {e => setConfirmedPass(e.target.value)}
-                            required
-                        />
-                    </Row><br />
-                    <Button type="submit" theme="success">CREATE ACCOUNT</Button>
-                    {creating.message && <span style={{"color": `${creating.color}`}}>{'  ' + creating.message}</span>}
-                    </Form>
-                    </Col>
-                </ListGroupItem>
-            </ListGroup>           
-        </Card>
+        <div className="div-reg">
+            <h4 className='title'>REGISTER</h4>
+            <Form style = {{paddingTop: "5%", paddingBottom: "5%"}} onSubmit={onSubmitUser}>
+                <FormGroup className="form-auth">
+                    <label className='input-label' htmlFor="firstName">First Name:</label>
+                    <FormInput
+                        id="firstName"
+                        placeholder="First Name"
+                        value={user.feFirstName}
+                        onChange = {e => setUser({...user, firstName: e.target.value})}
+                        required
+                    />
+                </FormGroup>
+                <FormGroup className="form-auth">
+                    <label className='input-label' htmlFor="lastName">Last Name:</label>
+                    <FormInput
+                        id="lastName"
+                        placeholder="Last Name"
+                        value={user.feLasttName}
+                        onChange = {e => setUser({...user, lastName: e.target.value})}
+                    />
+                </FormGroup>
+                <FormGroup className="form-auth">
+                    <label className='input-label' htmlFor="email">Email:</label>
+                    <FormInput
+                        type="email"
+                        id="email"
+                        placeholder="Email Address"
+                        value={user.feEmail}
+                        onChange = {e => setUser({...user, email: e.target.value})}
+                        required
+                    />
+                </FormGroup>
+                <FormGroup className="form-auth">
+                    <label className='input-label' htmlFor="password">Password:</label>
+                    <FormInput valid = {creating.color === "green"}
+                        invalid = {creating.color === "red"}
+                        type="password"
+                        id="password"
+                        placeholder="Password"
+                        value={user.password}
+                        onChange = {e => setUser({...user, password: e.target.value})}
+                        required
+                    />
+                </FormGroup>
+                <FormGroup className="form-auth">
+                    <label className='input-label' htmlFor="conPassword">Confirm Password:</label>
+                    <FormInput valid = {creating.color === "green"}
+                        invalid = {creating.color === "red"}
+                        type="password"
+                        id="conPassword"
+                        placeholder="Repeat Password"
+                        value = {confirmedPass}
+                        onChange = {e => setConfirmedPass(e.target.value)}
+                        required
+                    />
+                </FormGroup>
+                {!!creating.message && <span style={{"color": `${creating.color}`}}>{'  ' + creating.message}</span>}
+                <FormGroup style={{paddingTop: "5%"}}>
+                    <Button type="submit" theme="accent">Register</Button>
+                </FormGroup>
+                    <span className='title'>Already have an account? <a onClick={() => setForm(true)} style={{color: "pink", fontWeight: "bolder"}}>Log In</a></span>
+            </Form>
+        </div>
     )
 }
 
-export default Register
+export default RegisterTest

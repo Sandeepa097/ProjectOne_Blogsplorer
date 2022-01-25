@@ -14,7 +14,8 @@ const handleToggleSidebar = () => {
 return (
     <div className="main-navbar">
       <Navbar
-        className="align-items-stretch bg-white flex-md-nowrap border-bottom p-0"
+        style={{backgroundColor: "#304f7e"}}
+        className="align-items-stretch flex-md-nowrap p-0"
         type="light"
       >
         <NavbarBrand
@@ -23,17 +24,12 @@ return (
           style={{ lineHeight: "25px" }}
         >
           <div className="d-table m-auto">
-            <img
-              id="main-logo"
-              className="d-inline-block align-top mr-1"
-              style={{ maxWidth: "25px" }}
-              src={require("../../../images/shards-dashboards-logo.svg")}
-              alt="Blogsplorer"
-            />
-            <span className="d-none d-md-inline ml-1">
-                Blogsplorer
+            <div className="d-inline-block align-top mr-1">
+              <i class="material-icons" style={{color: "gray", fontSize: "22px"}}>dehaze</i>
+            </div>
+            <span style={{color: "#f2cf97", fontSize: "22px"}} className="d-none d-md-inline ml-1">
+              Blogsplorer
             </span>
-            
           </div>
         </NavbarBrand>
         {/* eslint-disable-next-line */}

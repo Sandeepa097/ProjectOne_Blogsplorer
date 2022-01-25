@@ -1,22 +1,35 @@
 import React, {useState} from 'react'
-import {FormInput, Button, Card, ListGroupItem, ListGroup, CardHeader, Row, Form, Col} from 'shards-react'
+import {FormInput, Button, Card, ListGroupItem, ListGroup, CardHeader, Row, Form, Col, FormGroup} from 'shards-react'
 import User from '../../services/users'
 import { Dispatcher, Constants } from '../../flux'
 
-const Login = () => {
-    const [errorMessage, setErrorMessage] = useState("")
+const LoginTest = ({setForm}) => {
+    const [errorMessage, setErrorMessage] = useState({
+        message: "",
+        color: ""
+    })
     const [user, setUser] = useState({
         email: '',
         password: ''
     })
 
     const submitLogin = async(event) => {
+        setErrorMessage({
+            message: "Please wait...",
+            color: "green"
+        })
         event.preventDefault()
         const logged = await User.login(user)
         if(!!logged.error) {
-            setErrorMessage(logged.error)
+            setErrorMessage({
+                message: logged.error,
+                color: "red"
+            })
             setTimeout(() => {
-                setErrorMessage("")
+                setErrorMessage({
+                    message: "",
+                    color: ""
+                })
             }, 3000)
         }
         if(logged.id){
@@ -28,16 +41,11 @@ const Login = () => {
     }
 
     return (
-        <Card style={{height: '500px', maxHeight: '500px'}}>
-        <CardHeader className="border-bottom">
-            <h3 className="m-0">Sign In</h3>
-        </CardHeader>
-        <ListGroup flush>
-            <ListGroupItem className="p-3">
-                <Col md="12" className="form-group">
-                <Form onSubmit ={submitLogin}>
-                <Row>
-                    <label htmlFor="feFirstName">Email<font color="red"> *</font></label>
+        <div className="div-log">
+            <h4 className='title'>LOG IN</h4>
+            <Form style = {{paddingTop: "5%", paddingBottom: "5%"}} onSubmit ={submitLogin}>
+                <FormGroup className="form-auth">
+                    <label className='input-label' htmlFor="feFirstName">Email:</label>
                     <FormInput
                         type="email"
                         id="feFirstName"
@@ -46,9 +54,9 @@ const Login = () => {
                         onChange = {e => setUser({...user, email: e.target.value})}
                         required
                     />
-                </Row>
-                <Row>
-                    <label htmlFor="fePassword">Password<font color="red"> *</font></label>
+                </FormGroup>
+                <FormGroup className="form-auth">
+                    <label className='input-label' htmlFor="fePassword">Password:</label>
                     <FormInput
                         type="password"
                         id="fePassword"
@@ -57,15 +65,15 @@ const Login = () => {
                         onChange = {e => setUser({...user, password: e.target.value})}
                         required
                     />
-                </Row><br />
-                <Button type="submit" theme="accent">LOGIN</Button>
-                {errorMessage && <span style={{"color": "red"}}>{'  ' + errorMessage}</span>}
-                </Form>
-                </Col>
-            </ListGroupItem>
-        </ListGroup>
-    </Card>
+                </FormGroup>
+                {!!errorMessage.message && <span style={{"color": `${errorMessage.color}`}}>{'  ' + errorMessage.message}</span>}
+                <FormGroup style={{paddingTop: "5%"}}>
+                    <Button type="submit" theme="accent">LOG IN</Button>
+                </FormGroup>
+                    <span className='input-label'>New User? <a onClick={() => setForm(false)} style={{color: "pink", fontWeight: "bolder"}}>Create Account</a></span>
+            </Form>
+        </div>
     )
 }
 
-export default Login
+export default LoginTest
