@@ -8,17 +8,18 @@ const {verifyToken} = require('../utils/token')
 const {uploadImage} = require('../utils/upload')
 
 userRouter.post('/', [
-    body('email').isEmail().not().isEmpty(), 
-    body('password').isLength({min: 8})
+    body('firstName').isString().not().isEmpty().withMessage("First Name is required"),
+    body('email').isEmail().not().isEmpty().withMessage("Email is required"), 
+    body('password').isString().isLength({min: 8}).withMessage("Password must be at least 8 characters")
 ], async(request, response) => {
     const errors = validationResult(request)
     if(!errors.isEmpty()){
-        return response.status(400).json({errors: errors.array()})
+        return response.status(400).json({error: errors.array()[0].msg})
     }
 
     const emailTaken = await User.findOne({email: request.body.email})
     if(emailTaken) {
-        return response.status(409).json({error: "Email already taken"})
+        return response.status(400).json({error: "Email already taken"})
     }
 
     const body = request.body

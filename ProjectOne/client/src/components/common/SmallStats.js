@@ -75,7 +75,7 @@ const SmallStats = (props) => {
 
   }, [])
 
-  const { variation, label, value, percentage, increase } = props;
+  const { variation, label, value, percentage, increase, decrease} = props;
 
   const cardClasses = classNames(
     "stats-small",
@@ -115,7 +115,8 @@ const SmallStats = (props) => {
 
   const percentageClasses = classNames(
     "stats-small__percentage",
-    `stats-small__percentage--${increase ? "increase" : "decrease"}`
+    `stats-small__percentage--${increase ? "increase" : ""}`,
+    `stats-small__percentage--${decrease ? "decrease" : ""}`
   );
 
   const canvasHeight = variation === "1" ? 120 : 60;

@@ -122,7 +122,7 @@ const BlogPosts = () => {
             <a href={"/blog?id=" + post._id} className="text-fiord-blue">
               <div
                 className="card-post__image"
-                style={{ backgroundImage: `url('${post.backgroundImage}')` }}
+                style={{ backgroundImage: `url('${post.backgroundImage}')`, minHeight: "100%" }}
               >
                 <Badge
                   pill

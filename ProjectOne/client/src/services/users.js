@@ -12,7 +12,7 @@ const createAccount = async(newUser) => {
         return response.data
     }
     catch(error){
-        return {error: "Passwords must be at least 08 characters"}
+        return {error: error.response.data.error}
     }
 }
 
@@ -25,7 +25,7 @@ const login = async(userCredentials) => {
         return response.data
     }
     catch(error){
-        return {error: "Email or password invalid"}
+        return {error: error.response.data.error}
     }
 }
 

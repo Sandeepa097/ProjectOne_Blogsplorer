@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 // Layout Types
-import { DefaultLayout, AuthLayout, ErrorLayout } from "./layouts";
+import { DefaultLayout, AuthLayout } from "./layouts";
 
 // Route Views
 import BlogOverview from "./views/BlogOverview";
@@ -70,7 +70,7 @@ export default [
     component: Post
   },
   {
-    layout: ErrorLayout,
+    layout: DefaultLayout,
     component: Errors
   },
 ];

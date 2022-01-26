@@ -29,10 +29,10 @@ const RegisterTest = ({setForm}) => {
             })
             setTimeout(() => {
                 setCreating({...creating, 
-                message: '',
-                color: ''
+                    message: '',
+                    color: ""
                 })
-            }, 3000)
+            }, 5000)
             return null
         }
 
@@ -91,8 +91,8 @@ const RegisterTest = ({setForm}) => {
                 </FormGroup>
                 <FormGroup className="form-auth">
                     <label className='input-label' htmlFor="password">Password:</label>
-                    <FormInput valid = {creating.color === "green"}
-                        invalid = {creating.color === "red"}
+                    <FormInput valid = {user.password === confirmedPass && user.password}
+                        invalid = {user.password !== confirmedPass && confirmedPass}
                         type="password"
                         id="password"
                         placeholder="Password"
@@ -103,8 +103,8 @@ const RegisterTest = ({setForm}) => {
                 </FormGroup>
                 <FormGroup className="form-auth">
                     <label className='input-label' htmlFor="conPassword">Confirm Password:</label>
-                    <FormInput valid = {creating.color === "green"}
-                        invalid = {creating.color === "red"}
+                    <FormInput valid = {user.password === confirmedPass && user.password}
+                        invalid = {user.password !== confirmedPass && confirmedPass}
                         type="password"
                         id="conPassword"
                         placeholder="Repeat Password"
