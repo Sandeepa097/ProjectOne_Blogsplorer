@@ -60,60 +60,60 @@ const PostList = () => {
 
     return(
         <div>
-            {loading && <LoadingIndicator />}
-            {!posts.length && !loading && <p>No Posts To Show...</p>}
-        {!!posts.length && <Card small className="blog-comments">
-        <CardHeader className="border-bottom">
-          <h6 className="m-0">Publications</h6>
-        </CardHeader>
-        <CardBody className="p-0">
-          {posts.map((item, idx) => (
-            <div key={idx} className="blog-comments__item d-flex p-3">
-              {/* Avatar */}
-              <div className="blog-comments__avatar mr-3">
-                <a href={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "")}><img src={item.backgroundImage ? item.backgroundImage : null} alt={item.backgroundImage ? item.title.substring(0, 5) : null} /></a>
-              </div>
+          {loading && <LoadingIndicator />}
+          {!posts.length && !loading && <p>No Posts To Show...</p>}
+          {!!posts.length && <Card small className="blog-comments">
+            <CardHeader className="border-bottom">
+              <h6 className="m-0">Publications</h6>
+            </CardHeader>
+            <CardBody className="p-0">
+              {posts.map((item, idx) => (
+                <div key={idx} className="blog-comments__item d-flex p-3">
+                  {/* Avatar */}
+                  <div className="blog-comments__avatar mr-3">
+                    <a href={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "")}><img src={item.backgroundImage ? item.backgroundImage : null} alt={item.backgroundImage ? item.title.substring(0, 5) : null} /></a>
+                  </div>
     
-              {/* Content */}
-              <div className="blog-comments__content">
-                {/* Content :: Title */}
-                <div className="blog-comments__meta text-mutes">
+                  {/* Content */}
+                  <div className="blog-comments__content">
+                    {/* Content :: Title */}
+                  <div className="blog-comments__meta text-mutes">
                     <a href={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "")}>{item.title}<span style={{color: "brown"}}> - {item.date}</span></a>
-                </div>
+                  </div>
     
-                {/* Content :: Body */}
-                <p className="m-0 my-1 mb-2 text-muted">{item.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "") + '...'}</p>
+                  {/* Content :: Body */}
+                  <p className="m-0 my-1 mb-2 text-muted">{item.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "") + '...'}</p>
     
-                {/* Content :: Actions */}
-                {mine && <div className="blog-comments__actions">
-                  <ButtonGroup size="sm">
-                    <Button theme="white" tag={Link} to={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "") + "&edit=true"}>
-                      <span className="text-success">
-                        <i className="material-icons">edit</i>
-                      </span>{" "}
-                      Edit
-                    </Button>
-                    <Button theme="white" onClick={() => {onClickMove(item.id, !item.backgroundImage)}}>
-                      <span className="text-dark">
-                        <i className="material-icons">block</i>
-                      </span>{" "}
-                      Move to Draft
-                    </Button>
-                    <Button theme="white" onClick={() => {onClickDelete(item.id, !item.backgroundImage)}}>
-                      <span className="text-danger">
-                        <i className="material-icons">delete</i>
-                      </span>{" "}
-                      Delete
-                    </Button>
-                  </ButtonGroup>
-                </div>}
+                  {/* Content :: Actions */}
+                  {mine && <div className="blog-comments__actions">
+                    <ButtonGroup size="sm">
+                      <Button theme="white" tag={Link} to={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "") + "&edit=true"}>
+                        <span className="text-success">
+                          <i className="material-icons">edit</i>
+                        </span>{" "}
+                        Edit
+                      </Button>
+                      <Button theme="white" onClick={() => {onClickMove(item.id, !item.backgroundImage)}}>
+                        <span className="text-dark">
+                          <i className="material-icons">block</i>
+                        </span>{" "}
+                        Move to Draft
+                      </Button>
+                      <Button theme="white" onClick={() => {onClickDelete(item.id, !item.backgroundImage)}}>
+                        <span className="text-danger">
+                          <i className="material-icons">delete</i>
+                        </span>{" "}
+                        Delete
+                      </Button>
+                    </ButtonGroup>
+                  </div>}
 
+                </div>
               </div>
-            </div>
-          ))}
-        </CardBody>
-      </Card>}
-    </div>
+            ))}
+            </CardBody>
+          </Card>}
+        </div>
     )
 }
 

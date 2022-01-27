@@ -32,8 +32,20 @@ const EditPost = ({handleClose, blog, ni, setBlog, setAlert}) => {
         }
         const response = await Blog.editBlog(blog.id, ni, post)
         if(response.error){
-            return response.error
+            handleClose(false)
+            setAlert({
+                message: response.error,
+                theme: "danger"
+              })
+            setTimeout(() => {
+                setAlert({
+                  message: "",
+                  theme: ""
+                })
+              }, 5000)
+            return null
         }
+
         setBlog({...blog, title: post.title, body: post.body})
         handleClose(false)
         setAlert({

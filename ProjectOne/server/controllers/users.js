@@ -118,6 +118,11 @@ userRouter.put('/', async(request, response) => {
             error: 'token missing or invalid'
         })
     }
+    
+    if(body.authorAvatar === "error"){
+        return response.status(400).json({error: 'error on uploading profile picture...'})
+    }
+
     const user = await User.findByIdAndUpdate(userId, body)
     return response.json(user)
 })

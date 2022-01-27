@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import CustomFileUpload from "../components-overview/CustomFileUpload";
+import CustomFileUpload from "../common/CustomFileUpload";
 import ReactQuill from "react-quill";
 import { Card, CardBody, Form, FormInput } from "shards-react";
 import { AddPostStore } from "../../flux";

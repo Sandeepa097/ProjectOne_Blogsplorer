@@ -1,8 +1,4 @@
 import React, {useState, useEffect} from "react";
-import { Link } from "react-router-dom";
-import { confirm } from "react-confirm-box"
-import Blog from "../../services/blogs";
-import LoadingIndicator from "../common/LoadingIndicator";
 import {
   Card,
   CardHeader,
@@ -13,16 +9,38 @@ import {
   Row,
   Col,
 } from "shards-react";
+import { Link } from "react-router-dom";
+import { confirm } from "react-confirm-box"
+import Blog from "../../services/blogs";
+import LoadingIndicator from "../common/LoadingIndicator";
 import { UserStore, Dispatcher, Constants } from "../../flux";
 
 const Draft = ({draftCount, publishCount}) => {
   const title = "Your Draft"
-  const [alertMessage, setAlertMessage] = useState("")
 
   const [loading, setLoading] = useState(true)
   const [drafts, setDrafts] = useState(UserStore.getUserDetails().draft)
   const [draftLength, setDraftLength] = useState(UserStore.getUserDetails().draft.length)
   const [count, setCount] = useState(3)
+  const [alertMessage, setAlertMessage] = useState({
+    message: "",
+    color: "green"
+  })
+
+  const setAlertAndTimeOut= (message, color, time) => {
+    setAlertMessage({
+      message: message,
+      color: color
+    })
+    if(time) {
+      setTimeout(() => {
+        setAlertMessage({
+          message: "",
+          color: "green"
+        })
+      }, time)
+    }
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -39,35 +57,45 @@ const Draft = ({draftCount, publishCount}) => {
     setDrafts([...UserStore.getUserDetails().draft])
   }
 
-  const viewAll = (event) => {
+  const viewAll = () => {
     setCount(draftLength)
   }
 
-  const seeLess = (event) => {
+  const seeLess = () => {
     setCount(3)
   }
  
   const deletePost = async(id) => {
     const conf = await confirm("Are you sure you want to delete?")
     if(conf) {
+      setAlertAndTimeOut("processing.. Please wait..", "blue", 0)
+      const response = await Blog.deletePostDraft(id)
+      if(response.error) {
+        setAlertAndTimeOut(response.error, "red", 5000)
+        return null
+      }
+
       Dispatcher.dispatch({
         actionType: Constants.DELETE_DRAFT,
         payload: {id: id}
       })
-      await Blog.deletePostDraft(id)
       if(count !== 3) {
         setCount(count - 1)
       }
+
       draftCount(-1)
-      setAlertMessage("Post deleted successfully..")
-      setTimeout(() => {
-        setAlertMessage("")
-      }, 3000)
+      setAlertAndTimeOut("Post deleted successfully..", "gray", 5000)
     }
   }
 
   const publishPost = async(id) => {
-    await Blog.publishPostFromDraft(id)
+    setAlertAndTimeOut("processing.. Please wait..", "blue", 5000)
+    const response = await Blog.publishPostFromDraft(id)
+    if(response.error) {
+      setAlertAndTimeOut(response.error, "red", 5000)
+      return null
+    }
+
     Dispatcher.dispatch({
       actionType: Constants.PUBLISH_DRAFT,
       payload: {id: id, reset: false}
@@ -75,12 +103,10 @@ const Draft = ({draftCount, publishCount}) => {
     if(count !== 3) {
       setCount(count - 1)
     }
+
     draftCount(-1)
     publishCount(1)
-    setAlertMessage("Post is now published..")
-    setTimeout(() => {
-      setAlertMessage("")
-    }, 3000)
+    setAlertAndTimeOut("Post is now published..", "green", 5000)
   }
 
   const editDraft = (id) => {
@@ -145,14 +171,14 @@ const Draft = ({draftCount, publishCount}) => {
       <Row>
         <Col className="text-center view-report">
           <div style={{width: "80px", margin: "auto"}}>{loading && <LoadingIndicator />}</div>
-          {count < draftLength && !loading && <Button theme="white" onClick={e => viewAll(e)}>
+          {count < draftLength && !loading && <Button theme="white" onClick={e => viewAll()}>
             View All
           </Button>}
-          {draftLength > 3 && count === draftLength && <Button theme="white" onClick={e => seeLess(e)}>
+          {draftLength > 3 && count === draftLength && <Button theme="white" onClick={e => seeLess()}>
             See Less
           </Button>}
           {!draftLength && <div>Draft is empty...</div>}
-          <span style={{"color": "green"}}>{alertMessage}</span>
+          <span style={{"color": `${alertMessage.color}`}}>{alertMessage.message}</span>
         </Col>
       </Row>
     </CardFooter>

@@ -62,10 +62,10 @@ blogsRouter.get('/published/:id', async(request, response) => {
     })
 })
 
-blogsRouter.post('/', [body('title').not().isEmpty()], async(request, response) => {
+blogsRouter.post('/', [body('title').isString().not().isEmpty()], async(request, response) => {
     const errors = validationResult(request)
     if(!errors.isEmpty()){
-        return response.status(400).json({errors: errors.array()})
+        return response.status(400).json({error: "Title cannot be empty..."})
     }
     const userId = verifyToken(request)
     if(!userId) {
@@ -83,7 +83,7 @@ blogsRouter.post('/', [body('title').not().isEmpty()], async(request, response) 
     }
 
     if(body.backgroundImage === "error"){
-        return response.status(400).json({error: 'error on image uploading'})
+        return response.status(400).json({error: 'error on image uploading...'})
     }
 
     if(!body.backgroundImage) {
@@ -101,7 +101,7 @@ blogsRouter.post('/', [body('title').not().isEmpty()], async(request, response) 
                 "published.blogNoImage": savedBlogNoImage._id
             }
         })
-        return response.status(201).json(savedBlogNoImage)
+        return response.status(201).send(savedBlogNoImage)
     }
    
     const newBlog = new Blog({
@@ -119,7 +119,7 @@ blogsRouter.post('/', [body('title').not().isEmpty()], async(request, response) 
             "published.blog": savedBlog._id
         }
     })
-    return response.status(201).json(savedBlog)
+    return response.status(201).send(savedBlog)
     
 })
 
@@ -133,7 +133,7 @@ blogsRouter.delete('/ipublished/:id', async (request, response) => {
 
     await Blog.findByIdAndDelete(request.params.id).exec(async(err) => {
         if(err){
-            return response.status(404).json({error: "Invalid id"})
+            return response.status(404).json({error: "Invalid url"})
         }
         await User.findByIdAndUpdate(userId, {
             $pull: {
@@ -154,7 +154,7 @@ blogsRouter.delete('/published/:id', async(request, response)=> {
 
     await BlogNoImage.findByIdAndDelete(request.params.id).exec(async(err) => {
         if(err){
-            return response.status(404).json({error: "Invalid id"})
+            return response.status(404).json({error: "Invalid url"})
         }
         await User.findByIdAndUpdate(userId, {
             $pull: {

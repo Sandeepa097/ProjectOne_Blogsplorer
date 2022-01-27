@@ -9,9 +9,7 @@ import BlogOverview from "./views/BlogOverview";
 import UserProfileLite from "./views/UserProfileLite";
 import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
-import ComponentsOverview from "./views/ComponentsOverview";
 import Chat from "./views/Chat";
-//import Tables from "./views/Tables";
 import BlogPosts from "./views/BlogPosts";
 import ProfileView from "./views/ProfileView";
 import Post from "./views/Post";
@@ -43,11 +41,6 @@ export default [
     path: "/add-new-post",
     layout: DefaultLayout,
     component: AddNewPost
-  },
-  {
-    path: "/components-overview",
-    layout: DefaultLayout,
-    component: ComponentsOverview
   },
   {
     path: "/messages",

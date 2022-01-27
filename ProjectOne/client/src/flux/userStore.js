@@ -71,22 +71,23 @@ class UserStore extends EventEmitter {
 
   userLogout() {
     _userDetails = {
-      id: "",
-      authorAvatar: null,
-      firstName: "",
-      lastName: "",
-      description: "",
-      address: "",
-      city: "",
-      state: "",
-      country: "",
-      email: "",
-      draft: [],
-      published: {
-        blog : [],
-        blogNoImage: []
+        id: "",
+        authorAvatar: null,
+        firstName: "",
+        lastName: "",
+        description: "",
+        address: "",
+        city: "",
+        state: "",
+        country: "",
+        email: "",
+        draft: [],
+        published: {
+          blog : [],
+          blogNoImage: []
+        }
     }
-    }
+    this.emit(Constants.USER_CHANGE)
   }
 
   addNewDraft(post) {
@@ -111,7 +112,6 @@ class UserStore extends EventEmitter {
       draft: restDraft,
       published: [..._userDetails.published, id]
     })
-    console.log(_userDetails)
   }
 
   editDraft(id) {

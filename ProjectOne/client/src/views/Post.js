@@ -11,7 +11,6 @@ import {
   Alert,
   Modal,
   ModalBody,
-  ModalHeader
 } from "shards-react";
 import { confirm } from "react-confirm-box"
 import EditPost from "./EditPost";
@@ -59,10 +58,17 @@ const Post = () => {
         actionType: ni ? Constants.DELETE_BLOG_NO_IMAGE : Constants.DELETE_BLOG,
         payload: id
       })
-      await Blog.deleteBlog(id, ni)
+      const response = await Blog.deleteBlog(id, ni)
+      if(response.error){
+        setAlertMessage({
+          message: response.error,
+          theme: "danger"
+        })
+        return null
+      }
       setAlertMessage({
         message: "Post Deleted Successfully...",
-        theme: "danger"
+        theme: "secondary"
       })
       setBlogRemoved(true)
     }
@@ -75,9 +81,16 @@ const Post = () => {
         actionType: ni ? Constants.DELETE_BLOG_NO_IMAGE : Constants.DELETE_BLOG,
         payload: id
       })
-      await Blog.moveToDraft(id, ni)
+      const response = await Blog.moveToDraft(id, ni)
+      if(response.error){
+        setAlertMessage({
+          message: response.error,
+          theme: "danger"
+        })
+        return null
+      }
       setAlertMessage({
-        message: "Post moved to your draft...",
+        message: "Post is moved to your draft...",
         theme: "info"
       })
       setBlogRemoved(true)

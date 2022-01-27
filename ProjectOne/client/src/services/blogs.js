@@ -11,8 +11,13 @@ const newPostPublished = async(newPost) => {
     if(!config) {
         return {}
     }
-    const response = await axios.post(publishUrl, newPost, config)
-    return response.data
+    try{
+        const response = await axios.post(publishUrl, newPost, config)
+        return response.data
+    }
+    catch(error){
+        return {error: error.response.data.error}
+    }
 }
 
 const getPostsPublished = async(pageNumber) => {
@@ -25,8 +30,12 @@ const addNewPostDraft = async(newPost) => {
     if(!config) {
         return {}
     }
-    const response = await axios.put(draftUrl, newPost, config)
-    return response.data
+    try{
+        const response = await axios.put(draftUrl, newPost, config)
+        return response.data
+    } catch (error) {
+        return {error: error.response.data.error}
+    }
 }
 
 const deletePostDraft = async(id) => {
@@ -34,8 +43,12 @@ const deletePostDraft = async(id) => {
     if(!config) {
         return {}
     }
-    const response = await axios.delete(draftUrl + '/' + id, config)
-    return response.data
+    try {
+        const response = await axios.delete(draftUrl + '/' + id, config)
+        return response.data
+    } catch(error) {
+        return {error: error.response.data.error}
+    }
 }
 
 const getPostsDraft = async(limit) => {
@@ -43,8 +56,13 @@ const getPostsDraft = async(limit) => {
     if(!config) {
         return {}
     }
-    const response = await axios.get(draftUrl + '/' + limit, config)
-    return response.data
+    try {
+        const response = await axios.get(draftUrl + '/' + limit, config)
+        return response.data
+    } catch(error) {
+        return {error: error.response.data.error}
+    }
+
 }
 
 const publishPostFromDraft = async(id) => {
@@ -52,8 +70,15 @@ const publishPostFromDraft = async(id) => {
     if(!config) {
         return {}
     }
-    const response = await axios.get(draftUrl + '/publish/' + id, config)
-    return response.data
+    try {
+        const response = await axios.get(draftUrl + '/publish/' + id, config)
+        console.log("res", response.data)
+        return response.data
+    } catch(error) {
+        console.log("err", error.response.data.error)
+        return {error: error.response.data.error}
+    }
+
 }
 
 const blog = async(id, ni) => {
@@ -79,16 +104,18 @@ const deleteBlog = async(id, ni) => {
         return response.data
     }
     catch(error){
-        return {error: "invalid id or ni"}
+        return {error: error.response.data.error}
     }
 }
 
 const moveToDraft = async(id, ni) => {
     const details = await blog(id, ni)
     const category = details.category ? {...categoryies, [details.category]: true} : categoryies
-    await addNewPostDraft({...details, category: category})
-    await deleteBlog(id, ni)
-    
+    const response = await addNewPostDraft({...details, category: category})
+    if(response.error){
+        return response
+    }
+    return await deleteBlog(id, ni) 
 }
 
 const editBlog = async(id, ni, post) => {

@@ -22,7 +22,7 @@ const SidebarCategories = ({post, setPost }) => {
 
   const Category = ({value}) => {
     return(
-      <FormCheckbox className="mb-1" value={value} checked={checked[value]} onChange={e=> onChangeCheck(e, value)} >
+      <FormCheckbox className="mb-1" value={value} checked={checked[value]} onChange={()=> onChangeCheck(value)} >
           {value.charAt(0).toUpperCase() + value.slice(1)}
       </FormCheckbox>
     )
@@ -47,7 +47,7 @@ const SidebarCategories = ({post, setPost }) => {
     setChecked(AddPostStore.getPost().category)
   }
   
-  const onChangeCheck = (e, categ) => {
+  const onChangeCheck = (categ) => {
     const check = {}
     for (const cat in checked){
       if(cat === categ) {

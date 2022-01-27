@@ -1,5 +1,10 @@
 import React, {useState} from 'react'
-import {FormInput, Button, Card, ListGroupItem, ListGroup, CardHeader, Row, Form, Col, FormGroup} from 'shards-react'
+import {
+    FormInput, 
+    Button, 
+    Form, 
+    FormGroup
+} from 'shards-react'
 import User from '../../services/users'
 import { Dispatcher, Constants } from '../../flux'
 
@@ -16,7 +21,7 @@ const LoginTest = ({setForm}) => {
     const submitLogin = async(event) => {
         setErrorMessage({
             message: "Please wait...",
-            color: "green"
+            color: "pink"
         })
         event.preventDefault()
         const logged = await User.login(user)

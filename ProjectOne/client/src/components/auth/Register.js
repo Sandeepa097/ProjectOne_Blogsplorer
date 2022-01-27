@@ -1,5 +1,10 @@
 import React, {useState} from 'react'
-import {FormGroup, FormInput, Button, Card, ListGroupItem, ListGroup, CardHeader, Row, Form, Col} from 'shards-react'
+import {
+    FormGroup, 
+    FormInput, 
+    Button, 
+    Form
+} from 'shards-react'
 import User from '../../services/users'
 import { Dispatcher, Constants } from '../../flux'
 
@@ -38,7 +43,7 @@ const RegisterTest = ({setForm}) => {
 
         setCreating({...creating, 
             message: 'Please wait. Your account being created...',
-            color: "green"
+            color: "pink"
         })
         const logged = await User.createAccount(user)
         if(!!logged.error){

@@ -34,8 +34,12 @@ const userDetails = async() => {
     if(!config) {
         return {}
     }
-    const response = await axios.get(baseUrl, config)
-    return response.data
+    try{
+        const response = await axios.get(baseUrl, config)
+        return response.data
+    } catch(error) {
+        return {error: error.response.data.error}
+    }
 }
 
 const updateUserDetails = async(updates) => {
@@ -43,8 +47,13 @@ const updateUserDetails = async(updates) => {
     if(!config) {
         return {}
     }
-    const response = await axios.put(baseUrl, updates, config)
-    return response.data
+    try {
+        const response = await axios.put(baseUrl, updates, config)
+        return response.data
+    } catch(error) {
+        return {error: error.response.data.error}
+    }
+
 }
 
 const detailsOfAll = async() => {
@@ -58,7 +67,7 @@ const userTimeline = async(id) => {
         return response.data
     }
     catch(error){
-        return {error: "Inavlid user"}
+        return {error: error.response.data.error}
     }
 }
 

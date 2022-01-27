@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { Container, Col, Row } from 'shards-react'
 import Register from '../components/auth/Register'
 import Login from '../components/auth/Login'
 

@@ -90,15 +90,15 @@ draftRouter.get('/publish/:id', async(request, response) => {
             UserId: userId
         }
     }
-
-    const resp = await axios.post(`${config.SERVER_URL + config.PORT}/api/blogs`, post.draft[0], conf)
-
-    if(!resp) {
-        return response.status(201).end()
+    try{
+        await axios.post(`${config.SERVER_URL + config.PORT}/api/blogs`, post.draft[0], conf)
+        await User.updateOne({_id: userId}, {$pull: {draft: {_id: request.params.id}}})
+        return response.status(200).end()
+    } 
+    catch(error) {
+        console.log("erro", error.response.data.error)
+        return response.status(400).json({error: error.response.data.error})
     }
-
-    await User.updateOne({_id: userId}, {$pull: {draft: {_id: request.params.id}}})
-    return response.status(200).end()
 })
 
 module.exports = draftRouter

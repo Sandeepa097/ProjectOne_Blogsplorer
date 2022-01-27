@@ -1,7 +1,6 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
 
 import Blog from '../../services/blogs'
-import { Link } from "react-router-dom";
 import React, {useState} from "react";
 import {
   Card,
@@ -16,33 +15,59 @@ import { Dispatcher, Constants } from '../../flux';
 
 const SidebarActions = ({ post }) => {
   const title = "Actions"
-  const [alertMessage, setAlertMessage] = useState({
-    message: '',
-    theme: ''
-  })
 
   const dateForamat = {year: 'numeric', month: 'long', day: 'numeric'}
   const today = new Date().toLocaleDateString("en-US", dateForamat)
-  const[visibility, setVisibility] = useState('Public')
-  const [status, setStatus] = useState('Draft')
+  const[visibility] = useState('Private')
+  const [status, setStatus] = useState(post._id ? "Edit Draft" : "New Post")
+  const [alertMessage, setAlertMessage] = useState({
+    message: "",
+    theme: ""
+  })
 
-  const onClickDelete = (e) => {
-    console.log('deleted')
+  const fileReader = async() => {
+    const promise = new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        resolve(reader.result)
+      }
+      reader.readAsDataURL(post.backgroundImage)
+    })
+    return await promise
+  }
+
+  const setAlertAndTimeOut= (message, theme, time) => {
+    setAlertMessage({
+      message: message,
+      theme: theme
+    })
+    if(time) {
+      setTimeout(() => {
+        setAlertMessage({
+          message: "",
+          theme: ""
+        })
+      }, time)
+    }
   }
   
   const saveDraft = async()=> {
+    let response
+    setAlertAndTimeOut("Processing...", "secondary", 0)
     if(!post.backgroundImage){
-      Blog.addNewPostDraft({...post, date: today})
+      response = await Blog.addNewPostDraft({...post, date: today})
     }
     else if("string" === typeof post.backgroundImage){
-      Blog.addNewPostDraft({...post, alreadyAdded: post.backgroundImage, date: today})
+      response = await Blog.addNewPostDraft({...post, alreadyAdded: post.backgroundImage, date: today})
     }
     else {
-      const reader = new FileReader()
-      reader.readAsDataURL(post.backgroundImage)
-      reader.onloadend = () => {
-        Blog.addNewPostDraft({...post, backgroundImage: reader.result, date: today})
-      }
+      const base64 = await fileReader()
+      response = await Blog.addNewPostDraft({...post, backgroundImage: base64, date: today})
+    }
+
+    if(response.error) {
+      setAlertAndTimeOut(response.error, "danger", 5000)
+      return null
     }
 
     if(post._id) {
@@ -57,48 +82,31 @@ const SidebarActions = ({ post }) => {
       actionType: Constants.RESET_POST,
       payload: ""
     })
-
-    setAlertMessage({
-      message: "Post is in draft now..",
-      theme: "info"
-    })
-
-    setTimeout(() => {
-      setAlertMessage({
-        message: "",
-        theme: ""
-      })
-    }, 5000)
+    setStatus("New Post")
+    setAlertAndTimeOut("Post is in draft now..", "info", 5000)
   }
 
-  const onPublish = () => {
+  const onPublish = async() => {
+    let response
+    setAlertAndTimeOut("Processing...", "secondary", 0)
     if(!post.backgroundImage){
-      Blog.newPostPublished({...post, date: today})
+      response = await Blog.newPostPublished({...post, date: today})
     }
     else {
-      const reader = new FileReader()
-      reader.readAsDataURL(post.backgroundImage)
-      reader.onloadend = () => {
-        Blog.newPostPublished({...post, backgroundImage: reader.result, date: today})
-      }
+      const base64 = await fileReader()
+      response = await Blog.newPostPublished({...post, backgroundImage: base64, date: today})
+    }
+
+    if(response.error) {
+      setAlertAndTimeOut(response.error, "danger", 5000)
+      return null
     }
 
     Dispatcher.dispatch({
       actionType: Constants.RESET_POST,
       payload: ""
     })
-
-    setAlertMessage({
-      message: "Post is now published..",
-      theme: "success"
-    })
-
-    setTimeout(() => {
-      setAlertMessage({
-        message: "",
-        theme: ""
-      })
-    }, 5000)
+    setAlertAndTimeOut("Post is now published..", "success", 5000)
   }
 
 
@@ -114,18 +122,17 @@ const SidebarActions = ({ post }) => {
         <ListGroupItem className="p-3">
           <span className="d-flex mb-2">
             <i className="material-icons mr-1">flag</i>
-            <strong className="mr-1">Status:</strong> {status}{" "}
-            <a className="ml-auto" href="#" onClick={e => onClickDelete(e)}>
-              Delete
-            </a>
+            <strong className="mr-1">Status:</strong>  {" "}
+            <span className="ml-auto" style={{color: `${status === "New Post" ? 'blue' : 'brown'}`}}>
+              {status}
+            </span>
           </span>
           <span className="d-flex mb-2">
             <i className="material-icons mr-1">visibility</i>
             <strong className="mr-1">Visibility:</strong>{" "}
-            <strong className="text-success">{visibility}</strong>{" "}
-            <a className="ml-auto" href="#" onClick={e => setVisibility(visibility === 'Public' ? 'Private' : 'Public')}>
-              Change
-            </a>
+            <span className="ml-auto" style={{color: "green"}}>
+              {visibility}
+            </span>
           </span>
           <span className="d-flex mb-2">
             <i className="material-icons mr-1">calendar_today</i>

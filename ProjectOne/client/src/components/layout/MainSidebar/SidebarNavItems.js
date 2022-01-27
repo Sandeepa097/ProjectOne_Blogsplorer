@@ -35,7 +35,7 @@ const SidebarNavItems = () => {
               id="main-logo"
               className="d-inline-block align-bottom mr-0"
               style={{ maxWidth: "100%"}}
-              src={require("../../../images/logo3.png")}
+              src={require("../../../images/logo2.png")}
               alt="Blogsplorer"
             />
         </div>

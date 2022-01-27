@@ -20,8 +20,11 @@ const getUserIdFrom = (request) => {
 
 const verifyToken = (request) => {
     const token = getTokenFrom(request)
+    if(!token) {
+        return null
+    }
     const decodeToken = jwt.verify(token, config.SECRET)
-    if(!token || !decodeToken.id) {
+    if(!decodeToken.id) {
         return null
     }
     const userId = getUserIdFrom(request)

@@ -54,7 +54,6 @@ const UserActions = () => {
       actionType: Constants.USER_LOGOUT,
       payload: ""
     })
-    window.location.assign("http://localhost:3000/register")
   }
 
   return (
@@ -74,12 +73,6 @@ const UserActions = () => {
         <DropdownItem tag={Link} to="user-profile">
           <i className="material-icons">&#xE8B8;</i> Edit Profile
         </DropdownItem>
-        {/*{<DropdownItem tag={Link} to="file-manager-list">
-          <i className="material-icons">&#xE2C7;</i> Files
-        </DropdownItem>
-        <DropdownItem tag={Link} to="transaction-history">
-          <i className="material-icons">&#xE896;</i> Transactions
-  </DropdownItem>}*/}
         <DropdownItem divider />
         <DropdownItem tag={Link} to="register" className="text-danger" onClick = {onClickLogout}>
           <i className="material-icons text-danger">&#xE879;</i> Logout
