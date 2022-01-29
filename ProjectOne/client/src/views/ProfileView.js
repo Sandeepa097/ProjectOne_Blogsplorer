@@ -22,7 +22,7 @@ const ProfileView = () => {
 
   const setDetails = () => {
     setError(!UserTimeline.getUserTimeline().id)
-    setUserName(UserTimeline.getUserTimeline().firstName + ' ' + UserTimeline.getUserTimeline().lastName)
+    setUserName(UserTimeline.getUserTimeline().fullName)
   }
 
   return (

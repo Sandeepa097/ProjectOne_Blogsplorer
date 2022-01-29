@@ -96,7 +96,6 @@ draftRouter.get('/publish/:id', async(request, response) => {
         return response.status(200).end()
     } 
     catch(error) {
-        console.log("erro", error.response.data.error)
         return response.status(400).json({error: error.response.data.error})
     }
 })

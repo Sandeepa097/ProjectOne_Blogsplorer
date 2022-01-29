@@ -25,7 +25,7 @@ return (
         >
           <div className="d-table m-auto">
             <div className="d-inline-block align-top mr-1">
-              <i class="material-icons" style={{color: "gray", fontSize: "22px"}}>dehaze</i>
+              <i className="material-icons" style={{color: "gray", fontSize: "22px"}}>dehaze</i>
             </div>
             <span style={{color: "#f2cf97", fontSize: "22px"}} className="d-none d-md-inline ml-1">
               Blogsplorer

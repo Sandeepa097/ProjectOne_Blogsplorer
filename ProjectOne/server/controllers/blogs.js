@@ -1,4 +1,5 @@
 const {body, validationResult} = require('express-validator')
+const safeRegEx = require('safe-regex')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -18,20 +19,20 @@ blogsRouter.get('/:pageNumber', async (request, response) => {
     const blogsBefFix = await Blog.find({}).sort({$natural: -1}).skip(10 * (pageNumber - 1)).limit(10)
     const blogsNoImageBefFix = await BlogNoImage.find({}).sort({$natural: -1}).skip(3 * (pageNumber - 1)).limit(3)
     const blogs = await Promise.all(blogsBefFix.map(async(post, i) => {
-        const authorDetails = await User.findById(post.author, {firstName:1, lastName:1, authorAvatar:1})
+        const authorDetails = await User.findById(post.author, {fullName:1, authorAvatar:1})
         const fixed = {...post._doc,
             authorID: post.author,
-            author: authorDetails.firstName + ' ' + authorDetails.lastName,
+            author: authorDetails.fullName,
             authorAvatar: authorDetails.authorAvatar
         }
         return fixed
     }))
     
     const blogsNoImage = await Promise.all(blogsNoImageBefFix.map(async(post, i) => {
-        const authorDetails = await User.findById(post.author, {firstName:1, lastName:1, authorAvatar:1})
+        const authorDetails = await User.findById(post.author, {fullName:1, authorAvatar:1})
         const fixed = {...post._doc,
             authorID: post.author,
-            author: authorDetails.firstName + ' ' + authorDetails.lastName,
+            author: authorDetails.fullName,
             authorAvatar: authorDetails.authorAvatar
         }
         return fixed
@@ -121,6 +122,31 @@ blogsRouter.post('/', [body('title').isString().not().isEmpty()], async(request,
     })
     return response.status(201).send(savedBlog)
     
+})
+
+blogsRouter.post('/search', async(request, response) => {
+    const body = request.body
+    if(!body.value){
+        return response.status(200).send([])
+    }
+    if(!safeRegEx(body.value)){
+        return response.status(400).json({error: 'invalid input'})
+    }
+    const regex = new RegExp(body.value, 'gi')
+    const blogs = await Blog.find({$or: [{title: regex}, {category: regex}]}, {
+        _id: 1,
+        backgroundImage: 1,
+        title: 1,
+        body: 1,
+    }).limit(body.limit)
+
+    const blogsNo = await BlogNoImage.find({$or: [{title: regex}, {category: regex}]}, {
+        _id: 1,
+        title: 1,
+        body: 1
+    }).limit(body.limit)
+
+    return response.status(200).send([...blogs, ...blogsNo])
 })
 
 blogsRouter.delete('/ipublished/:id', async (request, response) => {

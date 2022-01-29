@@ -72,10 +72,8 @@ const publishPostFromDraft = async(id) => {
     }
     try {
         const response = await axios.get(draftUrl + '/publish/' + id, config)
-        console.log("res", response.data)
         return response.data
     } catch(error) {
-        console.log("err", error.response.data.error)
         return {error: error.response.data.error}
     }
 
@@ -134,6 +132,17 @@ const editBlog = async(id, ni, post) => {
     }
 }
 
+const blogSearch = async(searchString, limit) => {
+    const body = {value: searchString, limit: limit}
+    try{
+        const response = await axios.post(publishUrl + '/search', body)
+        return response.data
+    }
+    catch(error){
+        return []
+    }
+}
+
 export default {
     newPostPublished,
     getPostsPublished,
@@ -144,5 +153,6 @@ export default {
     blog,
     deleteBlog,
     moveToDraft,
-    editBlog
+    editBlog,
+    blogSearch
 }

@@ -7,7 +7,7 @@ import {
   DropdownItem,
   Collapse,
   NavItem,
-  NavLink
+
 } from "shards-react";
 import User from '../../../../services/users'
 import { UserStore, Dispatcher, Constants } from "../../../../flux"
@@ -16,7 +16,7 @@ const UserActions = () => {
   const [visible, setVisible] = useState(false)
   const [userDetails, setUserDetails] = useState({
     id: UserStore.getUserDetails().id,
-    name: UserStore.getUserDetails().firstName + ' ' + UserStore.getUserDetails().lastName,
+    name: UserStore.getUserDetails().fullName,
     userAvatar: UserStore.getUserDetails().authorAvatar
   })
 
@@ -42,7 +42,7 @@ const UserActions = () => {
     const details = UserStore.getUserDetails()
     setUserDetails({
       id: UserStore.getUserDetails().id,
-      name: details.firstName + ' ' + details.lastName,
+      name: details.fullName,
       userAvatar: details.authorAvatar
     })
   }
@@ -58,26 +58,33 @@ const UserActions = () => {
 
   return (
     <NavItem tag={Dropdown} caret toggle={toggleUserActions}>
-      <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
-        <a href={"/user?id=" + userDetails.id}><img
+      <DropdownToggle caret className="text-nowrap px-3" theme="light">
+        <a href={"/user?id=" + userDetails.id} style={{textDecoration: 'none'}}>{userDetails.userAvatar && <img
           className="user-avatar rounded-circle mr-2"
-          src={userDetails.userAvatar ? userDetails.userAvatar : null}
-          alt={userDetails.userAvatar ? "User Avatar" : null}
-        />{" "}</a>
+          src={userDetails.userAvatar}
+          alt={userDetails.fullName}
+        />}
+        {!userDetails.userAvatar && <i className="material-icons" style={{fontSize: "2.5rem", verticalAlign: "middle"}}>account_circle</i>}{" "}</a>
         <span className="d-none d-md-inline-block">{userDetails.name}</span>
       </DropdownToggle>
       <Collapse tag={DropdownMenu} right small open={visible}>
-        <DropdownItem tag={Link} to={"/user?id=" + userDetails.id}>
+        <Link to={"/user?id=" + userDetails.id} style={{textDecoration: 'none'}}>
+        <DropdownItem>
           <i className="material-icons">&#xE7FD;</i> Profile
         </DropdownItem>
-        <DropdownItem tag={Link} to="user-profile">
+        </Link>
+        <Link to="user-profile" style={{textDecoration: 'none'}}>
+        <DropdownItem>
           <i className="material-icons">&#xE8B8;</i> Edit Profile
         </DropdownItem>
+        </Link>
         <DropdownItem divider />
-        <DropdownItem tag={Link} to="register" className="text-danger" onClick = {onClickLogout}>
+        <Link to="register" style={{textDecoration: 'none'}}>
+        <DropdownItem className="text-danger" onClick = {onClickLogout}>
           <i className="material-icons text-danger">&#xE879;</i> Logout
         </DropdownItem>
-  </Collapse>
+        </Link>
+    </Collapse>
     </NavItem>
     );
   }

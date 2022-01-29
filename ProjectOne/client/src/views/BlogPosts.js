@@ -76,7 +76,6 @@ const BlogPosts = () => {
         {!loading && postsListOne.map((post, idx) => (
           <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--1" style={{height: '500px', maxHeight: '500px'}}>
-            <a href={"/blog?id=" + post._id} className="text-fiord-blue">
               <div
                 className="card-post__image"
                 style={{ backgroundImage: `url(${post.backgroundImage})` }}
@@ -97,14 +96,16 @@ const BlogPosts = () => {
                   </a>
                 </div>
               </div>
-              </a>
               <CardBody>
+              <a href={"/blog?id=" + post._id} className="text-fiord-blue">
                 <h5 className="card-title">
-                  <a href={"/blog?id=" + post._id} className="text-fiord-blue">
                     {post.title}
-                  </a>
                 </h5>
-                <p className="card-text d-inline-block mb-3">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '...'}</p>
+              </a>
+                <p className="card-text d-inline-block mb-3">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
+                  <a href={"/blog?id=" + post._id} style={{color: "brown"}}>Read More</a>
+                </p>
+              
               </CardBody>
               <CardFooter>
                 <span className="text-muted">{post.date}</span>
@@ -119,7 +120,6 @@ const BlogPosts = () => {
         {!loading && postsListTwo.map((post, idx) => (
           <Col lg="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--aside card-post--1" style={{height: '250px', maxHeight: '250px'}}>
-            <a href={"/blog?id=" + post._id} className="text-fiord-blue">
               <div
                 className="card-post__image"
                 style={{ backgroundImage: `url('${post.backgroundImage}')`, minHeight: "100%" }}
@@ -141,14 +141,15 @@ const BlogPosts = () => {
                   </a>
                 </div>
               </div>
-              </a>
               <CardBody>
                 <h5 className="card-title">
                   <a className="text-fiord-blue" href={"/blog?id=" + post._id}>
                     {post.title}
                   </a>
                 </h5>
-                <p className="card-text d-inline-block mb-3">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '...'}</p>               
+                <p className="card-text d-inline-block mb-3">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
+                  <a href={"/blog?id=" + post._id} style={{color: "brown"}}>Read More</a>
+                </p>               
                 <span className="text-muted">{post.date}</span>
               </CardBody>
             </Card>
@@ -167,7 +168,9 @@ const BlogPosts = () => {
                     {post.title}
                   </a>
                 </h5>
-                <p className="card-text text-muted">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '...'}</p>
+                <p className="card-text text-muted">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
+                  <a href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</a>
+                </p>
               </CardBody>
               <CardFooter className="border-top d-flex">
                 <div className="card-post__author d-flex">
@@ -204,7 +207,6 @@ const BlogPosts = () => {
         {!loading && postsListFour.map((post, idx) => (
           <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
             <Card small className="card-post card-post--1" style={{height: '500px', maxHeight: '500px'}}>
-            <a href={"/blog?id=" + post._id} className="text-fiord-blue">
               <div
                 className="card-post__image"
                 style={{ backgroundImage: `url(${post.backgroundImage})` }}
@@ -225,14 +227,15 @@ const BlogPosts = () => {
                   </a>
                 </div>
               </div>
-              </a>
               <CardBody>
                 <h5 className="card-title">
                   <a href={"/blog?id=" + post._id} className="text-fiord-blue">
                     {post.title}
                   </a>
                 </h5>
-                <p className="card-text d-inline-block mb-3">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '...'}</p>
+                <p className="card-text d-inline-block mb-3">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
+                  <a href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</a>
+                </p>
               </CardBody>
               <CardFooter>
                 <span className="text-muted">{post.date}</span>

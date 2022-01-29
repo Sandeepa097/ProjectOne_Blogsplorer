@@ -155,12 +155,14 @@ const Draft = ({draftCount, publishCount}) => {
                   </span>{" "}
                   Delete
                 </Button>
-                <Button tag={Link} to="add-new-post" theme="white" onClick={e=> editDraft(draft._id)}>
+                <Link to="add-new-post" style={{textDecoration: 'none'}}>
+                <Button to="add-new-post" theme="white" onClick={e=> editDraft(draft._id)}>
                   <span className="text-light">
                     <i className="material-icons">edit</i>
                   </span>{" "}
                   Edit
                 </Button>
+                </Link>
               </ButtonGroup>
             </div>
           </div>

@@ -41,9 +41,9 @@ const ChatBox = ({socket}) => {
                     className="user-avatar rounded-circle mr-2"
                     style={{width: "25px", height: "25px"}}
                     src={!!chatWith.authorAvatar ? chatWith.authorAvatar : null}
-                    alt={!!chatWith.authorAvatar ? chatWith.firstName : null}
+                    alt={!!chatWith.authorAvatar ? chatWith.fullName : null}
                 />{" "}
-                <span className="d-none d-md-inline-block">{chatWith.firstName + ' ' + chatWith.lastName}</span>
+                <span className="d-none d-md-inline-block">{chatWith.fullName}</span>
                 {!!chatWith.online && <span style={{"color": "green"}}> ●</span>}
             </CardHeader>
             <CardBody>

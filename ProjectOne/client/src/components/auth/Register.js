@@ -96,8 +96,8 @@ const RegisterTest = ({setForm}) => {
                 </FormGroup>
                 <FormGroup className="form-auth">
                     <label className='input-label' htmlFor="password">Password:</label>
-                    <FormInput valid = {user.password === confirmedPass && user.password}
-                        invalid = {user.password !== confirmedPass && confirmedPass}
+                    <FormInput valid = {user.password === confirmedPass && !!user.password}
+                        invalid = {user.password !== confirmedPass && !!confirmedPass}
                         type="password"
                         id="password"
                         placeholder="Password"
@@ -108,8 +108,8 @@ const RegisterTest = ({setForm}) => {
                 </FormGroup>
                 <FormGroup className="form-auth">
                     <label className='input-label' htmlFor="conPassword">Confirm Password:</label>
-                    <FormInput valid = {user.password === confirmedPass && user.password}
-                        invalid = {user.password !== confirmedPass && confirmedPass}
+                    <FormInput valid = {user.password === confirmedPass && !!user.password}
+                        invalid = {user.password !== confirmedPass && !!confirmedPass}
                         type="password"
                         id="conPassword"
                         placeholder="Repeat Password"

@@ -55,11 +55,12 @@ const UserAccountDetails = () => {
   }
 
   const onClickSubmit = async(event) => {
+    let fullName = userDetails.firstName + " " + userDetails.lastName
     event.preventDefault()
     if(!userDetails.authorAvatar) {
       Dispatcher.dispatch({
         actionType: Constants.RECIEVE_USER,
-        payload: {...userDetails, authorAvatar: avatar}
+        payload: {...userDetails, fullName: fullName, authorAvatar: avatar}
       })
       await User.updateUserDetails({...userDetails, authorAvatar: avatar})
     }
@@ -69,7 +70,7 @@ const UserAccountDetails = () => {
       reader.onloadend = async() => {
         Dispatcher.dispatch({
           actionType: Constants.RECIEVE_USER,
-          payload: {...userDetails, authorAvatar: reader.result}
+          payload: {...userDetails, fullName: fullName, authorAvatar: reader.result}
         })
         await User.updateUserDetails({...userDetails, authorAvatar: reader.result})
       }
@@ -176,8 +177,8 @@ const UserAccountDetails = () => {
                     value={userDetails.country}
                     onChange={(e) => onChangeDetails(e, e.target.id)}
                   >
-                    {Country.names().sort().map(item =>
-                      <option>{item}</option>
+                    {Country.names().sort().map((item, idx) =>
+                      <option key={idx}>{item}</option>
                     )}
                   </FormSelect>
                 </Col>

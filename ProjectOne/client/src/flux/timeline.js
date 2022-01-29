@@ -8,6 +8,7 @@ let _userTimeline = {
     authorAvatar: null,
     firstName: "",
     lastName: "",
+    fullName: "",
     description: "",
     address: "",
     city: "",

@@ -1,4 +1,5 @@
 const {body, validationResult} = require('express-validator')
+const safeRegEx = require('safe-regex')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('../utils/config')
@@ -30,6 +31,7 @@ userRouter.post('/', [
         authorAvatar: '',
         firstName: body.firstName,
         lastName: body.lastName,
+        fullName: body.firstName + ' ' + body.lastName,
         email: body.email,
         date: body.date,
         passwordHash,
@@ -73,6 +75,29 @@ userRouter.post('/login', async(request, response) => {
     })
 })
 
+userRouter.post('/search', async(request, response) => {
+    const body = request.body
+    if(!body.value){
+        return response.status(200).send([])
+    }
+
+    if(!safeRegEx(body.value)){
+        return response.status(400).json({error: 'invalid input'})
+    }
+    const regex = new RegExp(body.value, 'gi')
+    await User.find({fullName: regex}, {
+        _id: 1,
+        authorAvatar: 1,
+        fullName: 1,
+        description: 1
+    }).limit(body.limit).exec((err, details) => {
+        if(err){
+            return response.status(400).json({error: 'error occured'})
+        }
+        return response.status(200).send(details)
+    })
+})
+
 userRouter.get('/', async(request, response) => {
     const userId = verifyToken(request)
     if(!userId) {
@@ -85,7 +110,7 @@ userRouter.get('/', async(request, response) => {
 })
 
 userRouter.get('/all', async(_request, response) => {
-    const userDetails = await User.find({}, {authorAvatar:1, firstName:1, lastName:1, id:1})
+    const userDetails = await User.find({}, {authorAvatar:1, fullName:1, id:1})
     return response.status(200).send(userDetails)
 })
 
@@ -94,6 +119,7 @@ userRouter.get('/:id', async(request, response) => {
         authorAvatar: 1, 
         firstName: 1, 
         lastName: 1,
+        fullName: 1,
         address: 1,
         city: 1,
         state: 1,
@@ -110,6 +136,7 @@ userRouter.get('/:id', async(request, response) => {
 
 userRouter.put('/', async(request, response) => {
     const body = {...request.body, 
+        fullName: request.body.firstName + " " + request.body.lastName,
         authorAvatar: await uploadImage(request.body.authorAvatar), 
     }
     const userId = verifyToken(request)

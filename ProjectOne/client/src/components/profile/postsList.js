@@ -87,12 +87,14 @@ const PostList = () => {
                   {/* Content :: Actions */}
                   {mine && <div className="blog-comments__actions">
                     <ButtonGroup size="sm">
-                      <Button theme="white" tag={Link} to={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "") + "&edit=true"}>
+                    <Link to={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "") + "&edit=true"} style={{textDecoration: 'none'}}>
+                      <Button theme="white" >
                         <span className="text-success">
                           <i className="material-icons">edit</i>
                         </span>{" "}
                         Edit
                       </Button>
+                      </Link>
                       <Button theme="white" onClick={() => {onClickMove(item.id, !item.backgroundImage)}}>
                         <span className="text-dark">
                           <i className="material-icons">block</i>

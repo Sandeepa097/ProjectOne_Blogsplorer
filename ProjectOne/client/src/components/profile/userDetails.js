@@ -32,6 +32,7 @@ const setDetails = () => {
       authorAvatar: details.authorAvatar, 
       firstName: details.firstName,
       lastName: details.lastName,
+      fullname: details.fullname,
       address: details.address,
       city: details.city,
       state: details.state,
@@ -47,7 +48,7 @@ const setDetails = () => {
         <img
           className="rounded-circle"
           src={!!userDetails.authorAvatar ? userDetails.authorAvatar : null}
-          alt={!!userDetails.authorAvatar ? userDetails.name : null}
+          alt={!!userDetails.authorAvatar ? userDetails.fullname : null}
           width="110"
         />
       </div>

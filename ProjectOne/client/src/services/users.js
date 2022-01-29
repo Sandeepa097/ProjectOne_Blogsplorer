@@ -71,11 +71,23 @@ const userTimeline = async(id) => {
     }
 }
 
+const userSearch = async(searchString, limit) => {
+    const body = {value: searchString, limit: limit}
+    try{
+        const response = await axios.post(baseUrl + '/search', body)
+        return response.data
+    }
+    catch(error){
+        return []
+    }
+}
+
 export default {
     createAccount, 
     login, 
     userDetails, 
     updateUserDetails, 
     detailsOfAll, 
-    userTimeline
+    userTimeline,
+    userSearch
 }

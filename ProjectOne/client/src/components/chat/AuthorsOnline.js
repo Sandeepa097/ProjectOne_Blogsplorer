@@ -48,17 +48,16 @@ const AuthorsOnline = ({socket}) => {
                             onClick={e => setChatWith({
                                 id: item.id,
                                 authorAvatar: item.authorAvatar,
-                                firstName: item.firstName,
-                                lastName: item.lastName,
+                                fullName: item.fullName,
                                 online: !!author
                         })}>
                             <img
                                 className="user-avatar rounded-circle mr-2"
                                 style={{width: "25px", height: "25px"}}
                                 src={!!item.authorAvatar ? item.authorAvatar : null}
-                                alt={!!item.authorAvatar ? item.firstName : null}
+                                alt={!!item.authorAvatar ? item.fullName : null}
                             />{" "}
-                            <span className="d-none d-md-inline-block">{item.firstName + ' ' + item.lastName}</span>
+                            <span className="d-none d-md-inline-block">{item.fullName}</span>
                             {!!author && <span style={{"color": "green"}}> ●</span>}
                         </Button>
                         </div>

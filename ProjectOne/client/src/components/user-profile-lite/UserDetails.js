@@ -12,7 +12,7 @@ const UserDetails = () => {
   const [completed, setCompleted] = useState(0)
   const [userDetails, setUserDetails] = useState({
     ...UserStore.getUserDetails(),
-    name: UserStore.getUserDetails().firstName + ' ' + UserStore.getUserDetails().lastName,
+    name: UserStore.getUserDetails().fullName,
   })
 
   const countCompleted = (obj) => {
@@ -42,7 +42,7 @@ const UserDetails = () => {
     const details = UserStore.getUserDetails()
     setUserDetails({...userDetails,
       authorAvatar: details.authorAvatar,
-      name: details.firstName + ' ' + details.lastName,
+      name: details.fullName,
       description: details.description,
     })
     setCompleted(countCompleted(details))

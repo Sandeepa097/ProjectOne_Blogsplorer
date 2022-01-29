@@ -6,8 +6,7 @@ import Constants from "./constants"
 let _chatWith = {
     id: "",
     authorAvatar: null,
-    firstName: "",
-    lastName: "",
+    fullName: "",
     online: false
 }
 
