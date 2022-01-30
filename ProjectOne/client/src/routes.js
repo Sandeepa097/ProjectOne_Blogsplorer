@@ -14,6 +14,7 @@ import BlogPosts from "./views/BlogPosts";
 import ProfileView from "./views/ProfileView";
 import Post from "./views/Post";
 import Auth from "./views/Auth"
+import ActivityLog from "./views/ActivityLog";
 
 export default [
   {
@@ -51,6 +52,11 @@ export default [
     path: "/blog-posts",
     layout: DefaultLayout,
     component: BlogPosts
+  },
+  {
+    path: "/activity-log",
+    layout: DefaultLayout,
+    component: ActivityLog
   },
   {
     path: "/user",

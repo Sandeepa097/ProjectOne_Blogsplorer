@@ -6,26 +6,28 @@ import {
     Button,
 } from "shards-react";
 import User from "../../services/users"
-import { Constants, Dispatcher } from '../../flux';
+import { ActiveAuthorStore, Constants, Dispatcher } from '../../flux';
 
-const AuthorsOnline = ({socket}) => {
+const AuthorsOnline = () => {
     const userId = sessionStorage.getItem('userId')
     const [allAuthors, setAllAuthors] = useState([])
     const [activeAuthors, setActiveAuthors] = useState([])
     
     useEffect(() => {
+        ActiveAuthorStore.addChangeListener(setDetails)
         User.detailsOfAll().then(details => {
             setAllAuthors([...details.filter(details => details.id !== userId)])
-            socket.on('join', (data) => {
-                setActiveAuthors([...data.filter(item => item !== userId)])
-            })
-        
-            socket.on('user disconnect', (data) => {
-                setActiveAuthors([...activeAuthors.filter(item => item !== data)])
-            })
         })
 
+        return(() => {
+            ActiveAuthorStore.removeChangeListener(setDetails)
+        })
     }, [])
+
+    const setDetails = () => {
+        const details = ActiveAuthorStore.getActive()
+        setActiveAuthors([...details])
+    }
 
     const setChatWith = (details) => {
         Dispatcher.dispatch({
@@ -51,12 +53,14 @@ const AuthorsOnline = ({socket}) => {
                                 fullName: item.fullName,
                                 online: !!author
                         })}>
-                            <img
+                            {!!item.authorAvatar && <img
                                 className="user-avatar rounded-circle mr-2"
                                 style={{width: "25px", height: "25px"}}
-                                src={!!item.authorAvatar ? item.authorAvatar : null}
-                                alt={!!item.authorAvatar ? item.fullName : null}
-                            />{" "}
+                                src={item.authorAvatar}
+                                alt={item.fullName}
+                            />}
+                            {!item.authorAvatar && <i className="material-icons mr-2" style={{fontSize: "25px", verticalAlign: "middle"}}>account_circle</i>}
+                            {" "}
                             <span className="d-none d-md-inline-block">{item.fullName}</span>
                             {!!author && <span style={{"color": "green"}}> ●</span>}
                         </Button>

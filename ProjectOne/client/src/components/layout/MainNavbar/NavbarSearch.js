@@ -111,7 +111,7 @@ const NavbarSearch = () => {
       </Form>
       <Collapse open={!!searchValue} className="dropdown-menu" style={{width: "60%"}}>
         {(filterList.selected === "authors" || filterList.selected === "all") && <div>
-          <h5 style={{paddingLeft: "5%"}}>Users</h5>
+          <h5 style={{paddingLeft: "5%"}}>Authors</h5>
           {!results.users.length && <p style={{paddingLeft: "5%"}}>Nothing to show...</p>}
           {!!results.users.length && results.users.map((item, idx) => (
             <Link key={idx} to={"/user?id=" + item.id} style={{textDecoration: 'none'}}>

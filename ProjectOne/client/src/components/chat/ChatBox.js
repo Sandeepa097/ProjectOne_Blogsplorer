@@ -37,12 +37,14 @@ const ChatBox = ({socket}) => {
     return (
         <Card small className="mb-3">
             <CardHeader>
-                <img
+            {!!chatWith.authorAvatar && <img
                     className="user-avatar rounded-circle mr-2"
-                    style={{width: "25px", height: "25px"}}
-                    src={!!chatWith.authorAvatar ? chatWith.authorAvatar : null}
-                    alt={!!chatWith.authorAvatar ? chatWith.fullName : null}
-                />{" "}
+                    style={{width: "35px", height: "35px"}}
+                    src={chatWith.authorAvatar}
+                    alt={chatWith.fullName}
+                />}
+                {!chatWith.authorAvatar && <i className="material-icons mr-2" style={{fontSize: "35px", verticalAlign: "middle"}}>account_circle</i>}
+                {" "}
                 <span className="d-none d-md-inline-block">{chatWith.fullName}</span>
                 {!!chatWith.online && <span style={{"color": "green"}}> ●</span>}
             </CardHeader>

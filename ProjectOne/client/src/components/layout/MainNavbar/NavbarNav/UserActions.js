@@ -78,6 +78,11 @@ const UserActions = () => {
           <i className="material-icons">&#xE8B8;</i> Edit Profile
         </DropdownItem>
         </Link>
+        <Link to="activity-log" style={{textDecoration: 'none'}}>
+        <DropdownItem>
+          <i className="material-icons">&#xE873;</i> Activity Log
+        </DropdownItem>
+        </Link>
         <DropdownItem divider />
         <Link to="register" style={{textDecoration: 'none'}}>
         <DropdownItem className="text-danger" onClick = {onClickLogout}>

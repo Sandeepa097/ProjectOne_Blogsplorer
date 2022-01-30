@@ -5,7 +5,7 @@ import routes from "./routes";
 import withTracker from "./withTracker";
 import SocketContex from "./websocket/socketContext";
 import socket from "./websocket/webSocket"
-import { UserStore } from "./flux";
+import { UserStore, Constants, Dispatcher } from "./flux";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
@@ -15,6 +15,20 @@ const App = () => {
 
   useEffect(() => {
     UserStore.addChangeListener(setChange)
+
+    socket.on('join', (data) => {
+      Dispatcher.dispatch({
+        actionType: Constants.RECIEVE_ACTIVE,
+        payload: data
+      })
+    })
+    socket.on('user disconnect', (data) => {
+      Dispatcher.dispatch({
+        actionType: Constants.REMOVE_ACTIVE,
+        payload: data
+      })
+    })
+
     return () => {
       UserStore.removeChangeListener(setChange)
     }

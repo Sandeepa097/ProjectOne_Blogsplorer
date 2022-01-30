@@ -102,9 +102,9 @@ const BlogPosts = () => {
                     {post.title}
                 </h5>
               </a>
-                <p className="card-text d-inline-block mb-3">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
-                  <a href={"/blog?id=" + post._id} style={{color: "brown"}}>Read More</a>
+                <p className="card-text d-inline-block mb-3">{post.body.slice(0, (110 - post.title.length)).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
                 </p>
+                <a href={"/blog?id=" + post._id} style={{color: "brown"}}>Read More</a>
               
               </CardBody>
               <CardFooter>
@@ -147,10 +147,14 @@ const BlogPosts = () => {
                     {post.title}
                   </a>
                 </h5>
-                <p className="card-text d-inline-block mb-3">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
+                <p className="card-text d-inline-block mb-3">{post.body.slice(0, (125 - post.title.length)).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
+                </p> 
+                <p>
                   <a href={"/blog?id=" + post._id} style={{color: "brown"}}>Read More</a>
-                </p>               
-                <span className="text-muted">{post.date}</span>
+                </p>       
+                <p>     
+                  <span className="text-muted">{post.date}</span>
+                </p>  
               </CardBody>
             </Card>
           </Col>
@@ -168,9 +172,9 @@ const BlogPosts = () => {
                     {post.title}
                   </a>
                 </h5>
-                <p className="card-text text-muted">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
-                  <a href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</a>
+                <p className="card-text text-muted">{post.body.slice(0, (110 - post.title.length)).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
                 </p>
+                <a href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</a>
               </CardBody>
               <CardFooter className="border-top d-flex">
                 <div className="card-post__author d-flex">
@@ -233,9 +237,9 @@ const BlogPosts = () => {
                     {post.title}
                   </a>
                 </h5>
-                <p className="card-text d-inline-block mb-3">{post.body.slice(0, 100).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
-                  <a href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</a>
+                <p className="card-text d-inline-block mb-3">{post.body.slice(0, (110 - post.title.length)).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
                 </p>
+                <a href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</a>
               </CardBody>
               <CardFooter>
                 <span className="text-muted">{post.date}</span>
