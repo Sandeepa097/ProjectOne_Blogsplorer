@@ -54,6 +54,10 @@ const UserActions = () => {
       actionType: Constants.USER_LOGOUT,
       payload: ""
     })
+    Dispatcher.dispatch({
+      actionType: Constants.LOGGED,
+      payload: false
+    })
   }
 
   return (

@@ -39,8 +39,8 @@ const LoginTest = ({setForm}) => {
         }
         if(logged.id){
             Dispatcher.dispatch({
-                actionType: Constants.RECIEVE_USER,
-                payload: {id: logged.id}
+                actionType: Constants.LOGGED,
+                payload: true
               })
         }
     }

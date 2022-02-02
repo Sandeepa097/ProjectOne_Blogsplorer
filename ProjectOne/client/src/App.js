@@ -5,7 +5,7 @@ import routes from "./routes";
 import withTracker from "./withTracker";
 import SocketContex from "./websocket/socketContext";
 import socket from "./websocket/webSocket"
-import { UserStore, Constants, Dispatcher } from "./flux";
+import { LoginStore,  Constants, Dispatcher } from "./flux";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
@@ -14,7 +14,7 @@ const App = () => {
   const [authed, setAuthed] = useState(!!sessionStorage.getItem("userId"))
 
   useEffect(() => {
-    UserStore.addChangeListener(setChange)
+    LoginStore.addChangeListener(setChange)
 
     socket.on('join', (data) => {
       Dispatcher.dispatch({
@@ -30,12 +30,12 @@ const App = () => {
     })
 
     return () => {
-      UserStore.removeChangeListener(setChange)
+      LoginStore.removeChangeListener(setChange)
     }
   }, []) 
 
   const setChange = () => {
-    const isAuth = !!UserStore.getUserDetails().id
+    const isAuth = LoginStore.getLoginStatus()
     setAuthed(isAuth)
   }
  

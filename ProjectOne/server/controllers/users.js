@@ -5,8 +5,10 @@ const jwt = require('jsonwebtoken')
 const config = require('../utils/config')
 const userRouter = require('express').Router()
 const User = require('../models/user')
+const Log = require('../models/activitylog')
 const {verifyToken} = require('../utils/token')
 const {uploadImage} = require('../utils/upload')
+const {updateLog} = require('../utils/updateLog')
 
 userRouter.post('/', [
     body('firstName').isString().not().isEmpty().withMessage("First Name is required"),
@@ -33,6 +35,16 @@ userRouter.post('/', [
         lastName: body.lastName,
         fullName: body.firstName + ' ' + body.lastName,
         email: body.email,
+        address: '',
+        city: '',
+        state: '',
+        country: '',
+        description: '',
+        draft: [],
+        published: {
+            blog: [],
+            blogNoImage: []
+        },
         date: body.date,
         passwordHash,
     })
@@ -44,6 +56,12 @@ userRouter.post('/', [
     }
 
     const token = jwt.sign(userForToken, config.SECRET)
+
+    const newLogAcc = new Log({
+        author: savedUser._id
+    })
+    await newLogAcc.save()
+    updateLog(userId, "profile", {title: "Account was created..", date: Date()})
 
     return response.status(200).send({
         token,
@@ -68,6 +86,7 @@ userRouter.post('/login', async(request, response) => {
     }
 
     const token = jwt.sign(userForToken, config.SECRET)
+    updateLog(user.id, "profile", {title: "Successfully logged in..", date: Date()})
 
     return response.status(200).send({
         token,
@@ -146,9 +165,12 @@ userRouter.put('/', async(request, response) => {
         })
     }
     
+    
     if(body.authorAvatar === "error"){
         return response.status(400).json({error: 'error on uploading profile picture...'})
     }
+
+    updateLog(userId, "profile", {title: "Profile was updated..", date: Date()})
 
     const user = await User.findByIdAndUpdate(userId, body)
     return response.json(user)

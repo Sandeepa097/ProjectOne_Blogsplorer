@@ -1,13 +1,48 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Container, Row, Col, Button, ListGroup, ListGroupItem } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
+import Log from "../services/activitylogs";
 
 const ActivityLog = () => {
+  const [count, setCount] = useState(1)
+  const [logs, setLogs] = useState([])
   const [active, setActive] = useState({
     publications: true,
     draft: false,
     profile: false
   })
+
+  useEffect(() => {
+    let activated
+    for(const item in active){
+      if(active[item]){
+        activated = item
+        break;
+      }
+      continue;
+    }
+
+    Log.getLogs(activated, count).then(details => {
+      setCount(details.count)
+      setLogs([...details.data])
+    })
+  }, [active])
+
+  const onChangeActive = (name) => {
+    let activated
+    for(const item in active){
+      if(active[item]){
+        activated = item
+        break;
+      }
+      continue;
+    }
+    setActive({
+      ...active,
+      [activated]: false,
+      [name]: true
+    })
+  }
 
   return (
     <Container fluid className="main-content-container px-4">
@@ -22,7 +57,7 @@ const ActivityLog = () => {
             disabled = {active.publications}
             size="md" 
             theme="dark"
-            onClick = {() => setActive({...active, publications: true, draft: false, profile: false})}>
+            onClick = {() => onChangeActive("publications")}>
               Publications</Button>
           <Button 
             squared 
@@ -30,7 +65,7 @@ const ActivityLog = () => {
             disabled = {active.draft}
             size="md" 
             theme="dark"
-            onClick = {() => setActive({...active, publications: false, draft: true, profile: false})}>
+            onClick = {() => onChangeActive("draft")}>
               Draft</Button>
           <Button 
             squared 
@@ -38,7 +73,7 @@ const ActivityLog = () => {
             disabled = {active.profile}
             size="md" 
             theme="dark"
-            onClick = {() => setActive({...active, publications: false, draft: false, profile: true})}>
+            onClick = {() => onChangeActive("profile")}>
               Profile</Button>
           <span style={{paddingLeft: "15px"}}>
           <Button 
@@ -52,21 +87,13 @@ const ActivityLog = () => {
       <Row style={{paddingTop: "10px", paddingBottom: "10px"}}>
         <Col>
           <ListGroup>
-            <ListGroupItem>
-              <h5>12 Oct, 2021</h5>
-              <p>Cras justo odio</p>
-              <Button pill outline size="sm" theme="secondary"><i className="material-icons" style={{fontSize: "18px"}}>delete_forever</i></Button>
-            </ListGroupItem>
-            <ListGroupItem>
-              <h5>15 Dec, 2021</h5>
-              <p>Dapibus ac facilisis in</p>
-              <Button pill outline size="sm" theme="secondary"><i className="material-icons" style={{fontSize: "18px"}}>delete_forever</i></Button>
-            </ListGroupItem>
-            <ListGroupItem>
-              <h5>16 Jan, 2022</h5>
-              <p>Porta ac consectetur ac</p>
-              <Button pill outline size="sm" theme="secondary"><i className="material-icons" style={{fontSize: "18px"}}>delete_forever</i></Button>
-            </ListGroupItem>
+            {logs.reverse().map((item, idx) => (
+              <ListGroupItem key={idx}>
+                <h5>{item.date}</h5>
+                <p>{item.title}</p>
+                <Button pill outline size="sm" theme="secondary"><i className="material-icons" style={{fontSize: "18px"}}>delete_forever</i></Button>
+              </ListGroupItem>
+            ))}
           </ListGroup>
         </Col>
       </Row>

@@ -18,7 +18,7 @@ const createAccount = async(newUser) => {
 
 const login = async(userCredentials) => {
     try{
-        const response = await axios.post(baseUrl + '/login', userCredentials)
+        const response = await axios.post(`${baseUrl}/login`, userCredentials)
         sessionStorage.setItem("token", `bearer ${response.data.token}`)
         sessionStorage.setItem("userId", response.data.id)
         delete response.data.token
@@ -57,13 +57,13 @@ const updateUserDetails = async(updates) => {
 }
 
 const detailsOfAll = async() => {
-    const response = await axios.get(baseUrl + '/all')
+    const response = await axios.get(`${baseUrl}/all`)
     return response.data
 }
 
 const userTimeline = async(id) => {
     try{
-        const response = await axios.get(baseUrl + '/' + id)
+        const response = await axios.get(`${baseUrl}/${id}`)
         return response.data
     }
     catch(error){
@@ -74,7 +74,7 @@ const userTimeline = async(id) => {
 const userSearch = async(searchString, limit) => {
     const body = {value: searchString, limit: limit}
     try{
-        const response = await axios.post(baseUrl + '/search', body)
+        const response = await axios.post(`${baseUrl}/search`, body)
         return response.data
     }
     catch(error){

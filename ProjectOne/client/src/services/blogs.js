@@ -21,7 +21,7 @@ const newPostPublished = async(newPost) => {
 }
 
 const getPostsPublished = async(pageNumber) => {
-    const response = await axios.get(publishUrl+ '/' + pageNumber)
+    const response = await axios.get(`${publishUrl}/${pageNumber}`)
     return response.data
 }
 
@@ -44,7 +44,7 @@ const deletePostDraft = async(id) => {
         return {}
     }
     try {
-        const response = await axios.delete(draftUrl + '/' + id, config)
+        const response = await axios.delete(`${draftUrl}/${id}`, config)
         return response.data
     } catch(error) {
         return {error: error.response.data.error}
@@ -57,7 +57,7 @@ const getPostsDraft = async(limit) => {
         return {}
     }
     try {
-        const response = await axios.get(draftUrl + '/' + limit, config)
+        const response = await axios.get(`${draftUrl}/${limit}`, config)
         return response.data
     } catch(error) {
         return {error: error.response.data.error}
@@ -71,7 +71,7 @@ const publishPostFromDraft = async(id) => {
         return {}
     }
     try {
-        const response = await axios.get(draftUrl + '/publish/' + id, config)
+        const response = await axios.get(`${draftUrl}/publish/${id}`, config)
         return response.data
     } catch(error) {
         return {error: error.response.data.error}
@@ -82,7 +82,7 @@ const publishPostFromDraft = async(id) => {
 const blog = async(id, ni) => {
     try{
         const param = ni ? '/published/' : '/ipublished/'
-        const response = await axios.get(publishUrl + param + id)
+        const response = await axios.get(`${publishUrl}${param}${id}`)
         return response.data
     }
     catch(error){
@@ -98,7 +98,7 @@ const deleteBlog = async(id, ni) => {
 
     try{
         const param = ni ? '/published/' : '/ipublished/'
-        const response = await axios.delete(publishUrl + param + id, config)
+        const response = await axios.delete(`${publishUrl}${param}${id}`, config)
         return response.data
     }
     catch(error){
@@ -124,7 +124,7 @@ const editBlog = async(id, ni, post) => {
     }
     try{
         const param = ni ? '/published/' : '/ipublished/'
-        const response = await axios.put(publishUrl + param + id, post, config)
+        const response = await axios.put(`${publishUrl}${param}${id}`, post, config)
         return response.data
     }
     catch(error){
@@ -135,7 +135,7 @@ const editBlog = async(id, ni, post) => {
 const blogSearch = async(searchString, limit) => {
     const body = {value: searchString, limit: limit}
     try{
-        const response = await axios.post(publishUrl + '/search', body)
+        const response = await axios.post(`${publishUrl}/search`, body)
         return response.data
     }
     catch(error){

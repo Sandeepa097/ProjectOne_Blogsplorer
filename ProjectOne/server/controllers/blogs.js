@@ -7,6 +7,7 @@ const BlogNoImage = require('../models/blogNoImage')
 const {uploadImage} = require('../utils/upload')
 const {verifyToken} = require('../utils/token')
 const {setArrayCategory} = require('../utils/category')
+const {updateLog} = require('../utils/updateLog')
 
 const categoryThemes = ["primary", "secondary", "success", "info", "warning", "danger", "royal-blue", "dark"]
 
@@ -87,6 +88,8 @@ blogsRouter.post('/', [body('title').isString().not().isEmpty()], async(request,
         return response.status(400).json({error: 'error on image uploading...'})
     }
 
+    updateLog(userId, "publications", {title: `New post published.. ${body.title}`, date: Date()})
+
     if(!body.backgroundImage) {
         const newBlogNoImage = new BlogNoImage({
             category: body.category,
@@ -157,7 +160,7 @@ blogsRouter.delete('/ipublished/:id', async (request, response) => {
         })
     }
 
-    await Blog.findByIdAndDelete(request.params.id).exec(async(err) => {
+    await Blog.findByIdAndDelete(request.params.id).exec(async(err, details) => {
         if(err){
             return response.status(404).json({error: "Invalid url"})
         }
@@ -166,6 +169,7 @@ blogsRouter.delete('/ipublished/:id', async (request, response) => {
                 "published.blog": request.params.id
             }
         })
+        updateLog(userId, "publications", {title: `A publication removed.. ${details.title}`, date: Date()})
         return response.status(204).end()
     })
 })
@@ -178,7 +182,7 @@ blogsRouter.delete('/published/:id', async(request, response)=> {
         })
     }
 
-    await BlogNoImage.findByIdAndDelete(request.params.id).exec(async(err) => {
+    await BlogNoImage.findByIdAndDelete(request.params.id).exec(async(err, details) => {
         if(err){
             return response.status(404).json({error: "Invalid url"})
         }
@@ -187,26 +191,41 @@ blogsRouter.delete('/published/:id', async(request, response)=> {
                 "published.blogNoImage": request.params.id
             }
         })
+        updateLog(userId, "publications", {title: `Post deletion.. ${details.title}`, date: Date()})
         return response.status(204).end()
     })
 })
 
 blogsRouter.put('/ipublished/:id', async (request, response) => {
+    const userId = verifyToken(request)
+    if(!userId) {
+        return response.status(401).json({
+            error: 'token missing or invalid'
+        })
+    }
     const body = request.body
-    await Blog.findByIdAndUpdate(request.params.id, body).exec((err) => {
+    await Blog.findByIdAndUpdate(request.params.id, body).exec((err, details) => {
         if(err){
             return response.status(404).json({error: "Invalid request"})
         }
+        updateLog(userId, "publications", {title: `Post is edited.. ${details.title}`, date: Date()})
         return response.status(200).end()
     })
 })
 
 blogsRouter.put('/published/:id', async (request, response) => {
+    const userId = verifyToken(request)
+    if(!userId) {
+        return response.status(401).json({
+            error: 'token missing or invalid'
+        })
+    }
     const body = request.body
-    await BlogNoImage.findByIdAndUpdate(request.params.id, body).exec((err) => {
+    await BlogNoImage.findByIdAndUpdate(request.params.id, body).exec((err, details) => {
         if(err){
             return response.status(404).json({error: "Invalid request"})
         }
+        updateLog(userId, "publications", {title: `Post is edited.. ${details.title}`, date: Date()})
         return response.status(200).end()
     })
 }) 

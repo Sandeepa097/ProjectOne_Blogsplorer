@@ -21,8 +21,15 @@ const UserAccountDetails = () => {
   const title = "Account Details"
 
   const [userDetails, setUserDetails] = useState({
-    ...UserStore.getUserDetails(),
-    authorAvatar: null
+    authorAvatar: null,
+    firstName: UserStore.getUserDetails().firstName,
+    lastName: UserStore.getUserDetails().lastName,
+    email: UserStore.getUserDetails().email,
+    address: UserStore.getUserDetails().address,
+    city: UserStore.getUserDetails().city,
+    state: UserStore.getUserDetails().state,
+    country: UserStore.getUserDetails().country,
+    description: UserStore.getUserDetails().description
   })
   const [avatar, setAvatar] = useState('')
 

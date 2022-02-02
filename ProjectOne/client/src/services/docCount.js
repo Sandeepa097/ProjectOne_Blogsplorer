@@ -4,7 +4,7 @@ import Headers from './setHeaders'
 const baseUrl = `${process.env.REACT_APP_BASE_URL}/count`
 
 const totalPosts = async() => {
-    const response = await axios.get(baseUrl + '/posts')
+    const response = await axios.get(`${baseUrl}/posts`)
     return response.data
 }
 
@@ -13,7 +13,7 @@ const youPublished = async() => {
     if(!config) {
         return {}
     }
-    const response = await axios.get(baseUrl + '/published', config)
+    const response = await axios.get(`${baseUrl}/published`, config)
     return response.data
 }
 
@@ -22,12 +22,12 @@ const yourDraft = async() => {
     if(!config) {
         return {}
     }
-    const response = await axios.get(baseUrl + '/draft', config)
+    const response = await axios.get(`${baseUrl}/draft`, config)
     return response.data
 }
 
 const authors = async() => {
-    const response = await axios.get(baseUrl + '/author')
+    const response = await axios.get(`${baseUrl}/author`)
     return response.data
 }
 
