@@ -88,7 +88,7 @@ blogsRouter.post('/', [body('title').isString().not().isEmpty()], async(request,
         return response.status(400).json({error: 'error on image uploading...'})
     }
 
-    updateLog(userId, "publications", {title: `New post published.. ${body.title}`, date: Date()})
+    updateLog(userId, "publications", {title: `New post published.. \"${body.title}\"`, date: Date()})
 
     if(!body.backgroundImage) {
         const newBlogNoImage = new BlogNoImage({
@@ -169,7 +169,7 @@ blogsRouter.delete('/ipublished/:id', async (request, response) => {
                 "published.blog": request.params.id
             }
         })
-        updateLog(userId, "publications", {title: `A publication removed.. ${details.title}`, date: Date()})
+        updateLog(userId, "publications", {title: `A publication removed.. \"${details.title}\"`, date: Date()})
         return response.status(204).end()
     })
 })
@@ -191,7 +191,7 @@ blogsRouter.delete('/published/:id', async(request, response)=> {
                 "published.blogNoImage": request.params.id
             }
         })
-        updateLog(userId, "publications", {title: `Post deletion.. ${details.title}`, date: Date()})
+        updateLog(userId, "publications", {title: `Post deletion.. \"${details.title}\"`, date: Date()})
         return response.status(204).end()
     })
 })
@@ -208,7 +208,7 @@ blogsRouter.put('/ipublished/:id', async (request, response) => {
         if(err){
             return response.status(404).json({error: "Invalid request"})
         }
-        updateLog(userId, "publications", {title: `Post is edited.. ${details.title}`, date: Date()})
+        updateLog(userId, "publications", {title: `Post is edited.. \"${details.title}\"`, date: Date()})
         return response.status(200).end()
     })
 })
@@ -225,7 +225,7 @@ blogsRouter.put('/published/:id', async (request, response) => {
         if(err){
             return response.status(404).json({error: "Invalid request"})
         }
-        updateLog(userId, "publications", {title: `Post is edited.. ${details.title}`, date: Date()})
+        updateLog(userId, "publications", {title: `Post is edited.. \"${details.title}\"`, date: Date()})
         return response.status(200).end()
     })
 }) 

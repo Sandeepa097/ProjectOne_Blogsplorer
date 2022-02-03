@@ -4,7 +4,7 @@ const Log = require('../models/activitylog')
 const {verifyToken} = require('../utils/token')
 
 logRouter.get('/publications/:pageNum', async(request, response) => {
-    const skipValue = (request.params.pageNum - 1) * 10
+    const skipValue = request.params.pageNum * 10
     const userId = verifyToken(request)
     const objectId = mongoose.Types.ObjectId(userId)
     if(!userId) {
@@ -25,13 +25,16 @@ logRouter.get('/publications/:pageNum', async(request, response) => {
             }
         }
     ])
-
-    const logs = await Log.find({author: userId}, {publications: {$slice: [skipValue, 10]}})
+    if(!countLogs[0].count){
+        return response.status(200).send({count: 0, data: []})
+    }
+    const value = (countLogs[0].count - (skipValue - 10)) < 10 ? (countLogs[0].count - (skipValue - 10)) : 10
+    const logs = await Log.find({author: userId}, {"publications": {$slice: [-skipValue, value]}})
     return response.status(200).send({count: countLogs[0].count, data: logs[0].publications})
 })
 
 logRouter.get('/draft/:pageNum', async(request, response) => {
-    const skipValue = (request.params.pageNum - 1) * 10
+    const skipValue = request.params.pageNum * 10
     const userId = verifyToken(request)
     const objectId = mongoose.Types.ObjectId(userId)
     if(!userId) {
@@ -51,12 +54,16 @@ logRouter.get('/draft/:pageNum', async(request, response) => {
             }
         }
     ])
-    const logs = await Log.find({author: userId}, {"draft": {$slice: [skipValue, 10]}})
+    if(!countLogs[0].count){
+        return response.status(200).send({count: 0, data: []})
+    }
+    const value = (countLogs[0].count - (skipValue - 10)) < 10 ? (countLogs[0].count - (skipValue - 10)) : 10
+    const logs = await Log.find({author: userId}, {"draft": {$slice: [-skipValue, value]}})
     return response.status(200).send({count: countLogs[0].count, data: logs[0].draft})
 })
 
 logRouter.get('/profile/:pageNum', async(request, response) => {
-    const skipValue = (request.params.pageNum - 1) * 10
+    const skipValue = request.params.pageNum * 10
     const userId = verifyToken(request)
     const objectId = mongoose.Types.ObjectId(userId)
     if(!userId) {
@@ -76,7 +83,11 @@ logRouter.get('/profile/:pageNum', async(request, response) => {
             }
         }
     ])
-    const logs = await Log.find({author: userId}, {"profile": {$slice: [skipValue, 10]}})
+    if(!countLogs[0].count){
+        return response.status(200).send({count: 0, data: []})
+    }
+    const value = (countLogs[0].count - (skipValue - 10)) < 10 ? (countLogs[0].count - (skipValue - 10)) : 10
+    const logs = await Log.find({author: userId}, {"profile": {$slice: [-skipValue, value]}})
     return response.status(200).send({count: countLogs[0].count, data: logs[0].profile})
 })
 

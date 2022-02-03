@@ -27,7 +27,7 @@ draftRouter.put('/', async(request, response) => {
             error: 'token missing or invalid'
         })
     }
-    updateLog(userId, "draft", {title: `New post added to draft.. ${body.title}`, date: Date()})
+    updateLog(userId, "draft", {title: `New post added to draft.. \"${body.title}\"`, date: Date()})
 
     await User.findByIdAndUpdate(userId, {
         $push: {
@@ -75,7 +75,7 @@ draftRouter.delete('/:id', async(request, response) => {
             $elemMatch: {_id: request.params.id}
         }
     })
-    updateLog(userId, "draft", {title: `Post deletion.. ${post.draft[0].title}`, date: Date()})
+    updateLog(userId, "draft", {title: `Post deletion.. \"${post.draft[0].title}\"`, date: Date()})
 
     await User.updateOne({_id: userId}, {$pull: {draft: {_id: request.params.id}}})
     return response.status(204).end()
@@ -103,7 +103,7 @@ draftRouter.get('/publish/:id', async(request, response) => {
     try{
         await axios.post(`${config.SERVER_URL + config.PORT}/api/blogs`, post.draft[0], conf)
         await User.updateOne({_id: userId}, {$pull: {draft: {_id: request.params.id}}})
-        updateLog(userId, "draft", {title: `Post is published.. ${post.draft[0].title}`, date: Date()})
+        updateLog(userId, "draft", {title: `Post is published.. \"${post.draft[0].title}\"`, date: Date()})
 
         return response.status(200).end()
     } 
