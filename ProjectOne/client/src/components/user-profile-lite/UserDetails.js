@@ -17,7 +17,7 @@ const UserDetails = () => {
 
   const countCompleted = (obj) => {
     let complete = 0;
-    let length = 9;
+    let length = 10;
     for (const item in obj) {
       if(item === 'draft' || item === 'published' || item === 'id' || item === 'date') {
         continue

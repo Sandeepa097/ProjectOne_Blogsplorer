@@ -8,6 +8,8 @@ import ActiveAuthorStore from "./activeAuthorStore"
 import ChatStore from "./chatStore"
 import AddPostStore from "./addPostStore"
 import UserTimeline from "./timeline"
+import NotificationsStore from "./notificationsStore"
+
 
 export {
   Constants,
@@ -19,5 +21,6 @@ export {
   ActiveAuthorStore,
   ChatStore,
   AddPostStore,
-  UserTimeline
+  UserTimeline,
+  NotificationsStore
 };

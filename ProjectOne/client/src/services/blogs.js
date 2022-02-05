@@ -1,5 +1,7 @@
 import axios from 'axios'
 import Headers from './setHeaders'
+import socket from "../websocket/webSocket"
+import { UserStore } from '../flux'
 
 const baseurl = process.env.REACT_APP_BASE_URL
 const draftUrl = `${baseurl}/api/draft`
@@ -13,6 +15,18 @@ const newPostPublished = async(newPost) => {
     }
     try{
         const response = await axios.post(publishUrl, newPost, config)
+        const data = response.data
+        socket.emit("notify", {
+            categType: "New Post",
+            title: data.title, 
+            id: data.id, 
+            postURL: `/blog?id=${data.id}${!data.backgroundImage ? '&ni=true': ''}`,
+            author: data.author, 
+            authorName: UserStore.getUserDetails().fullName,
+            authorURL: `/user?id=${data.author}`,
+            authorAvatar: UserStore.getUserDetails().authorAvatar,
+            backgroundImage: data.backgroundImage
+        })
         return response.data
     }
     catch(error){

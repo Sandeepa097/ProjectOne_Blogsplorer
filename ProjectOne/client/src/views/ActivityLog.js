@@ -41,6 +41,7 @@ const ActivityLog = () => {
 
   const onChangeActive = (name) => {
     let activated = findActivated()
+    setPageNum(1)
     setActive({
       ...active,
       [activated]: false,

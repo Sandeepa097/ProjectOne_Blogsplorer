@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Container, Row, Col } from "shards-react";
+import { Container, Row, Col, Button, DropdownToggle } from "shards-react";
 import PageTitle from "./../components/common/PageTitle";
 import SmallStats from "./../components/common/SmallStats";
 import NewDraft from "./../components/blog/NewDraft";
@@ -8,18 +8,32 @@ import Count from '../services/docCount'
 import LoadingIndicator from "../components/common/LoadingIndicator";
 
 const BlogOverview = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
+  const [showDocCounts, setShowDocCount] = useState(false)
   const [smallStats, setSmallStats] = useState([])
 
   useEffect(() => {
-    setLoading(true)
-    Count.docCount().then(stats => {
-      setSmallStats([...smallStats, ...stats])
+    if(showDocCounts) {
+      setLoading(true)
+      Count.docCount().then(stats => {
+        setSmallStats([...smallStats, ...stats])
+        setLoading(false)
+      })
+    }
+    else{
+      setSmallStats([])
       setLoading(false)
-    })
-  }, [])
+    }
+  }, [showDocCounts])
+
+  const toggleShowDocCounts = () => {
+    setShowDocCount(!showDocCounts)
+  }
 
   const changeDraftCount = (num) => {
+    if(loading){
+      return null
+    }
     const index = smallStats.findIndex(item => item.label === 'Your Draft')
     let obj = smallStats[index]
     obj.value = Number(smallStats[index].value) + num
@@ -27,6 +41,9 @@ const BlogOverview = () => {
   }
 
   const changePublishCount = (num) => {
+    if(loading){
+      return null
+    }
     const index = smallStats.findIndex(item => item.label === 'You Published')
     let obj = smallStats[index]
     obj.value = Number(smallStats[index].value) + num
@@ -40,9 +57,22 @@ const BlogOverview = () => {
       <PageTitle title="Blog Overview" subtitle="Dashboard" className="text-sm-left mb-3" />
     </Row>
 
+    <Row>
+      <Col className="col-lg mb-4">
+        {!showDocCounts && <Button outline theme="success" onClick={() =>toggleShowDocCounts()}>
+          Show Counts &#38; Charts <i className="material-icons">arrow_drop_down</i>
+        </Button>}
+        {showDocCounts && <Button outline theme="danger" onClick={() =>toggleShowDocCounts()}>
+          Hide Counts &#38; Charts <i className="material-icons">arrow_drop_up</i>
+        </Button>}
+      </Col>
+    </Row>
+
     {/* Small Stats Blocks */}
     <Row>
-      {loading && <LoadingIndicator />}
+      {loading && <Col className="col-lg mb-4">
+        <LoadingIndicator />
+      </Col>}
       {!loading && smallStats.map((stats, idx) => (
         <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
           <SmallStats

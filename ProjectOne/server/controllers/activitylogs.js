@@ -29,8 +29,13 @@ logRouter.get('/publications/:pageNum', async(request, response) => {
         return response.status(200).send({count: 0, data: []})
     }
     const value = (countLogs[0].count - (skipValue - 10)) < 10 ? (countLogs[0].count - (skipValue - 10)) : 10
-    const logs = await Log.find({author: userId}, {"publications": {$slice: [-skipValue, value]}})
-    return response.status(200).send({count: countLogs[0].count, data: logs[0].publications})
+    await Log.find({author: userId}, {"publications": {$slice: [-skipValue, value]}}).exec((err, logs) => {
+        if(err){
+            return response.status(400).json({count: 0, data: []})
+        }
+        return response.status(200).send({count: countLogs[0].count, data: logs[0].publications})
+    })
+    
 })
 
 logRouter.get('/draft/:pageNum', async(request, response) => {
@@ -58,8 +63,12 @@ logRouter.get('/draft/:pageNum', async(request, response) => {
         return response.status(200).send({count: 0, data: []})
     }
     const value = (countLogs[0].count - (skipValue - 10)) < 10 ? (countLogs[0].count - (skipValue - 10)) : 10
-    const logs = await Log.find({author: userId}, {"draft": {$slice: [-skipValue, value]}})
-    return response.status(200).send({count: countLogs[0].count, data: logs[0].draft})
+    await Log.find({author: userId}, {"draft": {$slice: [-skipValue, value]}}).exec((err, logs) => {
+        if(err){
+            return response.status(400).json({count: 0, data: []})
+        }
+        return response.status(200).send({count: countLogs[0].count, data: logs[0].draft})
+    })
 })
 
 logRouter.get('/profile/:pageNum', async(request, response) => {
@@ -87,8 +96,12 @@ logRouter.get('/profile/:pageNum', async(request, response) => {
         return response.status(200).send({count: 0, data: []})
     }
     const value = (countLogs[0].count - (skipValue - 10)) < 10 ? (countLogs[0].count - (skipValue - 10)) : 10
-    const logs = await Log.find({author: userId}, {"profile": {$slice: [-skipValue, value]}})
-    return response.status(200).send({count: countLogs[0].count, data: logs[0].profile})
+    await Log.find({author: userId}, {"profile": {$slice: [-skipValue, value]}}).exec((err, logs) => {
+        if(err){
+            return response.status(400).json({count: 0, data: []})
+        }
+        return response.status(200).send({count: countLogs[0].count, data: logs[0].profile})
+    })
 })
 
 logRouter.delete('/delete/:field', async(request, response) => {

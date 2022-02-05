@@ -14,6 +14,7 @@ const App = () => {
   const [authed, setAuthed] = useState(!!sessionStorage.getItem("userId"))
 
   useEffect(() => {
+    console.log("useEffect invoked App")
     LoginStore.addChangeListener(setChange)
 
     socket.on('join', (data) => {
@@ -26,6 +27,17 @@ const App = () => {
       Dispatcher.dispatch({
         actionType: Constants.REMOVE_ACTIVE,
         payload: data
+      })
+    })
+    socket.on('notify', (data) => {
+      console.log("dataSocket", data)
+      Dispatcher.dispatch({
+        actionType: Constants.RECIEVED_NOTIFY,
+        payload: data
+      })
+      Dispatcher.dispatch({
+        actionType: Constants.SETCOUNT_NOTIFY,
+        payload: 1
       })
     })
 
