@@ -4,7 +4,7 @@ import Dispatcher from "./dispatcher";
 import Constants from "./constants";
 
 let _notifications = []
-let _count = 0
+let _count = 1
 
 class NotificationsStore extends EventEmitter {
   constructor() {

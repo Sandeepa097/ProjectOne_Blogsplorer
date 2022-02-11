@@ -1,6 +1,7 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
 
 import React, {useState, useEffect} from "react";
+import { Link } from "react-router-dom";
 import {
   Container,
   Row,
@@ -87,24 +88,24 @@ const BlogPosts = () => {
                   {post.category}
                 </Badge>
                 <div className="card-post__author d-flex">
-                  <a
-                    href={"/user?id=" + post.authorID}
+                  <Link
+                    to={"/user?id=" + post.authorID}
                     className="card-post__author-avatar card-post__author-avatar--small"
                     style={{ backgroundImage: `url('${post.authorAvatar}')` }}
                   >
                     Written by {post.author}
-                  </a>
+                  </Link>
                 </div>
               </div>
               <CardBody>
-              <a href={"/blog?id=" + post._id} className="text-fiord-blue">
+              <Link to={"/blog?id=" + post._id} className="text-fiord-blue">
                 <h5 className="card-title">
                     {post.title}
                 </h5>
-              </a>
+              </Link>
                 <p className="card-text d-inline-block mb-3">{post.body.slice(0, (110 - post.title.length)).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
                 </p>
-                <a href={"/blog?id=" + post._id} style={{color: "brown"}}>Read More</a>
+                <Link to={"/blog?id=" + post._id} style={{color: "brown"}}>Read More</Link>
               
               </CardBody>
               <CardFooter>

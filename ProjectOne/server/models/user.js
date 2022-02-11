@@ -30,6 +30,16 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'BlogNoImage'
         }]
+    },
+    message: {
+        old: [{
+            body: String,
+            from: Object
+        }],
+        new: [{
+            body: String,
+            from: Object
+        }]
     }
 })
 

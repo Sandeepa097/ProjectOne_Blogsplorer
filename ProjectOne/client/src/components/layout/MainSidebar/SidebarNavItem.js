@@ -1,10 +1,12 @@
+// eslint-disable
 import React from "react";
-import { NavLink as RouteNavLink } from "react-router-dom";
-import { NavItem, NavLink } from "shards-react";
+import { Link } from "react-router-dom";
+import { Badge, NavItem } from "shards-react";
 
-const SidebarNavItem = ({ item }) => (
-  <NavItem>
-    <NavLink active={(window.location.pathname === item.to)} href={item.to}>
+const SidebarNavItem = ({ item, count }) => (
+  <NavItem active={(window.location.pathname === item.to)}>
+    <Link to={item.to} style={{textDecoration: "none"}}>
+    <div className="nav-link">
       {item.htmlBefore && (
         <div
           className="d-inline-block item-icon-wrapper"
@@ -18,7 +20,11 @@ const SidebarNavItem = ({ item }) => (
           dangerouslySetInnerHTML={{ __html: item.htmlAfter }}
         />
       )}
-    </NavLink>
+      {item.title === "Messages" && !!count && <Badge pill theme="danger" style={{float: "right"}}>
+        {count}
+      </Badge>}
+    </div> 
+    </Link>
   </NavItem>
 );
 

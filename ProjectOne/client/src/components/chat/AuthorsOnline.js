@@ -4,22 +4,31 @@ import {
     CardHeader,
     CardBody,
     Button,
+    Badge,
 } from "shards-react";
 import User from "../../services/users"
-import { ActiveAuthorStore, Constants, Dispatcher } from '../../flux';
+import Message from "../../services/message"
+import { ActiveAuthorStore, ChatStore, Constants, Dispatcher } from '../../flux';
 
 const AuthorsOnline = () => {
     const userId = sessionStorage.getItem('userId')
     const [allAuthors, setAllAuthors] = useState([])
-    const [activeAuthors, setActiveAuthors] = useState([])
+    const [activeAuthors, setActiveAuthors] = useState([...ActiveAuthorStore.getActive()])
+    const [messages, setMessages] = useState({old: [], new: []})
     
     useEffect(() => {
         ActiveAuthorStore.addChangeListener(setDetails)
+        ChatStore.addChangeListener(setMsg)
+        setMessages({...ChatStore.getMessages()})
         User.detailsOfAll().then(details => {
             setAllAuthors([...details.filter(details => details.id !== userId)])
         })
+        Message.getMessages().then(msg => {
+            setMessages({...msg.message})
+        })
 
         return(() => {
+            ChatStore.removeChangeListener(setMsg)
             ActiveAuthorStore.removeChangeListener(setDetails)
         })
     }, [])
@@ -27,6 +36,10 @@ const AuthorsOnline = () => {
     const setDetails = () => {
         const details = ActiveAuthorStore.getActive()
         setActiveAuthors([...details])
+    }
+
+    const setMsg = () => {
+        setMessages({...ChatStore.getMessages()})
     }
 
     const setChatWith = (details) => {
@@ -44,6 +57,7 @@ const AuthorsOnline = () => {
             <CardBody>
                 {allAuthors.map((item, idx) => {
                     const author = activeAuthors.find(active => active === item.id)
+                    const newMessages = messages.new.filter(msg => msg.from === item.id)
                     return (
                         <div key={idx}>
                         <Button theme="light" 
@@ -64,6 +78,9 @@ const AuthorsOnline = () => {
                             <span className="d-none d-md-inline-block">{item.fullName}</span>
                             {!!author && <span style={{"color": "green"}}> ●</span>}
                         </Button>
+                        {!!newMessages.length && <Badge pill theme="danger">
+                                {newMessages.length}
+                        </Badge>}
                         </div>
                     )
                 })}

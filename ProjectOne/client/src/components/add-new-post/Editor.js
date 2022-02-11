@@ -42,6 +42,9 @@ const Editor = ({post, setPost}) => {
     setContent({...content, title: text})
   }
   const chooseImage = (event) => {
+    if(!event.target.files[0]){
+      return null
+    }
     setContent({...content, backgroundImage: event.target.files[0]})
     setPreview({...preview, image: URL.createObjectURL(event.target.files[0])})
   }

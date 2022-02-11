@@ -16,6 +16,16 @@ const updateLog = async(userId, fieldName, body) => {
         })
     }
     else {
+        if(body.title === "Account was created..") {
+            const log = new Log({
+                author: userId,
+                publications: [],
+                draft: [],
+                profile: []
+            })
+            await log.save()
+        }
+
         await Log.findOneAndUpdate({author: userId}, {
             $push: {
                 profile: body

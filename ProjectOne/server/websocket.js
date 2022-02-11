@@ -1,6 +1,8 @@
 const logger = require('./utils/logger')
+const {messageNew, messageOld} = require('./utils/message')
 
 const activeAuthors = new Set()
+const sessionsMap = {}
 
 module.exports = (io) => {
     io.on("connection", (socket) => {
@@ -10,21 +12,33 @@ module.exports = (io) => {
             logger.info('User Logged...')
             socket.userId = userId
             activeAuthors.add(userId)
+            sessionsMap[userId] = socket.id
             io.emit('join', [...activeAuthors])
         })
 
         socket.on('notify', (notifyObj) => {
-            logger.info('Notification emited...')
-            console.log("notification", notifyObj)
+            logger.info('Notification emitted...')
             socket.broadcast.emit('notify', notifyObj)
         })
 
         socket.on('message', (msg) => {
-            console.log('message :' + msg)
+            logger.info('Message emitted...')
+            const online = activeAuthors.has(msg.to)
+            if(!online) {
+                console.log('reciever offline')
+                messageNew(msg)
+            }
+            else{
+                console.log('reciever online')
+                const recieverId = sessionsMap[msg.to]
+                messageOld(msg)
+                socket.broadcast.to(recieverId).emit('message', msg)
+            }
         })
 
         socket.on("disconnect", () => {
             activeAuthors.delete(socket.userId)
+            delete sessionsMap[socket.userId]
             logger.info('User disconnected...')
             io.emit('user disconnect', socket.userId)
         })

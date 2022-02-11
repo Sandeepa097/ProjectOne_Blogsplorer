@@ -73,23 +73,23 @@ const UserActions = () => {
       </DropdownToggle>
       <Collapse tag={DropdownMenu} right small open={visible}>
         <Link to={"/user?id=" + userDetails.id} style={{textDecoration: 'none'}}>
-        <DropdownItem>
+        <DropdownItem style={{outline: "none"}}>
           <i className="material-icons">&#xE7FD;</i> Profile
         </DropdownItem>
         </Link>
         <Link to="user-profile" style={{textDecoration: 'none'}}>
-        <DropdownItem>
+        <DropdownItem style={{outline: "none"}}>
           <i className="material-icons">&#xE8B8;</i> Edit Profile
         </DropdownItem>
         </Link>
         <Link to="activity-log" style={{textDecoration: 'none'}}>
-        <DropdownItem>
+        <DropdownItem style={{outline: "none"}}>
           <i className="material-icons">&#xE873;</i> Activity Log
         </DropdownItem>
         </Link>
         <DropdownItem divider />
         <Link to="register" style={{textDecoration: 'none'}}>
-        <DropdownItem className="text-danger" onClick = {onClickLogout}>
+        <DropdownItem className="text-danger" onClick = {onClickLogout} style={{outline: "none"}}>
           <i className="material-icons text-danger">&#xE879;</i> Logout
         </DropdownItem>
         </Link>

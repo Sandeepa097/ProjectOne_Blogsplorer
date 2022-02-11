@@ -1,5 +1,7 @@
 import axios from 'axios'
 import Headers from './setHeaders'
+import socket from "../websocket/webSocket"
+import { UserStore } from '../flux'
 
 const baseUrl = `${process.env.REACT_APP_BASE_URL}/api/user`
 
@@ -49,6 +51,13 @@ const updateUserDetails = async(updates) => {
     }
     try {
         const response = await axios.put(baseUrl, updates, config)
+        socket.emit("notify", {
+            categType: "Update",
+            title: '', 
+            postURL: `/user?id=${sessionStorage.getItem("userId")}`, 
+            authorName: UserStore.getUserDetails().fullName,
+            authorAvatar: UserStore.getUserDetails().authorAvatar,
+        })
         return response.data
     } catch(error) {
         return {error: error.response.data.error}

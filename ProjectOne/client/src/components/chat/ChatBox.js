@@ -7,7 +7,7 @@ import {
     Button,
     Form,
   } from "shards-react";
-import { ChatStore } from '../../flux';
+import { ChatStore, UserStore, Constants, Dispatcher } from '../../flux';
 
 const ChatBox = ({socket}) => {
     const [message, setMessage] = useState('')
@@ -27,16 +27,20 @@ const ChatBox = ({socket}) => {
 
     const sendMessage = (event) => {
         event.preventDefault()
-        console.log('message', message)
         if(message){
-            socket.emit('message', message)
+            const msg = {to: chatWith.id, body: message, from: UserStore.getUserDetails().id}
+            Dispatcher.dispatch({
+                actionType: Constants.SEND_MESSAGE,
+                payload: msg
+            })
+            socket.emit('message', msg)
             setMessage('')
         }
     }
 
     return (
         <Card small className="mb-3">
-            <CardHeader>
+            <CardHeader className="border-bottom">
             {!!chatWith.authorAvatar && <img
                     className="user-avatar rounded-circle mr-2"
                     style={{width: "35px", height: "35px"}}
@@ -49,6 +53,13 @@ const ChatBox = ({socket}) => {
                 {!!chatWith.online && <span style={{"color": "green"}}> ●</span>}
             </CardHeader>
             <CardBody>
+                <div>
+                {chatWith.messages.map((msg, idx)=> (
+                    <Button key={idx} theme="success" size="md" style={{display: "block", marginBottom: "5px"}}>
+                        {msg.body}
+                    </Button>
+                ))}
+                </div>
                 <Form onSubmit={sendMessage}>
                     <FormInput
                         type="text"

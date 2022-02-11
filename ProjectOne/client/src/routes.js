@@ -13,7 +13,6 @@ import Chat from "./views/Chat";
 import BlogPosts from "./views/BlogPosts";
 import ProfileView from "./views/ProfileView";
 import Post from "./views/Post";
-import Auth from "./views/Auth"
 import ActivityLog from "./views/ActivityLog";
 
 export default [
@@ -24,37 +23,38 @@ export default [
     component: () => <Redirect to="/register" />
   },
   {
-    path: "/register",
-    layout: AuthLayout,
-    component: Auth
-  },
-  {
     path: "/dashboard",
+    exact: true,
     layout: DefaultLayout,
     component: BlogOverview
   },
   {
     path: "/user-profile",
+    exact: true,
     layout: DefaultLayout,
     component: UserProfileLite
   },
   {
     path: "/add-new-post",
+    exact: true,
     layout: DefaultLayout,
     component: AddNewPost
   },
   {
     path: "/messages",
+    exact: true,
     layout: DefaultLayout,
     component: Chat
   },
   {
     path: "/blog-posts",
+    exact: true,
     layout: DefaultLayout,
     component: BlogPosts
   },
   {
     path: "/activity-log",
+    exact: true,
     layout: DefaultLayout,
     component: ActivityLog
   },

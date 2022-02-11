@@ -32,7 +32,7 @@ userRouter.post('/', [
     const user = new User({
         authorAvatar: '',
         firstName: body.firstName,
-        lastName: body.lastName,
+        lastName: body.lastName ,
         fullName: body.firstName + ' ' + body.lastName,
         email: body.email,
         address: '',
@@ -61,7 +61,7 @@ userRouter.post('/', [
         author: savedUser._id
     })
     await newLogAcc.save()
-    updateLog(userId, "profile", {title: "Account was created..", date: Date()})
+    updateLog(savedUser._id, "profile", {title: "Account was created..", date: Date()})
 
     return response.status(200).send({
         token,

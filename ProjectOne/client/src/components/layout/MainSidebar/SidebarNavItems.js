@@ -2,16 +2,28 @@ import React, {useState, useEffect} from "react";
 import { Nav } from "shards-react";
 
 import SidebarNavItem from "./SidebarNavItem";
-import { Store } from "../../../flux";
+import Message from "../../../services/message";
+import { Store, ChatStore, Dispatcher, Constants } from "../../../flux";
 
 const SidebarNavItems = () => {
+  const [newMsgCount, setNewMsgCount] = useState()
   const [state, setState] = useState({
     navItems: Store.getSidebarItems()
   })
 
   useEffect(() => {
     Store.addChangeListener(onChange)
+    ChatStore.addChangeListener(setMsg)
+    Message.getMessages().then(messages => {
+      console.log('sidebar', messages)
+      Dispatcher.dispatch({
+        actionType: Constants.RECIEVE_MESSAGES,
+        payload: messages.message
+      })
+    })
+
     return () => {
+      ChatStore.removeChangeListener(setMsg)
       Store.removeChangeListener(onChange)
     }
   }, [])
@@ -23,12 +35,16 @@ const SidebarNavItems = () => {
     });
   }
 
+  const setMsg = () => {
+    setNewMsgCount(ChatStore.getMessages().new.length)
+  }
+
   const { navItems: items } = state;
   return (
     <div className="nav-wrapper" style={{backgroundColor: "#304f7e"}}>
       <Nav className="nav--no-borders flex-column" style={{height: '100%'}}>
         {items.map((item, idx) => (
-          <SidebarNavItem key={idx} item={item} />
+          <SidebarNavItem key={idx} item={item} count={newMsgCount} />
         ))}
         <div className="m-auto" style={{height: "150px"}}>
             <img

@@ -5,7 +5,10 @@ import routes from "./routes";
 import withTracker from "./withTracker";
 import SocketContex from "./websocket/socketContext";
 import socket from "./websocket/webSocket"
-import { LoginStore,  Constants, Dispatcher } from "./flux";
+import { LoginStore, Constants, Dispatcher } from "./flux";
+
+import Auth from "./views/Auth";
+import { AuthLayout } from "./layouts";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
@@ -14,8 +17,10 @@ const App = () => {
   const [authed, setAuthed] = useState(!!sessionStorage.getItem("userId"))
 
   useEffect(() => {
-    console.log("useEffect invoked App")
     LoginStore.addChangeListener(setChange)
+    if(!authed) {
+      return null
+    }
 
     socket.on('join', (data) => {
       Dispatcher.dispatch({
@@ -23,14 +28,22 @@ const App = () => {
         payload: data
       })
     })
+
     socket.on('user disconnect', (data) => {
       Dispatcher.dispatch({
         actionType: Constants.REMOVE_ACTIVE,
         payload: data
       })
     })
+
+    socket.on('message', (msg) => {
+      Dispatcher.dispatch({
+        actionType: Constants.RECIEVE_SOCKET_MESSAGE,
+        payload: msg
+      })
+    })
+    
     socket.on('notify', (data) => {
-      console.log("dataSocket", data)
       Dispatcher.dispatch({
         actionType: Constants.RECIEVED_NOTIFY,
         payload: data
@@ -71,8 +84,12 @@ const App = () => {
       <div>
         {loginController()}
         <Switch>
-        {routes.map((route, index) => {
-          return (
+          <Route 
+            path= "/register"
+            exact= {true}
+            render= {() => <AuthLayout><Auth /></AuthLayout>}
+          />
+        {!!authed && routes.map((route, index) => (
             <Route
               key={index}
               path={route.path}
@@ -85,8 +102,8 @@ const App = () => {
                 );
               })}
             />
-          );
-        })}
+          )
+        )}
         </Switch>
       </div>
     </Router>

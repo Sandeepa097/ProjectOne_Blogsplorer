@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { Link } from "react-router-dom";
 import { NavItem, NavLink, Badge, Collapse, DropdownItem } from "shards-react";
 import { NotificationsStore, Constants, Dispatcher } from "../../../../flux";
 
@@ -47,10 +48,11 @@ const Notifications = () => {
       className="dropdown-menu dropdown-menu-small"
     >
       {notifications.map((item, idx) => (
-        <DropdownItem key={idx} href={item.postURL}>
+        <Link key={idx} to={item.postURL} style={{textDecoration: "none"}} >
+        <DropdownItem style={{outline: "none"}}>
           <div className="notification__icon-wrapper">
             <div>
-              {!!item.authorAvatar && <img src = {item.authorAvatar} style={{width: "2.1875rem"}} />}
+              {!!item.authorAvatar && <img src = {item.authorAvatar} alt={item.authorName} style={{width: "2.1875rem"}} />}
               {!item.authorAvatar && <i className="material-icons" style={{fontSize: "2.1875rem"}}>account_box</i>}
             </div>
           </div>
@@ -58,18 +60,32 @@ const Notifications = () => {
             <span className="notification__category">{item.categType}</span>
             <p>
               {item.authorName}{" "}
-                {item.categType === 'New Post' ? 'published a new post... ' : 'edited their post... '}
-                <span className="text-success text-semibold">"{item.title}"</span>
+                {!!item.title && (item.categType === 'New Post' ? 'published a new post... ' : 'edited their post... ')}
+                {item.title && <span className="text-success text-semibold">"{item.title}"</span>}
+                {!item.title && <span>updated their profile...</span>}
             </p>
           </div>
         </DropdownItem>
+        </Link>
       ))}
+        <Link to="/blog-posts" style={{textDecoration: "none"}} >
+        <DropdownItem style={{outline: "none"}}>
+          <div className="notification__icon-wrapper">
+            <div>
+              <img src = {require('../../../../images/logo3.png')}  alt="we" style={{width: "2.1875rem"}} />
+            </div>
+          </div>
+          <div className="notification__content">
+            <span className="notification__category">Welcome</span>
+            <p>
+              <span style={{color: "brown"}}>Welcome to Blogsplorer...!!!</span>
+            </p>
+          </div>
+        </DropdownItem>
+        </Link>
       {/*<DropdownItem className="notification__all text-center">
         View all Notifications
       </DropdownItem>*/}
-      {!notifications.length && <span className="notification__all text-center" style={{color: "brown", fontSize: "11pt"}}>
-        Empty...
-      </span>}
     </Collapse>
   </NavItem>
   )

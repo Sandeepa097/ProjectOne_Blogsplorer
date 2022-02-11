@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Container, Row, Col, Button, DropdownToggle } from "shards-react";
+import { Container, Row, Col, Button } from "shards-react";
 import PageTitle from "./../components/common/PageTitle";
 import SmallStats from "./../components/common/SmallStats";
 import NewDraft from "./../components/blog/NewDraft";
@@ -16,7 +16,7 @@ const BlogOverview = () => {
     if(showDocCounts) {
       setLoading(true)
       Count.docCount().then(stats => {
-        setSmallStats([...smallStats, ...stats])
+        setSmallStats([...stats])
         setLoading(false)
       })
     }
@@ -31,7 +31,7 @@ const BlogOverview = () => {
   }
 
   const changeDraftCount = (num) => {
-    if(loading){
+    if(loading || !showDocCounts){
       return null
     }
     const index = smallStats.findIndex(item => item.label === 'Your Draft')
@@ -41,7 +41,7 @@ const BlogOverview = () => {
   }
 
   const changePublishCount = (num) => {
-    if(loading){
+    if(loading || !showDocCounts){
       return null
     }
     const index = smallStats.findIndex(item => item.label === 'You Published')
@@ -73,7 +73,7 @@ const BlogOverview = () => {
       {loading && <Col className="col-lg mb-4">
         <LoadingIndicator />
       </Col>}
-      {!loading && smallStats.map((stats, idx) => (
+      {!loading && showDocCounts && smallStats.map((stats, idx) => (
         <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
           <SmallStats
             id={`small-stats-${idx}`}

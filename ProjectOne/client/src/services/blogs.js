@@ -19,13 +19,9 @@ const newPostPublished = async(newPost) => {
         socket.emit("notify", {
             categType: "New Post",
             title: data.title, 
-            id: data.id, 
-            postURL: `/blog?id=${data.id}${!data.backgroundImage ? '&ni=true': ''}`,
-            author: data.author, 
+            postURL: `/blog?id=${data.id}${!data.backgroundImage ? '&ni=true': ''}`, 
             authorName: UserStore.getUserDetails().fullName,
-            authorURL: `/user?id=${data.author}`,
             authorAvatar: UserStore.getUserDetails().authorAvatar,
-            backgroundImage: data.backgroundImage
         })
         return response.data
     }
@@ -139,6 +135,16 @@ const editBlog = async(id, ni, post) => {
     try{
         const param = ni ? '/published/' : '/ipublished/'
         const response = await axios.put(`${publishUrl}${param}${id}`, post, config)
+        const data = response.data
+        console.log("data", data)
+        console.log("post", post)
+        socket.emit("notify", {
+            categType: "Post Edited",
+            title: post.title,  
+            postURL: `/blog?id=${id}${ni ? '&ni=true': ''}`,
+            authorName: UserStore.getUserDetails().fullName,
+            authorAvatar: UserStore.getUserDetails().authorAvatar,
+        })
         return response.data
     }
     catch(error){
