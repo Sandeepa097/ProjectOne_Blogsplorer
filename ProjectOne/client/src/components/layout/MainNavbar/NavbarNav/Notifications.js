@@ -28,8 +28,6 @@ const Notifications = () => {
     setNotifications([...NotificationsStore.getNotifications()])
   }
 
-  console.log("invoked again Notification")
-
   return (
     <NavItem className="border-right dropdown notifications">
     <NavLink

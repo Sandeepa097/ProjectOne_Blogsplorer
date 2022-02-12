@@ -1,15 +1,18 @@
 const logger = require('./logger')
 
 const requestLogger = (request, _response, next) => {
-    const securePassword = () => {
+    const secureSensitiveData = () => {
         if(request.body.password){
             return {...request.body, password: ''}
+        }
+        else if(request.path === '/message') {
+            return {}
         }
         return request.body
     }
     logger.info('Method:', request.method)
     logger.info('Path:', request.path)
-    logger.info('Body:', securePassword())
+    logger.info('Body:', secureSensitiveData())
     logger.info('---')
     next()
 }

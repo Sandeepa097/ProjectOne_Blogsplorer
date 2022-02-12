@@ -9,12 +9,14 @@ import {
 import User from "../../services/users"
 import Message from "../../services/message"
 import { ActiveAuthorStore, ChatStore, Constants, Dispatcher } from '../../flux';
+import chatStore from '../../flux/chatStore';
 
-const AuthorsOnline = () => {
+const AuthorsOnline = ({socket}) => {
     const userId = sessionStorage.getItem('userId')
     const [allAuthors, setAllAuthors] = useState([])
     const [activeAuthors, setActiveAuthors] = useState([...ActiveAuthorStore.getActive()])
-    const [messages, setMessages] = useState({old: [], new: []})
+    const [messages, setMessages] = useState(chatStore.getMessages())
+    const [typing, setTyping] = useState('')
     
     useEffect(() => {
         ActiveAuthorStore.addChangeListener(setDetails)
@@ -23,11 +25,19 @@ const AuthorsOnline = () => {
         User.detailsOfAll().then(details => {
             setAllAuthors([...details.filter(details => details.id !== userId)])
         })
-        Message.getMessages().then(msg => {
-            setMessages({...msg.message})
+        socket.on('typing', (type) => {
+            if(type.isTyping){
+                setTyping(type.from)
+            }
+            else{
+                setTyping('')
+            }
         })
 
         return(() => {
+            Dispatcher.dispatch({
+                actionType: Constants.RESET_CHAT_WITH
+            })
             ChatStore.removeChangeListener(setMsg)
             ActiveAuthorStore.removeChangeListener(setDetails)
         })
@@ -47,6 +57,8 @@ const AuthorsOnline = () => {
             actionType: Constants.RECIEVE_CHAT_WITH,
             payload: details
         })
+        const msgs = messages.new.filter(msg => msg.from === details.id)
+        Message.msgSeen({id: details.id, msg: msgs})
     }
 
     return (
@@ -78,7 +90,8 @@ const AuthorsOnline = () => {
                             <span className="d-none d-md-inline-block">{item.fullName}</span>
                             {!!author && <span style={{"color": "green"}}> ●</span>}
                         </Button>
-                        {!!newMessages.length && <Badge pill theme="danger">
+                        {typing === item.id && <span style={{color: "green", paddingLeft: "5px"}}>typing...</span>}
+                        {!!newMessages.length && <Badge pill theme="accent" style={{float: "right"}}>
                                 {newMessages.length}
                         </Badge>}
                         </div>

@@ -18,18 +18,4 @@ const messageOld = async(msg) => {
     })
 }
 
-const messageFromNewToOld = async(data) => {
-    const msg = await User.findById(data.userId, {
-        message: {$elemMatch : {"new._id": data.id}}
-    })
-    await User.findByIdAndUpdate(data.userId, {
-        $push : {
-            "message.old": msg.message[0]
-        },
-        $pull: {
-            "message.new": {_id: data.id}
-        }
-    })
-}
-
-module.exports = {messageNew, messageOld, messageFromNewToOld}
+module.exports = {messageNew, messageOld}

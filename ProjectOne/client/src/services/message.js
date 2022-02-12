@@ -11,10 +11,34 @@ const getMessages = async() => {
     }
 
     const response = await axios.get(messageUrl, config)
-    console.log('messages', response.data)
+    return response.data
+}
+
+const msgSeen = async(body) => {
+    if(!body.msg[0]){
+        return {}
+    }
+    const config = Headers.setHeaders()
+    if(!config) {
+        return {}
+    }
+
+    const response = await axios.put(messageUrl, body, config)
+    return response.data
+}
+
+const sendMsg = async(body) => {
+    const config = Headers.setHeaders()
+    if(!config) {
+        return {}
+    }
+
+    const response = await axios.post(messageUrl, body, config)
     return response.data
 }
 
 export default {
-    getMessages
+    getMessages,
+    msgSeen,
+    sendMsg
 }

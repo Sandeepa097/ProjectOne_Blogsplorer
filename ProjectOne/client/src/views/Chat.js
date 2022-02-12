@@ -29,7 +29,9 @@ const Chat = () => {
 
             <Row>
                 <Col lg="4" md="12">
-                    <AuthorsOnline />
+                    <SocketContext.Consumer>
+                        {socket => <AuthorsOnline socket={socket} />}
+                    </SocketContext.Consumer>
                 </Col>
 
                 <Col lg="8" md="12">

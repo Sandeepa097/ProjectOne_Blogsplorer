@@ -34,11 +34,12 @@ const userSchema = new mongoose.Schema({
     message: {
         old: [{
             body: String,
-            from: Object
+            from: String,
+            to: String
         }],
         new: [{
             body: String,
-            from: Object
+            from: String
         }]
     }
 })

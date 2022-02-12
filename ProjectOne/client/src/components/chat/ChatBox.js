@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {
     Card,
     CardHeader,
@@ -6,23 +6,48 @@ import {
     FormInput,
     Button,
     Form,
+    Row,
+    Col,
+    FormTextarea,
   } from "shards-react";
+import Message from '../../services/message';
 import { ChatStore, UserStore, Constants, Dispatcher } from '../../flux';
+import '../../assets/chatbox.css'
 
 const ChatBox = ({socket}) => {
+    const chatbox = useRef(null)
     const [message, setMessage] = useState('')
     const [chatWith, setChatWith] = useState(ChatStore.getChatWith())
+    const [typing, setTyping] = useState(false)
+
+    const scrollToBottom = () => {
+        chatbox.current ? chatbox.current.scrollIntoView({ behavior: "auto" }) : null
+      }
 
     useEffect(() => {
         ChatStore.addChangeListener(setDetails)
+        scrollToBottom()
+        socket.on('typing', (type) => {
+            if(type.isTyping && type.from === chatWith.id){
+                setTyping(true)
+            }
+            else{
+                setTyping(false)
+            }
+        })
         return () => {
             ChatStore.removeChangeListener(setDetails)
         }
-    }, [])
+    }, [chatWith, typing])
 
     const setDetails = () => {
         const details = ChatStore.getChatWith()
         setChatWith({...details})
+    }
+
+    const typingMsg = (value) => {
+        setMessage(value)
+        socket.emit('typing', {isTyping: value.length > 0, to: chatWith.id, from: UserStore.getUserDetails().id})
     }
 
     const sendMessage = (event) => {
@@ -35,6 +60,7 @@ const ChatBox = ({socket}) => {
             })
             socket.emit('message', msg)
             setMessage('')
+            Message.sendMsg(msg)
         }
     }
 
@@ -53,24 +79,35 @@ const ChatBox = ({socket}) => {
                 {!!chatWith.online && <span style={{"color": "green"}}> ●</span>}
             </CardHeader>
             <CardBody>
-                <div>
+                <div style={{height: "400px", overflowY: "auto", overflowX: "hidden"}}>
                 {chatWith.messages.map((msg, idx)=> (
-                    <Button key={idx} theme="success" size="md" style={{display: "block", marginBottom: "5px"}}>
+                    <div key={idx}> 
+                    
+                    {msg.from === chatWith.id && <Row><Col lg="8"><div className='recieved_msg'>
                         {msg.body}
-                    </Button>
+                    </div></Col><Col lg="4"></Col></Row>}   
+                    
+                    {msg.to === chatWith.id && <Row><Col lg="4"></Col><Col lg="8"><div className='send_msg'>
+                        {msg.body}
+                    </div></Col></Row>}
+                    </div>
                 ))}
+                <div>{typing && <span>typing...</span>}</div>
+                <div ref={chatbox}></div>
                 </div>
+                <div style={{marginTop: "5px"}}>
                 <Form onSubmit={sendMessage}>
-                    <FormInput
+                    <FormTextarea
                         type="text"
                         id="message"
                         placeholder="Type here..."
                         value={message}
-                        onChange={(e) => setMessage(e.target.value)}
+                        onChange={(e) => typingMsg(e.target.value)}
                         required
                     />
-                    <Button type="submit">SEND</Button>
+                    <Button type="submit" pill style={{float: "right", marginTop: "5px"}} theme="dark" size="sm">SEND</Button>
                 </Form>
+                </div>
             </CardBody>
         </Card>
     )

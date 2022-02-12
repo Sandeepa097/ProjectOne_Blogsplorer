@@ -36,6 +36,11 @@ module.exports = (io) => {
             }
         })
 
+        socket.on('typing', (type) => {
+            const recieverId = sessionsMap[type.to]
+            socket.broadcast.to(recieverId).emit('typing', type)
+        })
+
         socket.on("disconnect", () => {
             activeAuthors.delete(socket.userId)
             delete sessionsMap[socket.userId]

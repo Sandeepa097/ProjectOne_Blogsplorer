@@ -15,7 +15,6 @@ const SidebarNavItems = () => {
     Store.addChangeListener(onChange)
     ChatStore.addChangeListener(setMsg)
     Message.getMessages().then(messages => {
-      console.log('sidebar', messages)
       Dispatcher.dispatch({
         actionType: Constants.RECIEVE_MESSAGES,
         payload: messages.message
