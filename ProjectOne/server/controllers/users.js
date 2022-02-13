@@ -25,7 +25,10 @@ userRouter.post('/', [
         return response.status(400).json({error: "Email already taken"})
     }
 
-    const body = request.body
+    const body = {...request.body, 
+        firstName: request.body.firstName.charAt(0).toUpperCase() + request.body.firstName.slice(1).toLowerCase(),
+        lastName: request.body.lastName.charAt(0).toUpperCase() + request.body.lastName.slice(1).toLowerCase()
+    }
     const saltRounds = Number(config.SALT_ROUNDS)
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
@@ -155,7 +158,8 @@ userRouter.get('/:id', async(request, response) => {
 
 userRouter.put('/', async(request, response) => {
     const body = {...request.body, 
-        fullName: request.body.firstName + " " + request.body.lastName,
+        firstName: request.body.firstName.charAt(0).toUpperCase() + request.body.firstName.slice(1).toLowerCase(),
+        lastName: request.body.lastName.charAt(0).toUpperCase() + request.body.lastName.slice(1).toLowerCase(),
         authorAvatar: await uploadImage(request.body.authorAvatar), 
     }
     const userId = verifyToken(request)
@@ -172,7 +176,7 @@ userRouter.put('/', async(request, response) => {
 
     updateLog(userId, "profile", {title: "Profile was updated..", date: Date()})
 
-    const user = await User.findByIdAndUpdate(userId, body)
+    const user = await User.findByIdAndUpdate(userId, {...body, fullName: body.firstName + " " + body.lastName})
     return response.json(user)
 })
 

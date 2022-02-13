@@ -58,6 +58,7 @@ const ChatBox = ({socket}) => {
                 actionType: Constants.SEND_MESSAGE,
                 payload: msg
             })
+            socket.emit('typing', {isTyping: false, to: chatWith.id, from: UserStore.getUserDetails().id})
             socket.emit('message', msg)
             setMessage('')
             Message.sendMsg(msg)

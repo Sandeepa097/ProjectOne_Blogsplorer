@@ -26,13 +26,11 @@ const Editor = ({post, setPost}) => {
 
   const setDetails = () => {
     const details = AddPostStore.getPost()
-    setPost({...post, ...details})
     setContent({...content,
       title: details.title,
       backgroundImage: details.backgroundImage,
       body: details.body
     })
-    setPreview({...preview, image: ''})
   }
 
   const onChangeContent = (html) => {

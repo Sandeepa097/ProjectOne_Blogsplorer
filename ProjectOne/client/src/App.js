@@ -18,9 +18,6 @@ const App = () => {
 
   useEffect(() => {
     LoginStore.addChangeListener(setChange)
-    if(!authed) {
-      return null
-    }
 
     socket.on('join', (data) => {
       Dispatcher.dispatch({
@@ -55,6 +52,7 @@ const App = () => {
     })
 
     return () => {
+      socket.removeAllListeners()
       LoginStore.removeChangeListener(setChange)
     }
   }, []) 

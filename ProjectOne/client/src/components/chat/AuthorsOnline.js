@@ -38,6 +38,7 @@ const AuthorsOnline = ({socket}) => {
             Dispatcher.dispatch({
                 actionType: Constants.RESET_CHAT_WITH
             })
+            socket.removeAllListeners('typing')
             ChatStore.removeChangeListener(setMsg)
             ActiveAuthorStore.removeChangeListener(setDetails)
         })
