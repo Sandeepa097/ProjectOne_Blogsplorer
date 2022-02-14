@@ -10,7 +10,7 @@ import { Store } from "../../../flux";
 
 const MainSidebar = () => {
   const [state, setState] = useState({
-    menuVisible: false,
+    menuVisible: Store.getMenuState(),
     sidebarNavItems: Store.getSidebarItems()
   })
 
@@ -40,12 +40,13 @@ const MainSidebar = () => {
     <Col
       tag="aside"
       className={classes}
+      style={{height: "12px"}}
       lg={{ size: 2 }}
       md={{ size: 3 }}
     >
       <SidebarMainNavbar />
       <SidebarSearch />
-      <SidebarNavItems />
+      {state.menuVisible &&<SidebarNavItems />}
     </Col>
   )
 }

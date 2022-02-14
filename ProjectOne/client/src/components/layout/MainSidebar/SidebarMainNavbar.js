@@ -20,10 +20,9 @@ return (
       >
         <NavbarBrand
           className="ml-4"
-          href="/blog-posts"
           style={{ lineHeight: "25px" }}
         >
-          <div className="d-table m-auto">
+          <div className="d-table m-auto" onClick={() => handleToggleSidebar()}>
             <div className="d-inline-block align-top mr-1">
               <i className="material-icons" style={{color: "gray", fontSize: "22px"}}>dehaze</i>
             </div>
@@ -32,13 +31,7 @@ return (
             </span>
           </div>
         </NavbarBrand>
-        {/* eslint-disable-next-line */}
-        <a
-          className="toggle-sidebar d-sm-inline d-md-none d-lg-none"
-          onClick={handleToggleSidebar}
-        >
-          <i className="material-icons">&#xE5C4;</i>
-        </a>
+
       </Navbar>
     </div>
   );
