@@ -30,9 +30,7 @@ const ActivityLog = () => {
   useEffect(() => {
     setLoading(true)
     let activated = findActivated()
-    console.log("pagenumber", pageNum)
     Log.getLogs(activated, pageNum).then(details => {
-      console.log(activated, details)
       setCount(details.count)
       setLogs([...details.data])
       setLoading(false)

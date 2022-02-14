@@ -30,9 +30,7 @@ class NotificationsStore extends EventEmitter {
   }
 
   setNotifications(payload) {
-    console.log("payloadStore", payload)
     _notifications = [payload, ..._notifications]
-    console.log("notificationsStore", _notifications)
     this.emit(Constants.NOTIFICATION_CHANGE);
   }
 

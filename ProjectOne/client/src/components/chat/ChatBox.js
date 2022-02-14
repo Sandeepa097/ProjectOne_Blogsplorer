@@ -3,7 +3,6 @@ import {
     Card,
     CardHeader,
     CardBody,
-    FormInput,
     Button,
     Form,
     Row,
@@ -21,8 +20,8 @@ const ChatBox = ({socket}) => {
     const [typing, setTyping] = useState(false)
 
     const scrollToBottom = () => {
-        chatbox.current ? chatbox.current.scrollIntoView({ behavior: "auto" }) : null
-      }
+        return chatbox.current ? chatbox.current.scrollIntoView({ behavior: "auto" }) : null
+    }
 
     useEffect(() => {
         ChatStore.addChangeListener(setDetails)

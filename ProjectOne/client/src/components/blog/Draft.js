@@ -19,7 +19,7 @@ const Draft = ({draftCount, publishCount}) => {
   const title = "Your Draft"
 
   const [loading, setLoading] = useState(true)
-  const [drafts, setDrafts] = useState(UserStore.getUserDetails().draft)
+  const [drafts, setDrafts] = useState([...UserStore.getUserDetails().draft.slice().reverse()])
   const [draftLength, setDraftLength] = useState(UserStore.getUserDetails().draft.length)
   const [count, setCount] = useState(3)
   const [alertMessage, setAlertMessage] = useState({
@@ -53,8 +53,10 @@ const Draft = ({draftCount, publishCount}) => {
   }, [])
 
   const setDetails = () => {
+    console.log("draft", UserStore.getUserDetails().draft)
+    console.log("draft reverse", UserStore.getUserDetails().draft.slice().reverse())
     setDraftLength(UserStore.getUserDetails().draft.length)
-    setDrafts([...UserStore.getUserDetails().draft])
+    setDrafts([...UserStore.getUserDetails().draft.slice().reverse()])
   }
 
   const viewAll = () => {

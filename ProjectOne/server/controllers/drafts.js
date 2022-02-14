@@ -59,7 +59,7 @@ draftRouter.get('/:limit', async(request, response) => {
             }
         }
     ])
-    const data = limit === 3 ? await User.findById(userId, {draft: {$slice: 3}}) : await User.findById(userId, 'draft')
+    const data = limit === 3 ? await User.findById(userId, {draft: {$slice: -3}}) : await User.findById(userId, 'draft')
     return response.status(200).send({data: data.draft, count: countDrafts[0].count})
 })
 

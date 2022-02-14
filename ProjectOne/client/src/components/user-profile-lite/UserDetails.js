@@ -19,7 +19,7 @@ const UserDetails = () => {
     let complete = 0;
     let length = 10;
     for (const item in obj) {
-      if(item === 'draft' || item === 'published' || item === 'id' || item === 'date') {
+      if(item === 'draft' || item === 'published' || item === 'id' || item === 'date' || item === 'message') {
         continue
       }
 

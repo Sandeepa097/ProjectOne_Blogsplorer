@@ -135,9 +135,6 @@ const editBlog = async(id, ni, post) => {
     try{
         const param = ni ? '/published/' : '/ipublished/'
         const response = await axios.put(`${publishUrl}${param}${id}`, post, config)
-        const data = response.data
-        console.log("data", data)
-        console.log("post", post)
         socket.emit("notify", {
             categType: "Post Edited",
             title: post.title,  

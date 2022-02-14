@@ -1,3 +1,4 @@
+const UserAgent = require('user-agents')
 const {body, validationResult} = require('express-validator')
 const safeRegEx = require('safe-regex')
 const bcrypt = require('bcrypt')
@@ -64,7 +65,8 @@ userRouter.post('/', [
         author: savedUser._id
     })
     await newLogAcc.save()
-    updateLog(savedUser._id, "profile", {title: "Account was created..", date: Date()})
+    const userAgent = new UserAgent()
+    updateLog(savedUser._id, "profile", {title: `Account was created..\n${userAgent.toString()}`, date: Date()})
 
     return response.status(200).send({
         token,
@@ -89,7 +91,8 @@ userRouter.post('/login', async(request, response) => {
     }
 
     const token = jwt.sign(userForToken, config.SECRET)
-    updateLog(user.id, "profile", {title: "Successfully logged in..", date: Date()})
+    const userAgent = new UserAgent()
+    updateLog(user.id, "profile", {title: `Logged in using..\n${userAgent.toString()}`, date: Date()})
 
     return response.status(200).send({
         token,

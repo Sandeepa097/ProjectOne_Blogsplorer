@@ -8,46 +8,43 @@ import "react-quill/dist/quill.snow.css";
 import "../../assets/quill.css";
 
 const Editor = ({post, setPost}) => {
-  const [content, setContent] = useState({
-    title: AddPostStore.getPost().title,
-    backgroundImage: AddPostStore.getPost().backgroundImage,
-    body: AddPostStore.getPost().body
-  })
+  const [title, setTitle] = useState(AddPostStore.getPost().title)
+  const [backgroundImage, setBackgroundImage] = useState(AddPostStore.getPost().backgroundImage)
+  const [body, setBody] = useState(AddPostStore.getPost().body)
   const [preview, setPreview] = useState({
-    image: !post.backgroundImage ? '' : post.backgroundImage 
+    image: !AddPostStore.getPost().backgroundImage ? '' : AddPostStore.getPost().backgroundImage
   })
 
   useEffect(() => {
     AddPostStore.addChangeListener(setDetails)
-    setPost({...post, ...content})
+    setPost({...post, title: title, backgroundImage: backgroundImage, body: body})
 
     return() => AddPostStore.removeChangeListener(setDetails)
-  }, [content])
+  }, [title, backgroundImage, body])
 
   const setDetails = () => {
     const details = AddPostStore.getPost()
-    setContent({...content,
-      title: details.title,
-      backgroundImage: details.backgroundImage,
-      body: details.body
-    })
+    setTitle(details.title)
+    setBackgroundImage(details.backgroundImage)
+    setBody(details.body)
+    setPreview({...preview, image: !details.backgroundImage ? '' : details.backgroundImage})
   }
 
   const onChangeContent = (html) => {
-    setContent({...content, body: html})
+    setBody(html)
   }
   const onChangeTitle = (text) => {
-    setContent({...content, title: text})
+    setTitle(text)
   }
   const chooseImage = (event) => {
     if(!event.target.files[0]){
       return null
     }
-    setContent({...content, backgroundImage: event.target.files[0]})
+    setBackgroundImage(event.target.files[0])
     setPreview({...preview, image: URL.createObjectURL(event.target.files[0])})
   }
   const closeImage = (e) => {
-    setContent({...content, backgroundImage: null})
+    setBackgroundImage(null)
     setPreview({...preview, image: ''})
   }
 
@@ -57,7 +54,7 @@ const Editor = ({post, setPost}) => {
       <Form className="add-new-post">
         <FormInput size="lg" 
                   className="mb-3" 
-                  value={content.title}
+                  value={title}
                   placeholder="Your Post Title" 
                   onChange={e => onChangeTitle(e.target.value)}
                   />
@@ -68,7 +65,7 @@ const Editor = ({post, setPost}) => {
           </div>}
         <br />
         <ReactQuill className="add-new-post__editor mb-1" 
-                    value = {content.body}
+                    value = {body}
                     placeholder="Type Your Content Here..." 
                     modules= {{
                       toolbar: {
