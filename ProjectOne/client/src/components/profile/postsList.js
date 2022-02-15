@@ -71,14 +71,14 @@ const PostList = () => {
                 <div key={idx} className="blog-comments__item d-flex p-3">
                   {/* Avatar */}
                   <div className="blog-comments__avatar mr-3">
-                    <a href={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "")}><img src={item.backgroundImage ? item.backgroundImage : null} alt={item.backgroundImage ? item.title.substring(0, 5) : null} /></a>
+                    <Link to={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "")}><img src={item.backgroundImage ? item.backgroundImage : null} alt={item.backgroundImage ? item.title.substring(0, 5) : null} /></Link>
                   </div>
     
                   {/* Content */}
                   <div className="blog-comments__content">
                     {/* Content :: Title */}
                   <div className="blog-comments__meta text-mutes">
-                    <a href={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "")}>{item.title}<span style={{color: "brown"}}> - {item.date}</span></a>
+                    <Link to={"/blog?id=" + item.id + (!item.backgroundImage ? '&ni=' + true : "")}>{item.title}<span style={{color: "brown"}}> - {item.date}</span></Link>
                   </div>
     
                   {/* Content :: Body */}

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { Link } from "react-router-dom";
 import {
   Container,
   Card,
@@ -98,7 +99,7 @@ const Post = () => {
   }
 
   return (
-    <div>
+    <Container fluid className="main-content-container px-4">
       {error && <Errors />}
       {!!alertMessage.message && <Alert theme= {alertMessage.theme} className="mb-0">
         <i className="fa fa-info mx-2"></i> {alertMessage.message}
@@ -115,7 +116,7 @@ const Post = () => {
         </ModalBody>
       </Modal>
 
-      {!error && !blogRemoved && <Container fluid className="main-content-container px-4">
+      {!error && !blogRemoved && <Container>
       {loading && <LoadingIndicator />}
         <Row noGutters className="page-header py-4">
           <PageTitle title={blog.title} subtitle={blog.category} md="12" className="ml-sm-auto mr-sm-auto" />
@@ -153,13 +154,13 @@ const Post = () => {
             {!loading && <Card small className="mb-4 pt-3" style={{minHeight: "600px"}}>
               <CardHeader>
                 <div className="card-post__author d-flex">
-                  <a
-                    href={"/user?id=" + blog.author.id}
+                  <Link
+                    to={`/user?id=${blog.author.id}`}
                     className="card-post__author-avatar card-post__author-avatar"
                     style={{ backgroundImage: `url('${blog.author.authorAvatar}')` }}
                   >
                     Written by {blog.author.firstName}
-                  </a>
+                  </Link>
                   <div className="d-flex flex-column justify-content-center ml-3">
                     <span className="card-post__author-name">
                       {blog.author.firstName} {blog.author.lastName}
@@ -185,7 +186,7 @@ const Post = () => {
           </Col>
         </Row>
       </Container>}
-    </div>
+    </Container>
   )
 }
 

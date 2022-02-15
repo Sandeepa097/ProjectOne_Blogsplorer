@@ -21,7 +21,7 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
 
   return (
     <Container fluid>
-    <Row>
+    {menuVisible && <Row>
       <MainSidebar />
       <Col
         className="main-content p-0"
@@ -31,18 +31,20 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
         tag="main"
       >
         {!noNavbar && <MainNavbar />}
-        {menuVisible && children}
-        {menuVisible && !noFooter && <MainFooter />}
+        {children}
+        {!noFooter && <MainFooter />}
       </Col>
-    </Row>
+    </Row>}
     {!menuVisible && <Row>
+      <MainSidebar />
       <Col 
         lg={{ size: 12 }}
-        md={{ size: 10}}
+        md={{ size: 10 }}
         sm="12"
       >
-          {children}
-          {!noFooter && <MainFooter />}
+          <div style={{position: "fixed", zIndex: "10", padding: "0 15px 0 194px", width: "100%"}}>{!noNavbar && <MainNavbar />}</div>
+          <div style={{paddingTop: "60px"}}>{children}
+          {!noFooter && <MainFooter />}</div>
       </Col>
     </Row>}
   </Container>

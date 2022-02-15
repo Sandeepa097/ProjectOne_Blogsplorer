@@ -6,10 +6,10 @@ const LoadingIndicator = () => {
         <div
             style={{
                 width: "100%",
-                height: "100",
+                height: "100%",
                 display: "flex",
                 justifyContent: "inline",
-                alignContent: "block"
+                alignContent: "block",
             }}
         >
             <Loader type="BallTriangle" height="100" width= "100" />
