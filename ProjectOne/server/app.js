@@ -30,7 +30,7 @@ app.use(bp.urlencoded({limit: '20mb' ,extended: true}))
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(middleware.requestLogger)
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/build'))
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/draft', draftRouter)
