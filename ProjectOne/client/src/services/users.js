@@ -3,7 +3,7 @@ import Headers from './setHeaders'
 import socket from "../websocket/webSocket"
 import { UserStore } from '../flux'
 
-const baseUrl = `${process.env.REACT_APP_BASE_URL}/api/user`
+const baseUrl = `${process.env.REACT_APP_BASE_URL ?  process.env.REACT_APP_BASE_URL : 'https://blogsplorer-server.herokuapp.com'}/api/user`
 
 const createAccount = async(newUser) => {
     try{
