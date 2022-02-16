@@ -175,7 +175,7 @@ const BlogPosts = () => {
                 </h5>
                 <p className="card-text text-muted">{post.body.slice(0, (110 - post.title.length)).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
                 </p>
-                <Link href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</Link>
+                <Link to={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</Link>
               </CardBody>
               <CardFooter className="border-top d-flex">
                 <div className="card-post__author d-flex">

@@ -20,7 +20,7 @@ return (
       >
         <NavbarBrand
           className="ml-4"
-          style={{ lineHeight: "25px" }}
+          style={{ lineHeight: "25px", cursor: "pointer" }}
         >
           <div className="d-table m-auto" onClick={() => handleToggleSidebar()}>
             <div className="d-inline-block align-top mr-1">

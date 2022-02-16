@@ -12,7 +12,7 @@ import {
 import User from '../../../../services/users'
 import { UserStore, Dispatcher, Constants } from "../../../../flux"
 
-const UserActions = () => {
+const UserActions = ({socket}) => {
   const [visible, setVisible] = useState(false)
   const [userDetails, setUserDetails] = useState({
     id: UserStore.getUserDetails().id,
@@ -50,6 +50,7 @@ const UserActions = () => {
   const onClickLogout = () => {
     sessionStorage.removeItem("token")
     sessionStorage.removeItem("userId")
+    socket.emit('logout')
     Dispatcher.dispatch({
       actionType: Constants.USER_LOGOUT,
       payload: ""
@@ -63,12 +64,12 @@ const UserActions = () => {
   return (
     <NavItem tag={Dropdown} caret toggle={toggleUserActions}>
       <DropdownToggle caret className="text-nowrap px-3" theme="light">
-        <a href={"/user?id=" + userDetails.id} style={{textDecoration: 'none'}}>{userDetails.userAvatar && <img
+        <Link to={"/user?id=" + userDetails.id} style={{textDecoration: 'none'}}>{userDetails.userAvatar && <img
           className="user-avatar rounded-circle mr-2"
           src={userDetails.userAvatar}
           alt={userDetails.fullName}
         />}
-        {!userDetails.userAvatar && <i className="material-icons" style={{fontSize: "2.5rem", verticalAlign: "middle"}}>account_circle</i>}{" "}</a>
+        {!userDetails.userAvatar && <i className="material-icons" style={{fontSize: "2.5rem", verticalAlign: "middle"}}>account_circle</i>}{" "}</Link>
         <span className="d-none d-md-inline-block">{userDetails.name}</span>
       </DropdownToggle>
       <Collapse tag={DropdownMenu} right small open={visible}>

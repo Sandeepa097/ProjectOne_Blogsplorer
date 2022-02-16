@@ -41,11 +41,20 @@ module.exports = (io) => {
             socket.broadcast.to(recieverId).emit('typing', type)
         })
 
-        socket.on("disconnect", () => {
+        socket.on('logout', () => {
             activeAuthors.delete(socket.userId)
             delete sessionsMap[socket.userId]
             logger.info('User disconnected...')
             io.emit('user disconnect', socket.userId)
+        })
+
+        socket.on("disconnect", () => {
+            if(socket.userId){
+                activeAuthors.delete(socket.userId)
+                delete sessionsMap[socket.userId]
+                logger.info('User disconnected...')
+                io.emit('user disconnect', socket.userId)
+            }
         })
     })
 }

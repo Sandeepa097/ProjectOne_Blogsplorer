@@ -32,6 +32,7 @@ const Notifications = () => {
     <NavItem className="border-right dropdown notifications">
     <NavLink
       className="nav-link-icon text-center"
+      style={{cursor: "pointer"}}
       onClick={toggleNotifications}
     >
       <div className="nav-link-icon__wrapper">
