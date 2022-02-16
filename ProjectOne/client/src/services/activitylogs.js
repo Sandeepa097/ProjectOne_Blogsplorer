@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Headers from './setHeaders'
 
-const baseurl = process.env.REACT_APP_BASE_URL ?  process.env.REACT_APP_BASE_URL : 'https://blogsplorer-server.herokuapp.com'
+const baseurl = process.env.REACT_APP_BASE_URL
 const logurl = `${baseurl}/activities`
 const deleteurl = `${logurl}/delete/`
 

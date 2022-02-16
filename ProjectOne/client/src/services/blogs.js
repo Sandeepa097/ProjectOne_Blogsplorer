@@ -3,7 +3,7 @@ import Headers from './setHeaders'
 import socket from "../websocket/webSocket"
 import { UserStore } from '../flux'
 
-const baseurl = process.env.REACT_APP_BASE_URL ?  process.env.REACT_APP_BASE_URL : 'https://blogsplorer-server.herokuapp.com'
+const baseurl = process.env.REACT_APP_BASE_URL
 const draftUrl = `${baseurl}/api/draft`
 const publishUrl = `${baseurl}/api/blogs`
 const categoryies = {design: false, development: false, writting: false, books: false}

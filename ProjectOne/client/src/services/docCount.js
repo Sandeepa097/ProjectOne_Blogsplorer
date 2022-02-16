@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Headers from './setHeaders'
 
-const baseUrl = `${process.env.REACT_APP_BASE_URL ?  process.env.REACT_APP_BASE_URL : 'https://blogsplorer-server.herokuapp.com'}/count`
+const baseUrl = `${process.env.REACT_APP_BASE_URL}`
 
 const totalPosts = async() => {
     const response = await axios.get(`${baseUrl}/posts`)
