@@ -133,25 +133,25 @@ const BlogPosts = () => {
                 </Badge>
                 
                 <div className="card-post__author d-flex">
-                  <a
-                    href={"/user?id=" + post.authorID}
+                  <Link
+                    to={"/user?id=" + post.authorID}
                     className="card-post__author-avatar card-post__author-avatar--small"
                     style={{ backgroundImage: `url('${post.authorAvatar}')` }}
                   >
                     Written by {post.author}
-                  </a>
+                  </Link>
                 </div>
               </div>
               <CardBody>
                 <h5 className="card-title">
-                  <a className="text-fiord-blue" href={"/blog?id=" + post._id}>
+                  <Link className="text-fiord-blue" to={"/blog?id=" + post._id}>
                     {post.title}
-                  </a>
+                  </Link>
                 </h5>
                 <p className="card-text d-inline-block mb-3">{post.body.slice(0, (125 - post.title.length)).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
                 </p> 
                 <p>
-                  <a href={"/blog?id=" + post._id} style={{color: "brown"}}>Read More</a>
+                  <Link to={"/blog?id=" + post._id} style={{color: "brown"}}>Read More</Link>
                 </p>       
                 <p>     
                   <span className="text-muted">{post.date}</span>
@@ -169,23 +169,23 @@ const BlogPosts = () => {
             <Card small className="card-post mb-4" style={{height: '300px', maxHeight: '300px'}}>
               <CardBody>
               <h5 className="card-title">
-                  <a href={"/blog?id=" + post._id + '&ni=' + true} className="text-fiord-blue">
+                  <Link to={"/blog?id=" + post._id + '&ni=' + true} className="text-fiord-blue">
                     {post.title}
-                  </a>
+                  </Link>
                 </h5>
                 <p className="card-text text-muted">{post.body.slice(0, (110 - post.title.length)).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
                 </p>
-                <a href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</a>
+                <Link href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</Link>
               </CardBody>
               <CardFooter className="border-top d-flex">
                 <div className="card-post__author d-flex">
-                  <a
-                    href={"/user?id=" + post.authorID}
+                  <Link
+                    to={"/user?id=" + post.authorID}
                     className="card-post__author-avatar card-post__author-avatar--small"
                     style={{ backgroundImage: `url('${post.authorAvatar}')` }}
                   >
                     Written by {post.author}
-                  </a>
+                  </Link>
                   <div className="d-flex flex-column justify-content-center ml-3">
                     <span className="card-post__author-name">
                       {post.author}
@@ -223,24 +223,24 @@ const BlogPosts = () => {
                   {post.category}
                 </Badge>
                 <div className="card-post__author d-flex">
-                  <a
-                    href={"/user?id=" + post.authorID}
+                  <Link
+                    to={"/user?id=" + post.authorID}
                     className="card-post__author-avatar card-post__author-avatar--small"
                     style={{ backgroundImage: `url('${post.authorAvatar}')` }}
                   >
                     Written by {post.author}
-                  </a>
+                  </Link>
                 </div>
               </div>
               <CardBody>
                 <h5 className="card-title">
-                  <a href={"/blog?id=" + post._id} className="text-fiord-blue">
+                  <Link to={"/blog?id=" + post._id} className="text-fiord-blue">
                     {post.title}
-                  </a>
+                  </Link>
                 </h5>
                 <p className="card-text d-inline-block mb-3">{post.body.slice(0, (110 - post.title.length)).toString().replace(/<\/?[^>]+(>|$)/g, "")+ '... '}
                 </p>
-                <a href={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</a>
+                <Link to={"/blog?id=" + post._id + '&ni=' + true} style={{color: "brown"}}>Read More</Link>
               </CardBody>
               <CardFooter>
                 <span className="text-muted">{post.date}</span>
