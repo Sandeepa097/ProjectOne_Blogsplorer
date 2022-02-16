@@ -75,7 +75,7 @@ const LoginTest = ({setForm}) => {
                 <FormGroup style={{paddingTop: "5%"}}>
                     <Button type="submit" theme="accent">LOG IN</Button>
                 </FormGroup>
-                    <span className='input-label'>New User? <a onClick={() => setForm(false)} style={{color: "pink", fontWeight: "bolder"}}>Create Account</a></span>
+                    <span className='input-label'>New User? <div onClick={() => setForm(false)} style={{color: "pink", fontWeight: "bolder", display: "inline"}}>Create Account</div></span>
             </Form>
         </div>
     )

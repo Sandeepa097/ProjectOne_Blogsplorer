@@ -122,7 +122,7 @@ const RegisterTest = ({setForm}) => {
                 <FormGroup style={{paddingTop: "5%"}}>
                     <Button type="submit" theme="accent">Register</Button>
                 </FormGroup>
-                    <span className='title'>Already have an account? <a onClick={() => setForm(true)} style={{color: "pink", fontWeight: "bolder"}}>Log In</a></span>
+                    <span className='title'>Already have an account? <div onClick={() => setForm(true)} style={{color: "pink", fontWeight: "bolder", display: "inline"}}>Log In</div></span>
             </Form>
         </div>
     )

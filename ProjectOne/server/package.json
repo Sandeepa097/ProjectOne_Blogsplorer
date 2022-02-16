@@ -27,5 +27,8 @@
     "safe-regex": "^2.1.1",
     "socket.io": "^4.4.0",
     "user-agents": "^1.0.927"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }
