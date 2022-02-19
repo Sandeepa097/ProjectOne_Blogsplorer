@@ -105,7 +105,7 @@ const Post = () => {
         <i className="fa fa-info mx-2"></i> {alertMessage.message}
       </Alert>}
 
-      <Modal centered style={{overflowY: "scroll"}} open={showEdit} toggle={() => setShowEdit(!showEdit)}>
+      <Modal centered style={{overflowY: "auto"}} open={showEdit} toggle={() => setShowEdit(!showEdit)}>
         <ModalBody>
           <EditPost handleClose = {setShowEdit} 
               blog = {blog} 

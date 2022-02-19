@@ -1,6 +1,6 @@
 
 .edit-post__editor .ql-editor {
     border: none; 
-    height: 400px;
+    height: calc(80vh - 200px);
     overflow-y: scroll;
 }

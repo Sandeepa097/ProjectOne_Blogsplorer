@@ -39,7 +39,7 @@ const MainSidebar = () => {
     <Col
       tag="aside"
       className={classes}
-      style={{height: "auto"}}
+      style={{height: "auto", zIndex: "10"}}
       lg={{ size: 2 }}
       md={{ size: 2 }}
       sm={{ size: 2 }}

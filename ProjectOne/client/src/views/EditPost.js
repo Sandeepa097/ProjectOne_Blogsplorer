@@ -90,12 +90,12 @@ const EditPost = ({handleClose, blog, ni, setBlog, setAlert}) => {
                 </Card>
             </Row>
             <Row>
-                <Col lg="6">
+                <Col className="col-6 col-lg-6 col-md-6 col-sm-6">
                     <Button outline theme="dark" size="sm" onClick={() => handleClose(false)}>
                         <i className="material-icons">clear</i> Cancel
                     </Button>
                 </Col>
-                <Col lg="6">
+                <Col className="col-6 col-lg-6 col-md-6 col-sm-6">
                     <Button theme="warning" size="sm" style={{float: 'right'}} onClick={(e) => onClickDone(e)}>
                         <i className="material-icons">check</i> Done
                     </Button>

@@ -89,19 +89,28 @@ const NavbarSearch = () => {
               <ModalBody>
                 <FormRadio
                   checked = {filterList.selected === "authors"}
-                  onChange={() => setFilterList({selected: "authors"})}
+                  onChange={() => {
+                    setFilterList({selected: "authors"})
+                    setFilterOpen(false)
+                  }}
                 >
                   Authors
                 </FormRadio>
                 <FormRadio 
                   checked = {filterList.selected === "posts"}
-                  onChange={() => setFilterList({selected: "posts"})}
+                  onChange={() => {
+                    setFilterList({selected: "posts"})
+                    setFilterOpen(false)
+                  }}
                 >
                   Posts
                 </FormRadio>
                 <FormRadio 
                   checked = {filterList.selected === "all"}
-                  onChange={() => setFilterList({selected: "all"})}
+                  onChange={() => {
+                    setFilterList({selected: "all"})
+                    setFilterOpen(false)
+                  }}
                 >
                   All
                 </FormRadio>
