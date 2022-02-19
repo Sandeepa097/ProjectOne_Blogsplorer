@@ -101,7 +101,7 @@ draftRouter.get('/publish/:id', async(request, response) => {
         }
     }
     try{
-        await axios.post(`${config.SERVER_URL + config.PORT}/api/blogs`, post.draft[0], conf)
+        await axios.post(`${config.SERVER_URL}/api/blogs`, post.draft[0], conf)
         await User.updateOne({_id: userId}, {$pull: {draft: {_id: request.params.id}}})
         updateLog(userId, "draft", {title: `Post is published.. \"${post.draft[0].title}\"`, date: Date()})
 
