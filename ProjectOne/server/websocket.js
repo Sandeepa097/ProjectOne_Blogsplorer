@@ -5,7 +5,6 @@ const activeAuthors = new Set()
 const sessionsMap = {}
 
 module.exports = (io) => {
-    io.attach()
     io.on("connection", (socket) => {
         logger.info('A user connected...')
 
