@@ -9,7 +9,7 @@ const MainNavbar = () => {
   const classes = classNames(
     "main-navbar",
     "bg-white",
-    "sticky-top"
+    "sticky-top",
   );
 
   return (

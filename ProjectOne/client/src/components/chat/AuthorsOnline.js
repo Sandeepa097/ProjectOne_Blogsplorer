@@ -88,7 +88,7 @@ const AuthorsOnline = ({socket}) => {
                             />}
                             {!item.authorAvatar && <i className="material-icons mr-2" style={{fontSize: "25px", verticalAlign: "middle"}}>account_circle</i>}
                             {" "}
-                            <span className="d-none d-md-inline-block">{item.fullName}</span>
+                            <span className="d-inline-block d-md-inline-block">{item.fullName}</span>
                             {!!author && <span style={{"color": "green"}}> ●</span>}
                         </Button>
                         {typing === item.id && <span style={{color: "green", paddingLeft: "5px"}}>typing...</span>}

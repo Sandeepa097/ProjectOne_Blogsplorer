@@ -32,11 +32,11 @@ const ProfileView = () => {
         <PageTitle title={userName} subtitle="Profile" md="12" className="ml-sm-auto mr-sm-auto" />
       </Row>}
       {!error && <Row>
-        <Col lg="8">
-          <PostsList />
-        </Col>
         <Col lg="4">
           <UserDetails />
+        </Col>
+        <Col lg="8">
+          <PostsList />
         </Col>
       </Row>}
     </Container>

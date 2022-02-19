@@ -5,9 +5,7 @@ import "../assets/authlayout.css"
 const AuthLayout = ({children}) => {
     return (
         <Container fluid className="background-div">
-                    <div className="containerElement" >
-                        {children}
-                    </div>
+            {children}
         </Container>
     )
 }

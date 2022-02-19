@@ -1,16 +1,6 @@
 .background-div {
+    align-content: center;
     min-height: calc(100vh);
-    background-color: #304f7e;
-}
-
-.containerElement{
-    height: 600px;
-    width: 800px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -300px;
-    margin-left: -400px;
     background-color: #304f7e;
 }
 
@@ -25,25 +15,17 @@
 }
 
 .div-log{
-    height: 352px;
-    width: 400px;
-    position: fixed;
-    top: 50%;
-    margin-top: -176px;
     text-align: center;
     padding-left: 5%;
     padding-right: 5%;
+    padding-top: 45%;
 }
 
 .div-reg{
-    height: 598px;
-    width: 400px;
-    position: fixed;
-    top: 50%;
-    margin-top: -299px;
     text-align: center;
     padding-left: 5%;
     padding-right: 5%;
+    padding-top: 15%;
 }
 
 .form-auth{

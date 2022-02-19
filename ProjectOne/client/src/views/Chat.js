@@ -28,13 +28,13 @@ const Chat = () => {
             </Row>
 
             <Row>
-                <Col lg="4" md="12">
+                <Col className="col-12" lg="4" md="12" sm="12">
                     <SocketContext.Consumer>
                         {socket => <AuthorsOnline socket={socket} />}
                     </SocketContext.Consumer>
                 </Col>
 
-                <Col lg="8" md="12">
+                <Col className="col-12" lg="8" md="12" sm="12">
                     {chatWith && <SocketContext.Consumer>
                         {socket => <ChatBox socket={socket} />}
                     </SocketContext.Consumer>}

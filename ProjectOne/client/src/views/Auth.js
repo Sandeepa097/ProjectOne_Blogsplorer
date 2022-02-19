@@ -1,26 +1,27 @@
 import React, {useState} from 'react'
 import Register from '../components/auth/Register'
 import Login from '../components/auth/Login'
+import { Row, Col } from 'shards-react'
 
 const Auth = () => {
     const [toggle, setToggle] = useState(true)
 
     return (
-      <div>
-        <div style={{width: "50%", float: 'left'}}>
+      <Row>
+        <Col lg="6" md="6" sm="6" style={{display: "flex", justifyContent: "center"}}>
+          <div style={{boxSizing: "border-content", display: "flex", justifyContent: "center", height: "50vw", width: "50vw"}}>
           <img
-            id="main-logo"
-            className="d-inline-block align-top mr-0"
-            style={{ maxHeight: "600px"}}
-            src={require("../images/logo1.jpg")}
+            style={{maxHeight: "100%"}}
+            src={require("../images/logo2.png")}
             alt="Blogsplorer"
           />
-        </div>
-        <div style={{width: "50%", float: 'right'}}>
+          </div>
+        </Col>
+        <Col lg={{ size: "4" }} md="6" sm="6" style={{display: "flex", justifyContent: "center"}}>
           {toggle && <Login setForm = {setToggle} />}
           {!toggle && <Register setForm = {setToggle} />}
-        </div>
-      </div>
+        </Col>
+      </Row>
     )
 }
 

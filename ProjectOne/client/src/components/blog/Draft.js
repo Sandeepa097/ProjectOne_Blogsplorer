@@ -53,8 +53,6 @@ const Draft = ({draftCount, publishCount}) => {
   }, [])
 
   const setDetails = () => {
-    console.log("draft", UserStore.getUserDetails().draft)
-    console.log("draft reverse", UserStore.getUserDetails().draft.slice().reverse())
     setDraftLength(UserStore.getUserDetails().draft.length)
     setDrafts([...UserStore.getUserDetails().draft.slice().reverse()])
   }

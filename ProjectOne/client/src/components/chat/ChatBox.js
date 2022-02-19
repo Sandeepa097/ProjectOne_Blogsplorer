@@ -75,7 +75,7 @@ const ChatBox = ({socket}) => {
                 />}
                 {!chatWith.authorAvatar && <i className="material-icons mr-2" style={{fontSize: "35px", verticalAlign: "middle"}}>account_circle</i>}
                 {" "}
-                <span className="d-none d-md-inline-block">{chatWith.fullName}</span>
+                <span className="d-inline-block d-md-inline-block">{chatWith.fullName}</span>
                 {!!chatWith.online && <span style={{"color": "green"}}> ●</span>}
             </CardHeader>
             <CardBody>

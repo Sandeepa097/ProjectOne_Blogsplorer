@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { Col } from "shards-react";
 
 import SidebarMainNavbar from "./SidebarMainNavbar";
-import SidebarSearch from "./SidebarSearch";
 import SidebarNavItems from "./SidebarNavItems";
 
 import { Store } from "../../../flux";
@@ -32,20 +31,20 @@ const MainSidebar = () => {
   const classes = classNames(
     "main-sidebar",
     "px-0",
-    "col-12",
-    state.menuVisible && "open"
+    "col-2",
+    "open"
   )
 
   return (
     <Col
       tag="aside"
       className={classes}
-      style={{height: "12px"}}
+      style={{height: "auto"}}
       lg={{ size: 2 }}
       md={{ size: 3 }}
+      sm={{ size: 2 }}
     >
       <SidebarMainNavbar />
-      <SidebarSearch />
       {state.menuVisible &&<SidebarNavItems />}
     </Col>
   )

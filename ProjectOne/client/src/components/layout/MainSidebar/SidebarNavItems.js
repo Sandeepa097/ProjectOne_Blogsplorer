@@ -45,7 +45,7 @@ const SidebarNavItems = () => {
         {items.map((item, idx) => (
           <SidebarNavItem key={idx} item={item} count={newMsgCount} />
         ))}
-        <div className="m-auto" style={{height: "150px"}}>
+        <div className="m-auto">
             <img
               id="main-logo"
               className="d-inline-block align-bottom mr-0"

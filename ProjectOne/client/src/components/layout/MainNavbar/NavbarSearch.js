@@ -66,8 +66,8 @@ const NavbarSearch = () => {
   }, [searchValue])
 
   return(
-    <div className="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
-      <Form className="main-navbar__search w-100 d-none d-md-flex d-lg-flex">
+    <div className="main-navbar__search w-100 d-md-flex d-lg-flex d-none">
+      <Form className="main-navbar__search w-100 d-md-flex d-lg-flex d-none">
         <InputGroup seamless className="ml-3">
           <InputGroupAddon type="prepend">
             <InputGroupText>
