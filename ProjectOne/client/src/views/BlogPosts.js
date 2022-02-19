@@ -120,7 +120,7 @@ const BlogPosts = () => {
       <Row>
         {!loading && postsListTwo.map((post, idx) => (
           <Col lg="6" sm="12" className="mb-4" key={idx}>
-            <Card small className="card-post card-post--aside card-post--1" style={{height: '250px', maxHeight: '250px'}}>
+            <Card small className="card-post card-post--aside card-post--1" style={{height: '250px', maxHeight: '250px', overflow: "auto"}}>
               <div
                 className="card-post__image"
                 style={{ backgroundImage: `url('${post.backgroundImage}')`, minHeight: "100%" }}

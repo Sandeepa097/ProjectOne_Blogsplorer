@@ -61,6 +61,9 @@ const SidebarCategories = ({post, setPost }) => {
   }
 
   const onClickAddCateg = (event) => {
+    if(!newCateg) {
+      return null
+    }
     setChecked({...checked, [newCateg.toLowerCase()]: false})
     setNewCateg('')
   }

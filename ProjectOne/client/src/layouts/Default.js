@@ -23,40 +23,40 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
   const classes = classNames(
     "main-content",
     "p-0",
-    "col-10",
-    "offset-2"
+    !menuVisible && "col-12",
+    menuVisible && "col-10",
+    menuVisible && "offset-2"
   )
+
+  const sizes = {
+    size: (menuVisible && 10) || (!menuVisible && 12),
+    offset: (menuVisible && 2) || (!menuVisible && 0)
+  }
 
   return (
     <Container fluid>
-    {menuVisible && <Row>
+    <Row>
       <MainSidebar />
       <Col
         className={classes}
-        lg={{ size: 10, offset: 2 }}
-        md={{ size: 9, offset: 3 }}
-        sm={{size: 10}}
+        lg={sizes}
+        md={sizes}
+        sm={sizes}
         tag="main"
       >
-        {!noNavbar && <MainNavbar />}
-        {children}
-        {!noFooter && <MainFooter />}
+        {menuVisible && !noNavbar && <MainNavbar />}
+        {menuVisible && children}
+        {menuVisible && !noFooter && <MainFooter />}
+        {!menuVisible && <Col 
+          className="p-0 col-10 offset-2 col-lg-10 offset-lg-2 col-md-10 offset-md-2 col-sm-10 offset-sm-2" 
+          style={{position: "fixed", zIndex: "10", width: "100%"}}
+          >
+            {!noNavbar && <MainNavbar />}
+          </Col>}
+          {!menuVisible && <div style={{paddingTop: "60px"}}>{children}
+          {!noFooter && <MainFooter />}</div>}
       </Col>
-    </Row>}
-    {!menuVisible && <Row>
-      <MainSidebar />
-      <Col 
-        className="main-content l-4"
-        lg={{ size: 12 }}
-        md={{ size: 10 }}
-        sm={{size: 10}}
-        tag="main"
-      >
-          <Col style={{position: "fixed", zIndex: "10", padding: "0 15px 0 194px", width: "100%"}}>{!noNavbar && <MainNavbar />}</Col>
-          <div style={{paddingTop: "60px"}}>{children}
-          {!noFooter && <MainFooter />}</div>
-      </Col>
-    </Row>}
+    </Row>
   </Container>
   )
 };

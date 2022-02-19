@@ -41,7 +41,7 @@ const MainSidebar = () => {
       className={classes}
       style={{height: "auto"}}
       lg={{ size: 2 }}
-      md={{ size: 3 }}
+      md={{ size: 2 }}
       sm={{ size: 2 }}
     >
       <SidebarMainNavbar />

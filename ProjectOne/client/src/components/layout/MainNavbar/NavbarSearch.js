@@ -66,8 +66,8 @@ const NavbarSearch = () => {
   }, [searchValue])
 
   return(
-    <div className="main-navbar__search w-100 d-md-flex d-lg-flex d-none">
-      <Form className="main-navbar__search w-100 d-md-flex d-lg-flex d-none">
+    <div className="main-navbar__search w-100 d-sm-flex d-md-flex d-lg-flex d-flex">
+      <Form className="main-navbar__search w-100 d-sm-flex d-md-flex d-lg-flex d-flex">
         <InputGroup seamless className="ml-3">
           <InputGroupAddon type="prepend">
             <InputGroupText>
@@ -109,7 +109,7 @@ const NavbarSearch = () => {
             </Modal>
         </InputGroup>
       </Form>
-      <Collapse open={!!searchValue} className="dropdown-menu" style={{width: "60%"}}>
+      <Collapse open={!!searchValue} className="dropdown-menu" style={{width: "60%", overflow: "auto"}}>
         {(filterList.selected === "authors" || filterList.selected === "all") && <div>
           <h5 style={{paddingLeft: "5%"}}>Authors</h5>
           {!results.users.length && <p style={{paddingLeft: "5%"}}>Nothing to show...</p>}
