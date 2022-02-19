@@ -108,11 +108,18 @@ class UserStore extends EventEmitter {
   }
 
   publishDraftPost(id) {
+    const publishedOne = _userDetails.draft.filter(item => item._id === id)
+    const imageChecker = () => {
+      if(!publishedOne[0].backgroundImage){
+        return {..._userDetails.published, blogNoImage: [..._userDetails.published.blogNoImage, id]}
+      }
+      return {..._userDetails.published, blog: [..._userDetails.published.blog, id]}
+    }
     const restDraft = _userDetails.draft.filter(item => item._id !== id)
     this.setUserDetails({
       ..._userDetails,
       draft: restDraft,
-      published: [..._userDetails.published, id]
+      published: imageChecker()
     })
   }
 
