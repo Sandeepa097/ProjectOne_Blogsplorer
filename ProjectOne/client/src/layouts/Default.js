@@ -23,7 +23,8 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
   const classes = classNames(
     "main-content",
     "p-0",
-    "col-12",
+    "col-10",
+    "offset-2"
   )
 
   return (

@@ -79,7 +79,7 @@ const NavbarSearch = () => {
             placeholder="Search for something..."
             onChange={debounceResults}
           />
-          <Button theme="light" onClick={() => setFilterOpen(true)}>
+          <Button theme="light" style={{float: "left"}} onClick={() => setFilterOpen(true)}>
               <i className="material-icons" style={{fontSize: "20px"}}>filter_list</i>
             </Button>
             <Modal open={filterOpen} size="sm" toggle={() => setFilterOpen(!filterOpen)}>
